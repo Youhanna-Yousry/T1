@@ -1,0 +1,22 @@
+services:
+  db:
+    container_name: postgres
+    image: postgres:14.19
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: P@ssw0rd
+      PGDATA: /data/postgres
+      POSTGRES_DB: elre7la
+    volumes:
+      - db:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d elre7la -U postgres" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  db:
