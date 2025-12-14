@@ -41,8 +41,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/student/**").hasRole(Account.Role.STUDENT.name())
-                                .requestMatchers("/servant/**").hasRole(Account.Role.SERVANT.name())
+                                .requestMatchers("/api/student/**").hasRole(Account.Role.STUDENT.name())
+                                .requestMatchers("/api/servant/**").hasRole(Account.Role.SERVANT.name())
                                 .anyRequest().authenticated()
                 );
 

@@ -1,11 +1,19 @@
-import { Navigate } from "react-router-dom";
 import { useAuth } from "context/authContext";
-import isNonEmptyString from "utils/stringUtils";
+import { Navigate } from "react-router-dom";
+import Loading from "components/loading";
 
 export default function ProtectedRoute({ element }: { element: React.ReactNode }): React.ReactElement {
-    const { userTokenAndRole } = useAuth();
+    const { userTokenAndRole, isAuthLoading } = useAuth();
 
-    if (isNonEmptyString(userTokenAndRole.token)) {
+    if (isAuthLoading) {
+        return <Loading />;
+    }
+
+    if (userTokenAndRole.token) {
+        if (window.location.pathname === '/login') {
+            return <Navigate to="/" replace />;
+        }
+
         return element as React.ReactElement;
     }
 
