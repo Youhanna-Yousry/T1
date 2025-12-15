@@ -1,6 +1,6 @@
-import Home from 'components/home';
-import Login from 'components/login';
-import ProtectedRoute from 'components/protectedRoute';
+import Home from 'pages/home/Home';
+import Login from 'pages/login/Login';
+import ProtectedRoute from 'components/ProtectedRoute';
 import { Routes, Route } from 'react-router-dom';
 
 function App() {

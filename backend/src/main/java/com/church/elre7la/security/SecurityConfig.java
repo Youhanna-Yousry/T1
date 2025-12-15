@@ -27,13 +27,13 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthEntryPoint AuthEntryPoint,
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthEntryPoint authEntryPoint,
                                                    AuthTokenFilter authTokenFilter) {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exceptionHandling ->
-                        exceptionHandling.authenticationEntryPoint(AuthEntryPoint)
+                        exceptionHandling.authenticationEntryPoint(authEntryPoint)
                 )
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
