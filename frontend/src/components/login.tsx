@@ -10,9 +10,13 @@ export default function Login() {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const { setUserTokenAndRole } = useAuth();
+    const { userTokenAndRole, setUserTokenAndRole } = useAuth();
 
     const navigate = useNavigate();
+
+    if (userTokenAndRole.token) {
+        navigate('/');
+    }
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 

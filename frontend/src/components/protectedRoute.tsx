@@ -10,10 +10,6 @@ export default function ProtectedRoute({ element }: { element: React.ReactNode }
     }
 
     if (userTokenAndRole.token) {
-        if (window.location.pathname === '/login') {
-            return <Navigate to="/" replace />;
-        }
-
         return element as React.ReactElement;
     }
 
