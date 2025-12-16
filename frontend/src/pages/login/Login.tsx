@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Stack, Card, Typography, Box } from "@mui/material";
+import { Stack, Card, Typography, Box, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import { login } from "services/authService";
@@ -58,6 +58,8 @@ export default function Login() {
         }
     };
 
+    const isSubmitDisabled = !credentials.username || !credentials.password;
+
     return (
         <Box className="login-page">
             <Card className="login-card">
@@ -83,12 +85,12 @@ export default function Login() {
                         />
 
                         {error && (
-                            <Typography color="error" variant="body2" textAlign="center">
+                            <Alert variant="filled" severity="error">
                                 {error}
-                            </Typography>
+                            </Alert>
                         )}
 
-                        <SubmitButton loading={loading} text="Sign In" />
+                        <SubmitButton loading={loading} disabled={isSubmitDisabled} text="Sign In" />
                     </Stack>
                 </Stack>
             </Card>
