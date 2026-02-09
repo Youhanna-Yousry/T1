@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/servant")
 public class ServantTestController {
 
-    @GetMapping("/test")
-    public ResponseEntity<@NonNull String> getServantInfo() {
-        return ResponseEntity.ok("Hey Servant!");
-    }
+  @GetMapping("/test")
+  public ResponseEntity<@NonNull String> getServantInfo() {
+    return ResponseEntity.ok("Hey Servant!");
+  }
 }

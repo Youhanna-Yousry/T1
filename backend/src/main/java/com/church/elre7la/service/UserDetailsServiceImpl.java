@@ -1,8 +1,8 @@
 package com.church.elre7la.service;
 
 import com.church.elre7la.entity.Account;
-import com.church.elre7la.security.AccountUserDetails;
 import com.church.elre7la.repository.AccountRepository;
+import com.church.elre7la.security.AccountUserDetails;
 import jakarta.annotation.Nullable;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +15,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final AccountRepository accountRepository;
+  private final AccountRepository accountRepository;
 
-    @Override
-    @NonNull
-    public UserDetails loadUserByUsername(@Nullable String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+  @Override
+  @NonNull
+  public UserDetails loadUserByUsername(@Nullable String username) throws UsernameNotFoundException {
+    Account account = accountRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return new AccountUserDetails(account);
-    }
+    return new AccountUserDetails(account);
+  }
 }

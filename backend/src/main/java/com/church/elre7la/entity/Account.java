@@ -12,17 +12,17 @@ import lombok.Setter;
 @Setter
 public class Account extends BasicEntity {
 
-    @Column(unique = true, nullable = false)
-    private String username;
+  @Column(unique = true, nullable = false)
+  private String username;
 
-    @Column(nullable = false)
-    private String password;
+  @Column(nullable = false)
+  private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+  @Enumerated(EnumType.STRING)
+  private Role role;
 
-    public enum Role {
-        SERVANT,
-        STUDENT
-    }
+
+  public enum Role {
+    SERVANT, STUDENT
+  }
 }

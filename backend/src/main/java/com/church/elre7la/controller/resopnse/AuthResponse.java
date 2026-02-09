@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AuthResponse {
 
-    private Account.Role role;
+  private Account.Role role;
 
-    private String token;
+  private String token;
 }

@@ -5,8 +5,9 @@ import com.church.elre7la.controller.resopnse.AuthResponse;
 import com.church.elre7la.entity.Account;
 import com.church.elre7la.entity.RefreshToken;
 import com.church.elre7la.repository.AccountRepository;
-import com.church.elre7la.service.RefreshTokenService;
+import com.church.elre7la.security.CookiesUtils;
 import com.church.elre7la.security.JwtUtils;
+import com.church.elre7la.service.RefreshTokenService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Duration;
 import java.util.Optional;
 
 @RestController
@@ -28,95 +28,75 @@ import java.util.Optional;
 @Slf4j
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
+  private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
+  private static final String REFRESH_ENDPOINT = "api/auth";
 
-    private final AccountRepository accountRepository;
+  private final AuthenticationManager authenticationManager;
 
-    private final JwtUtils jwtUtils;
+  private final AccountRepository accountRepository;
 
-    private final RefreshTokenService refreshTokenService;
+  private final JwtUtils jwtUtils;
 
-    @PostMapping("/login")
-    public ResponseEntity<@NonNull AuthResponse> login(@RequestBody AuthRequest request) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-        );
+  private final RefreshTokenService refreshTokenService;
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        if (userDetails == null) {
-            return ResponseEntity.status(401).build();
-        }
+  @PostMapping("/login")
+  public ResponseEntity<@NonNull AuthResponse> login(@RequestBody AuthRequest request) {
+    Authentication authentication =
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-        Optional<Account> optionalAccount = accountRepository.findByUsername(userDetails.getUsername());
-        if (optionalAccount.isEmpty()) {
-            return ResponseEntity.status(401).build();
-        }
-
-        Account account = optionalAccount.get();
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(account);
-        String token = jwtUtils.generateToken(account.getUsername());
-
-        ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken.getToken())
-                .httpOnly(true)
-                .secure(true)
-                .path("/api/auth/refresh")
-                .maxAge(Duration.ofMillis(jwtUtils.getJwtExpirationMs()))
-                .sameSite("Strict")
-                .build();
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(new AuthResponse(account.getRole(), token));
+    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    if (userDetails == null) {
+      return ResponseEntity.status(401).build();
     }
 
-    @PostMapping("/refresh")
-    public ResponseEntity<@NonNull AuthResponse> refresh(@CookieValue(name = "refreshToken", required = false) String refreshTokenCookie) {
-        if (refreshTokenCookie == null) {
-            return ResponseEntity.status(401).build();
-        }
-
-        Optional<RefreshToken> optionalRefreshToken = refreshTokenService.findByToken(refreshTokenCookie);
-        if (optionalRefreshToken.isEmpty()) {
-            return ResponseEntity.status(401).build();
-        }
-
-        RefreshToken refreshToken = optionalRefreshToken.get();
-        if (refreshToken.isRevoked() || refreshTokenService.isTokenExpired(refreshToken)) {
-            return ResponseEntity.status(401).build();
-        }
-
-        refreshTokenService.revoke(refreshToken);
-        Account account = refreshToken.getAccount();
-        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(account);
-        String token = jwtUtils.generateToken(account.getUsername());
-
-        ResponseCookie cookie = ResponseCookie.from("refreshToken", newRefreshToken.getToken())
-                .httpOnly(true)
-                .secure(true)
-                .path("/api/auth/refresh")
-                .maxAge(Duration.ofMillis(jwtUtils.getJwtExpirationMs()))
-                .sameSite("Strict")
-                .build();
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(new AuthResponse(account.getRole(), token));
+    Optional<Account> optionalAccount = accountRepository.findByUsername(userDetails.getUsername());
+    if (optionalAccount.isEmpty()) {
+      return ResponseEntity.status(401).build();
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<@NonNull Void> logout(@CookieValue(name = "refreshToken", required = false) String refreshTokenCookie) {
-        if (refreshTokenCookie != null) {
-            refreshTokenService.findByToken(refreshTokenCookie).ifPresent(refreshTokenService::revoke);
-        }
+    Account account = optionalAccount.get();
+    RefreshToken refreshToken = refreshTokenService.createRefreshToken(account);
+    String token = jwtUtils.generateToken(account.getUsername());
 
-        ResponseCookie deleteCookie = ResponseCookie.from("refreshToken", "")
-                .httpOnly(true)
-                .secure(true)
-                .path("/api/auth/refresh")
-                .maxAge(0)
-                .sameSite("Strict")
-                .build();
+    ResponseCookie cookie = CookiesUtils.createRefreshTokenCookie(refreshToken.getToken(), refreshTokenService.getRefreshTokenExpirationMs());
 
-        return ResponseEntity.noContent().header(HttpHeaders.SET_COOKIE, deleteCookie.toString()).build();
+    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(new AuthResponse(account.getRole(), token));
+  }
+
+  @PostMapping("/refresh")
+  public ResponseEntity<@NonNull AuthResponse> refresh(@CookieValue(name = REFRESH_TOKEN_COOKIE_NAME, required = false) String refreshTokenCookie) {
+    if (refreshTokenCookie == null) {
+      return ResponseEntity.status(401).build();
     }
+
+    Optional<RefreshToken> optionalRefreshToken = refreshTokenService.findByToken(refreshTokenCookie);
+    if (optionalRefreshToken.isEmpty()) {
+      return ResponseEntity.status(401).build();
+    }
+
+    RefreshToken refreshToken = optionalRefreshToken.get();
+    if (refreshToken.isRevoked() || refreshTokenService.isTokenExpired(refreshToken)) {
+      return ResponseEntity.status(401).build();
+    }
+
+    refreshTokenService.revoke(refreshToken);
+    Account account = refreshToken.getAccount();
+    RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(account);
+    String token = jwtUtils.generateToken(account.getUsername());
+
+    ResponseCookie cookie = CookiesUtils.createRefreshTokenCookie(newRefreshToken.getToken(), refreshTokenService.getRefreshTokenExpirationMs());
+
+    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(new AuthResponse(account.getRole(), token));
+  }
+
+  @PostMapping("/logout")
+  public ResponseEntity<@NonNull Void> logout(@CookieValue(name = REFRESH_TOKEN_COOKIE_NAME, required = false) String refreshTokenCookie) {
+    if (refreshTokenCookie != null) {
+      refreshTokenService.findByToken(refreshTokenCookie).ifPresent(refreshTokenService::revoke);
+    }
+
+    ResponseCookie deleteCookie = CookiesUtils.createRefreshTokenDeletionCookie();
+
+    return ResponseEntity.noContent().header(HttpHeaders.SET_COOKIE, deleteCookie.toString()).build();
+  }
 }

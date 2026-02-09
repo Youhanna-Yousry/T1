@@ -12,10 +12,9 @@ import java.io.IOException;
 @Component
 public class AuthEntryPoint implements AuthenticationEntryPoint {
 
-    @Override
-    public void commence(@NonNull HttpServletRequest request, HttpServletResponse response,
-                         @NonNull AuthenticationException authException
-    ) throws IOException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
-    }
+  @Override
+  public void commence(@NonNull HttpServletRequest request, HttpServletResponse response, @NonNull AuthenticationException authException)
+      throws IOException {
+    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+  }
 }

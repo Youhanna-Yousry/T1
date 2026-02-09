@@ -14,14 +14,14 @@ import java.util.Optional;
 @Repository
 public interface RefreshTokenRepository extends JpaRepository<@NonNull RefreshToken, @NonNull Long> {
 
-    Optional<RefreshToken> findByToken(String token);
+  Optional<RefreshToken> findByToken(String token);
 
-    @Transactional
-    @Modifying
-    @Query("""
-              DELETE FROM RefreshToken t
-              WHERE (t.revoked = true OR t.expiryDate < CURRENT_TIMESTAMP())
-              AND t.updatedAt < :cutoff
-          """)
-    int deleteOldTokens(Instant cutoff);
+  @Transactional
+  @Modifying
+  @Query("""
+          DELETE FROM RefreshToken t
+          WHERE (t.revoked = true OR t.expiryDate < CURRENT_TIMESTAMP())
+          AND t.updatedAt < :cutoff
+      """)
+  int deleteOldTokens(Instant cutoff);
 }

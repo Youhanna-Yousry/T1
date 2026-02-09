@@ -16,37 +16,34 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
+    return authenticationConfiguration.getAuthenticationManager();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthEntryPoint authEntryPoint,
-                                                   AuthTokenFilter authTokenFilter) {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
-                .exceptionHandling(exceptionHandling ->
-                        exceptionHandling.authenticationEntryPoint(authEntryPoint)
-                )
-                .sessionManagement(sessionManagement ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/student/**").hasRole(Account.Role.STUDENT.name())
-                                .requestMatchers("/api/servant/**").hasRole(Account.Role.SERVANT.name())
-                                .anyRequest().authenticated()
-                );
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthEntryPoint authEntryPoint, AuthTokenFilter authTokenFilter) {
+    http //
+        .csrf(AbstractHttpConfigurer::disable) //
+        .cors(AbstractHttpConfigurer::disable) //
+        .exceptionHandling(exceptionHandling -> //
+            exceptionHandling.authenticationEntryPoint(authEntryPoint) //
+        ).sessionManagement(sessionManagement -> //
+            sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
+        ).authorizeHttpRequests(authorizeRequests -> //
+            authorizeRequests //
+                .requestMatchers("/api/auth/**").permitAll() //
+                .requestMatchers("/api/student/**").hasRole(Account.Role.STUDENT.name()) //
+                .requestMatchers("/api/servant/**").hasRole(Account.Role.SERVANT.name()) //
+                .anyRequest().authenticated() //
+        );
 
-        http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
+    http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    return http.build();
+  }
 }

@@ -14,19 +14,18 @@ import java.time.ZonedDateTime;
 @Slf4j
 public class RefreshTokenCleanupTask {
 
-    private final RefreshTokenRepository refreshTokenRepository;
+  private final RefreshTokenRepository refreshTokenRepository;
 
-    @Value("${app.auth.refreshToken.cleanupDays}")
-    private int cleanupDays;
+  @Value("${app.auth.refreshToken.cleanupDays}")
+  private int cleanupDays;
 
-    @Scheduled(cron = "${app.auth.refreshToken.cleanupCron}")
-    public void cleanUpExpiredTokens() {
-        ZonedDateTime now = ZonedDateTime.now();
-        ZonedDateTime cutoff = now.minusDays(cleanupDays);
+  @Scheduled(cron = "${app.auth.refreshToken.cleanupCron}")
+  public void cleanUpExpiredTokens() {
+    ZonedDateTime now = ZonedDateTime.now();
+    ZonedDateTime cutoff = now.minusDays(cleanupDays);
 
-        int deletedTokensCount = refreshTokenRepository.deleteOldTokens(cutoff.toInstant());
+    int deletedTokensCount = refreshTokenRepository.deleteOldTokens(cutoff.toInstant());
 
-        log.info("Cleaned up {} expired or revoked refresh tokens older than {} at {}",
-                deletedTokensCount, cutoff, now);
-    }
+    log.info("Cleaned up {} expired or revoked refresh tokens older than {} at {}", deletedTokensCount, cutoff, now);
+  }
 }

@@ -23,7 +23,7 @@ public class JwtUtils {
 
     @Getter
     @Value("${app.auth.jwt.expirationMs}")
-    private int jwtExpirationMs;
+    private long jwtExpirationMs;
 
     private SecretKey key;
 

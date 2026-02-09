@@ -3,6 +3,7 @@ package com.church.elre7la.service;
 import com.church.elre7la.entity.Account;
 import com.church.elre7la.entity.RefreshToken;
 import com.church.elre7la.repository.RefreshTokenRepository;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +18,8 @@ import java.util.UUID;
 public class RefreshTokenService {
 
     @Value("${app.auth.refreshToken.expirationMs}")
-    private Long refreshTokenDurationMs;
+    @Getter
+    private long refreshTokenExpirationMs;
 
     private final RefreshTokenRepository refreshTokenRepository;
 
@@ -25,7 +27,7 @@ public class RefreshTokenService {
         RefreshToken token = RefreshToken.builder().
                 account(account).
                 token(UUID.randomUUID().toString()).
-                expiryDate(Instant.now().plusMillis(refreshTokenDurationMs)).
+                expiryDate(Instant.now().plusMillis(refreshTokenExpirationMs)).
                 build();
 
         return refreshTokenRepository.save(token);
