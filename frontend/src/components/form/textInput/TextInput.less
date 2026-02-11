@@ -1,0 +1,57 @@
+@import 'styles/colors.less';
+
+.text-input, .password-input {
+  margin-bottom: 20px;
+
+  .MuiOutlinedInput-root {
+    border-radius: 8px;
+    background: @color-bg-input;
+
+    fieldset {
+      border-color: @color-border-light;
+      border-width: 1px;
+    }
+
+    &:hover fieldset {
+      border-color: @color-border-medium;
+    }
+
+    &.Mui-focused fieldset {
+      border-color: @f1-red;
+    }
+
+    &.Mui-error fieldset {
+      border-color: @color-error;
+    }
+
+    input {
+      padding: 14px 16px;
+      color: @color-text-primary;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+
+      &::placeholder {
+        color: @color-placeholder;
+        opacity: 0.6;
+        font-weight: 400;
+      }
+    }
+  }
+
+  .MuiInputLabel-root {
+    color: @color-text-secondary;
+    font-size: 16px;
+    font-weight: 500;
+
+    &.Mui-focused {
+      color: @f1-red;
+    }
+
+    &.Mui-error {
+      color: @color-error;
+    }
+  }
+}

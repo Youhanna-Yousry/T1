@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "services/authService";
 import { useAuth } from "context/authContext";
 
-import { TextInput } from "components/form/TextInput";
+import { TextInput } from "components/form/textInput/TextInput";
 import { PasswordInput } from "components/form/PasswordInput";
 import { SubmitButton } from "components/form/submitButton/SubmitButton";
 

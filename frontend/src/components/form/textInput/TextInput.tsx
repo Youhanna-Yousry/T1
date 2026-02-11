@@ -1,4 +1,5 @@
 import { FormControl, InputLabel, OutlinedInput } from "@mui/material";
+import "./TextInput.less";
 
 interface TextInputProps {
     id: string;
@@ -10,7 +11,7 @@ interface TextInputProps {
 
 export function TextInput({ id, label, value, error, onChange }: TextInputProps) {
     return (
-        <FormControl variant="outlined" fullWidth>
+        <FormControl variant="outlined" fullWidth className="text-input">
             <InputLabel htmlFor={id} error={error}>{label}</InputLabel>
             <OutlinedInput
                 id={id}

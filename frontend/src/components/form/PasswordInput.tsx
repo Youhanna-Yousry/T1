@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import "./textInput/TextInput.less";
 
 interface PasswordInputProps {
     value: string;
@@ -12,7 +13,7 @@ export function PasswordInput({ value, error, onChange }: PasswordInputProps) {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
-        <FormControl variant="outlined" fullWidth>
+        <FormControl variant="outlined" fullWidth className="password-input">
             <InputLabel htmlFor="password" error={error}>Password</InputLabel>
             <OutlinedInput
                 id="password"

@@ -11,5 +11,5 @@ export default function Home() {
             .catch(err => console.error(err));
     }, []);
 
-    return <div>Home Component</div>;
+    return <div>Hi Cogy!</div>;
 }
