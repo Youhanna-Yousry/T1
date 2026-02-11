@@ -29,6 +29,6 @@ app:
       secret: 18b40f2d002fac200027ce885a23a5cbdd8b27ae2c890f44bf423340c44bb9ae
       expirationMs: 3600000
     refreshToken:
-      expirationMs: 86400000
+      expirationMs: 604800000
       cleanupCron: 0 0 4 * * *
       cleanupDays: 30

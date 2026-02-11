@@ -6,7 +6,7 @@ import java.time.Duration;
 
 public class CookiesUtils {
 
-  private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
+  public static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
   private static final String REFRESH_ENDPOINT = "/api/auth/refresh";
 
   private CookiesUtils() {

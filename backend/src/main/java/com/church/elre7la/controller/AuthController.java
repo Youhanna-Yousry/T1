@@ -22,14 +22,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+import static com.church.elre7la.security.CookiesUtils.REFRESH_TOKEN_COOKIE_NAME;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
-
-  private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
-  private static final String REFRESH_ENDPOINT = "api/auth";
 
   private final AuthenticationManager authenticationManager;
 
