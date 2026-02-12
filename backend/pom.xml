@@ -9,9 +9,9 @@
         <!--  lookup parent from repository  -->
     </parent>
     <groupId>com.church</groupId>
-    <artifactId>elre7la</artifactId>
+    <artifactId>t1</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>elre7la</name>
+    <name>t1</name>
     <description>Demo project for Spring Boot</description>
     <url/>
     <licenses>

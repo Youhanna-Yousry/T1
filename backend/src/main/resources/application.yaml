@@ -3,9 +3,9 @@ server:
 
 spring:
   application:
-    name: elre7la
+    name: t1
   datasource:
-    url: jdbc:postgresql://localhost:5432/elre7la
+    url: jdbc:postgresql://localhost:5432/t1
     username: postgres
     password: P@ssw0rd
   jpa:
@@ -16,7 +16,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
   flyway:
-    url: jdbc:postgresql://localhost:5432/elre7la
+    url: jdbc:postgresql://localhost:5432/t1
     user: postgres
     password: P@ssw0rd
   threads:

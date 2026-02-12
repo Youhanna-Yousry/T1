@@ -1,6 +1,6 @@
-package com.church.elre7la.controller.resopnse;
+package com.church.t1.controller.resopnse;
 
-import com.church.elre7la.entity.Account;
+import com.church.t1.entity.Account;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AuthResponse {
 
-  private Account.Role role;
+    private Account.Role role;
 
-  private String token;
+    private String token;
 }

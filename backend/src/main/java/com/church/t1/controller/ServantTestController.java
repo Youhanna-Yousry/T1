@@ -1,4 +1,4 @@
-package com.church.elre7la.controller;
+package com.church.t1.controller;
 
 import org.jspecify.annotations.NonNull;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/servant")
 public class ServantTestController {
 
-  @GetMapping("/test")
-  public ResponseEntity<@NonNull String> getServantInfo() {
-    return ResponseEntity.ok("Hey Servant!");
-  }
+    @GetMapping("/test")
+    public ResponseEntity<@NonNull String> getServantInfo() {
+        return ResponseEntity.ok("Hey Servant!");
+    }
 }

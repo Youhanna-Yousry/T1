@@ -1,8 +1,8 @@
-package com.church.elre7la.service;
+package com.church.t1.service;
 
-import com.church.elre7la.entity.Account;
-import com.church.elre7la.entity.RefreshToken;
-import com.church.elre7la.repository.RefreshTokenRepository;
+import com.church.t1.entity.Account;
+import com.church.t1.entity.RefreshToken;
+import com.church.t1.repository.RefreshTokenRepository;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -17,18 +17,17 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RefreshTokenService {
 
+    private final RefreshTokenRepository refreshTokenRepository;
     @Value("${app.auth.refreshToken.expirationMs}")
     @Getter
     private long refreshTokenExpirationMs;
 
-    private final RefreshTokenRepository refreshTokenRepository;
-
     public RefreshToken createRefreshToken(@NonNull Account account) {
-        RefreshToken token = RefreshToken.builder().
-                account(account).
-                token(UUID.randomUUID().toString()).
-                expiryDate(Instant.now().plusMillis(refreshTokenExpirationMs)).
-                build();
+        RefreshToken token = RefreshToken.builder()
+                .account(account)
+                .token(UUID.randomUUID().toString())
+                .expiryDate(Instant.now().plusMillis(refreshTokenExpirationMs))
+                .build();
 
         return refreshTokenRepository.save(token);
     }

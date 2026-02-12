@@ -1,4 +1,4 @@
-package com.church.elre7la.security;
+package com.church.t1.security;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

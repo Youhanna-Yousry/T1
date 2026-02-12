@@ -1,6 +1,6 @@
-package com.church.elre7la.security;
+package com.church.t1.security;
 
-import com.church.elre7la.entity.Account;
+import com.church.t1.entity.Account;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,9 +18,7 @@ public class AccountUserDetails implements UserDetails {
     @Override
     @NonNull
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(
-                new SimpleGrantedAuthority("ROLE_" + account.getRole().name())
-        );
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + account.getRole().name()));
     }
 
     @Override

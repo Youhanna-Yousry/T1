@@ -1,4 +1,4 @@
-package com.church.elre7la;
+package com.church.t1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,11 +8,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class Application {
 
-  private Application() {
-  }
+    private Application() {
+    }
 
-  static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
-  }
+    static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
 }

@@ -1,6 +1,6 @@
-package com.church.elre7la.repository;
+package com.church.t1.repository;
 
-import com.church.elre7la.entity.RefreshToken;
+import com.church.t1.entity.RefreshToken;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,14 +14,14 @@ import java.util.Optional;
 @Repository
 public interface RefreshTokenRepository extends JpaRepository<@NonNull RefreshToken, @NonNull Long> {
 
-  Optional<RefreshToken> findByToken(String token);
+    Optional<RefreshToken> findByToken(String token);
 
-  @Transactional
-  @Modifying
-  @Query("""
-          DELETE FROM RefreshToken t
-          WHERE (t.revoked = true OR t.expiryDate < CURRENT_TIMESTAMP())
-          AND t.updatedAt < :cutoff
-      """)
-  int deleteOldTokens(Instant cutoff);
+    @Transactional
+    @Modifying
+    @Query("""
+                DELETE FROM RefreshToken t
+                WHERE (t.revoked = true OR t.expiryDate < CURRENT_TIMESTAMP())
+                AND t.updatedAt < :cutoff
+            """)
+    int deleteOldTokens(Instant cutoff);
 }
