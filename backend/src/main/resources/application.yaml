@@ -1,0 +1,34 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: t1
+  datasource:
+    url: jdbc:postgresql://localhost:5432/t1
+    username: postgres
+    password: P@ssw0rd
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+  flyway:
+    url: jdbc:postgresql://localhost:5432/t1
+    user: postgres
+    password: P@ssw0rd
+  threads:
+    virtual:
+      enabled: true
+
+app:
+  auth:
+    jwt:
+      secret: 18b40f2d002fac200027ce885a23a5cbdd8b27ae2c890f44bf423340c44bb9ae
+      expirationMs: 3600000
+    refreshToken:
+      expirationMs: 604800000
+      cleanupCron: 0 0 4 * * *
+      cleanupDays: 30

@@ -1,0 +1,48 @@
+@import '../../../styles/colors.less';
+
+.submit-button {
+  margin-top: 24px;
+  padding: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, @f1-red 0%, @f1-red-dark 100%);
+  border: none;
+  color: @color-white;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 184, 28, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, lighten(@f1-red, 3%) 0%, lighten(@f1-red-dark, 3%) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(220, 0, 0, 0.3);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background: linear-gradient(135deg, #999 0%, #666 100%);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}

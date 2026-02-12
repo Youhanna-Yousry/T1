@@ -1,0 +1,85 @@
+@import 'styles/colors.less';
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, @color-bg-dark 0%, @color-bg-dark-secondary 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(220, 0, 0, 0.03) 2px,
+        rgba(220, 0, 0, 0.03) 4px
+      );
+    pointer-events: none;
+  }
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 48px;
+  border-radius: 0;
+  box-shadow: 0 30px 90px rgba(220, 0, 0, 0.2);
+  background: @color-white;
+  position: relative;
+  z-index: 1;
+  border-left: 5px solid @f1-red;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 40px;
+    background: linear-gradient(180deg, @f1-accent, transparent);
+  }
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 32px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: @f1-red;
+  }
+
+  h1 {
+    font-weight: 900;
+    color: @color-text-primary;
+    font-size: 32px;
+    letter-spacing: -0.5px;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+  }
+
+  p {
+    color: @color-text-tertiary;
+    font-size: 14px;
+    margin: 0;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+}
