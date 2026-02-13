@@ -1,16 +1,14 @@
 package com.church.t1.controller;
 
-import com.church.t1.controller.request.AuthRequest;
-import com.church.t1.controller.resopnse.AuthResponse;
-import com.church.t1.entity.Account;
-import com.church.t1.entity.RefreshToken;
-import com.church.t1.repository.AccountRepository;
+import com.church.t1.dto.request.AuthRequestDTO;
+import com.church.t1.dto.response.AuthResponseDTO;
+import com.church.t1.model.entity.RefreshToken;
+import com.church.t1.model.entity.User;
+import com.church.t1.repository.UserRepository;
 import com.church.t1.security.CookiesUtils;
 import com.church.t1.security.JwtUtils;
 import com.church.t1.service.RefreshTokenService;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -27,43 +25,42 @@ import static com.church.t1.security.CookiesUtils.REFRESH_TOKEN_COOKIE_NAME;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@Slf4j
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
 
-    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
 
     private final JwtUtils jwtUtils;
 
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/login")
-    public ResponseEntity<@NonNull AuthResponse> login(@RequestBody AuthRequest request) {
-        Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO request) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        if (userDetails == null) {
-            return ResponseEntity.status(401).build();
-        }
 
-        Optional<Account> optionalAccount = accountRepository.findByUsername(userDetails.getUsername());
-        if (optionalAccount.isEmpty()) {
-            return ResponseEntity.status(401).build();
-        }
+        User user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("Error: User not found after authentication"));
 
-        Account account = optionalAccount.get();
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(account);
-        String token = jwtUtils.generateToken(account.getUsername());
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
+        String token = jwtUtils.generateToken(user.getUsername());
 
-        ResponseCookie cookie = CookiesUtils.createRefreshTokenCookie(refreshToken.getToken(), refreshTokenService.getRefreshTokenExpirationMs());
+        ResponseCookie cookie = CookiesUtils.createRefreshTokenCookie(
+                refreshToken.getToken(),
+                refreshTokenService.getRefreshTokenExpirationMs()
+        );
 
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(new AuthResponse(account.getRole(), token));
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(new AuthResponseDTO(user.getUsername(), user.getRole(), token));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<@NonNull AuthResponse> refresh(@CookieValue(name = REFRESH_TOKEN_COOKIE_NAME, required = false) String refreshTokenCookie) {
+    public ResponseEntity<AuthResponseDTO> refresh(@CookieValue(name = REFRESH_TOKEN_COOKIE_NAME, required = false) String refreshTokenCookie) {
         if (refreshTokenCookie == null) {
             return ResponseEntity.status(401).build();
         }
@@ -79,23 +76,30 @@ public class AuthController {
         }
 
         refreshTokenService.revoke(refreshToken);
-        Account account = refreshToken.getAccount();
-        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(account);
-        String token = jwtUtils.generateToken(account.getUsername());
+        User user = refreshToken.getUser();
+        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user);
+        String token = jwtUtils.generateToken(user.getUsername());
 
-        ResponseCookie cookie = CookiesUtils.createRefreshTokenCookie(newRefreshToken.getToken(), refreshTokenService.getRefreshTokenExpirationMs());
+        ResponseCookie cookie = CookiesUtils.createRefreshTokenCookie(
+                newRefreshToken.getToken(),
+                refreshTokenService.getRefreshTokenExpirationMs()
+        );
 
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(new AuthResponse(account.getRole(), token));
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(new AuthResponseDTO(user.getUsername(), user.getRole(), token));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<@NonNull Void> logout(@CookieValue(name = REFRESH_TOKEN_COOKIE_NAME, required = false) String refreshTokenCookie) {
+    public ResponseEntity<Void> logout(@CookieValue(name = REFRESH_TOKEN_COOKIE_NAME, required = false) String refreshTokenCookie) {
         if (refreshTokenCookie != null) {
             refreshTokenService.findByToken(refreshTokenCookie).ifPresent(refreshTokenService::revoke);
         }
 
         ResponseCookie deleteCookie = CookiesUtils.createRefreshTokenDeletionCookie();
 
-        return ResponseEntity.noContent().header(HttpHeaders.SET_COOKIE, deleteCookie.toString()).build();
+        return ResponseEntity.noContent()
+                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+                .build();
     }
 }

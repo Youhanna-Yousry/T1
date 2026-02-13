@@ -1,11 +1,11 @@
-package com.church.t1.controller.request;
+package com.church.t1.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthRequest {
+public class AuthRequestDTO {
 
     private String username;
 

@@ -1,0 +1,176 @@
+@import 'styles/colors.less';
+
+@sidebar-bg: #15151e;
+@sidebar-active: @f1-red;
+@text-color: #ffffff;
+@text-muted: #8d8d9b;
+@anim-speed: 0.4s;
+@drawer-width: 260px;
+@drawer-closed-width: 70px;
+
+.f1-sidebar {
+    .MuiDrawer-paper {
+        background-color: @sidebar-bg;
+        color: @text-color;
+        border-right: 1px solid rgba(255,255,255,0.1);
+        overflow-x: hidden;
+        white-space: nowrap; 
+        box-sizing: border-box;
+        transition: width @anim-speed cubic-bezier(0.4, 0, 0.2, 1) !important;
+        
+        width: @drawer-width;
+    }
+
+    &.closed .MuiDrawer-paper {
+        width: @drawer-closed-width;
+    }
+}
+
+.sidebar-header {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    transition: padding @anim-speed ease;
+
+    .brand-text {
+        font-weight: 900;
+        font-style: italic;
+        letter-spacing: 1px;
+        white-space: nowrap;
+        opacity: 1;
+        width: auto;
+        transition: opacity 0.2s ease, width 0.2s ease;
+    }
+    
+    &.closed {
+        justify-content: center; 
+        padding: 0; 
+
+        .brand-text {
+            opacity: 0;
+            pointer-events: none;
+            width: 0; 
+            overflow: hidden;
+        }
+    }
+
+    .red-text { color: @f1-red; }
+
+    .toggle-btn {
+        color: @text-muted;
+        transition: transform @anim-speed ease;
+        &:hover { color: @text-color; }
+    }
+}
+
+.sidebar-divider {
+    background-color: rgba(255,255,255,0.1) !important;
+}
+
+.nav-list {
+    padding: 16px 8px;
+}
+
+.nav-item {
+    display: block;
+}
+
+.nav-button {
+    border-radius: 4px !important;
+    margin-bottom: 8px !important;
+    transition: all 0.2s ease !important;
+    min-height: 48px;
+    
+    // Default (Open) spacing
+    padding-left: 20px !important; 
+    padding-right: 20px !important;
+    justify-content: flex-start !important;
+
+    .nav-icon {
+        color: @text-muted;
+        min-width: 0 !important;
+        margin-right: 16px;
+        justify-content: center;
+        transition: color 0.2s ease, margin 0.2s ease;
+    }
+
+    .nav-text {
+        white-space: nowrap;
+        opacity: 1;
+        transition: opacity 0.2s ease;
+        
+        .MuiTypography-root {
+            font-family: "Titillium Web", sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+    }
+
+    &:hover {
+        background-color: rgba(255,255,255,0.05) !important;
+        .nav-icon { color: @text-color; }
+    }
+
+    &.active {
+        background: linear-gradient(90deg, rgba(255,24,1,0.15) 0%, rgba(0,0,0,0) 100%) !important;
+        border-right: 4px solid @f1-red;
+        
+        .nav-icon { color: @f1-red; }
+        .nav-text { color: @text-color; }
+    }
+}
+
+.f1-sidebar.closed {
+    .nav-button, .logout-button {
+        justify-content: center !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .nav-icon {
+        margin-right: 0; 
+    }
+
+    .nav-text, .user-name {
+        opacity: 0;
+        width: 0;
+        display: none;
+    }
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-bottom: 16px;
+
+    .logout-button {
+        padding: 16px;
+        transition: all 0.2s ease;
+        justify-content: flex-start; 
+        padding-left: 20px;
+
+        .nav-icon {
+            color: @text-muted;
+            min-width: 0;
+            margin-right: 16px;
+            transition: color 0.2s ease, margin 0.2s ease;
+        }
+        
+        .user-name {
+            color: @text-color;
+            transition: color 0.2s ease;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+        
+        &:hover {
+            background-color: rgba(255, 0, 0, 0.1) !important;
+            .nav-icon { color: @f1-red; }
+            .user-name { color: @f1-red; }
+        }
+    }
+}

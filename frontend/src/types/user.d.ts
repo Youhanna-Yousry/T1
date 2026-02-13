@@ -4,11 +4,11 @@ declare global {
         password: string;
     }
 
-    interface UserTokenAndRole {
+    interface AuthUser {
+        username: string;
         token: string;
         role: "SERVANT" | "STUDENT";
     }
-
 
 }
 

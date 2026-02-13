@@ -19,14 +19,14 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const { userTokenAndRole, setUserTokenAndRole } = useAuth();
+    const { user, setUser } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (userTokenAndRole.token) {
+        if (user?.token) {
             navigate("/");
         }
-    }, [userTokenAndRole, navigate]);
+    }, [user, navigate]);
 
     const handleUsernameChange = (username: string) => {
         setCredentials((prev) => ({ ...prev, username }));
@@ -45,7 +45,7 @@ export default function Login() {
 
         try {
             const result = await login(credentials);
-            setUserTokenAndRole(result);
+            setUser(result);
             navigate("/");
         } catch (err: any) {
             if (err?.response?.status === 401) {

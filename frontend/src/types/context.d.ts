@@ -1,7 +1,7 @@
 global {
     interface AuthContextType {
-        userTokenAndRole: UserTokenAndRole;
-        setUserTokenAndRole: (userTokenAndRole: UserTokenAndRole) => void;
+        user: AuthUser | null;
+        setUser: (user: AuthUser | null) => void;
         isAuthLoading: boolean;
     }
 }

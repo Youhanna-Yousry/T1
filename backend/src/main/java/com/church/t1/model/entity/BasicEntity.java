@@ -1,4 +1,4 @@
-package com.church.t1.entity;
+package com.church.t1.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

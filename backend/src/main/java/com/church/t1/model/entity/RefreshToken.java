@@ -1,4 +1,4 @@
-package com.church.t1.entity;
+package com.church.t1.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,8 +17,8 @@ import java.time.Instant;
 public class RefreshToken extends BasicEntity {
 
     @OneToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private Account account;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     @Column(nullable = false, unique = true)
     private String token;
