@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, IconButton } from "@mui/material";
+import {
+    Box, Drawer, List, ListItem, ListItemButton, ListItemIcon,
+    ListItemText, Typography, Divider, IconButton, useMediaQuery, useTheme
+} from "@mui/material";
 import {
     Dashboard as DashboardIcon, EmojiEvents as TrophyIcon, ChevronLeft as ChevronLeftIcon,
-    Menu as MenuIcon, Logout as LogoutIcon
+    Logout as LogoutIcon,
+    QrCode2Outlined,
 } from "@mui/icons-material";
 import { useAuth } from "context/authContext";
 import { logout } from "services/authService";
+
 import "./Sidebar.less";
 
 interface NavItem {
@@ -17,25 +22,25 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-    {
-        label: "DASHBOARD",
-        path: "/dashboard",
-        icon: <DashboardIcon />,
-        roles: ["STUDENT"]
-    },
-    {
-        label: "LEADERBOARD",
-        path: "/leaderboard",
-        icon: <TrophyIcon />,
-        roles: ["STUDENT"]
-    }
+    { label: "DASHBOARD", path: "/dashboard", icon: <DashboardIcon />, roles: ["STUDENT"] },
+    { label: "LEADERBOARD", path: "/leaderboard", icon: <TrophyIcon />, roles: ["STUDENT"] },
+    { label: "RACE CONTROL", path: "/race-control", icon: <QrCode2Outlined />, roles: ["SERVANT"] },
 ];
 
-export default function Sidebar() {
+interface SidebarProps {
+    mobileOpen: boolean;
+    onClose: () => void;
+}
+
+export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
     const navigate = useNavigate();
     const location = useLocation();
     const { user, setUser } = useAuth();
-    const [isOpen, setIsOpen] = useState(true);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+    const [isDesktopOpen, setIsDesktopOpen] = useState(true);
 
     if (!user) return null;
 
@@ -43,6 +48,7 @@ export default function Sidebar() {
 
     const handleNavigate = (path: string) => {
         navigate(path);
+        if (isMobile) onClose();
     };
 
     const onLogout = () => {
@@ -51,19 +57,26 @@ export default function Sidebar() {
         navigate("/login");
     }
 
+    const isOpen = isMobile ? mobileOpen : isDesktopOpen;
+
     return (
         <Drawer
-            variant="permanent"
-            className={`f1-sidebar ${isOpen ? 'open' : 'closed'}`}
+            variant={isMobile ? "temporary" : "permanent"}
+            open={isOpen}
+            onClose={onClose}
+            className={`f1-sidebar ${isOpen ? 'open' : 'closed'} ${isMobile ? 'mobile' : ''}`}
+            ModalProps={{ keepMounted: true }}
         >
-            <Box className={`sidebar-header ${!isOpen ? 'closed' : ''}`}>
+            <Box className={`sidebar-header ${!isOpen && !isMobile ? 'closed' : ''}`}>
                 <Typography variant="h6" className="brand-text">
                     TAKULA <span className="red-text">1</span>
                 </Typography>
 
-                <IconButton onClick={() => setIsOpen(!isOpen)} className="toggle-btn">
-                    {isOpen ? <ChevronLeftIcon /> : <MenuIcon />}
-                </IconButton>
+                {!isMobile && (
+                    <IconButton onClick={() => setIsDesktopOpen(!isDesktopOpen)} className="toggle-btn">
+                        <ChevronLeftIcon sx={{ transform: isOpen ? 'rotate(0deg)' : 'rotate(180deg)', transition: '0.3s' }} />
+                    </IconButton>
+                )}
             </Box>
 
             <Divider className="sidebar-divider" />
@@ -77,9 +90,7 @@ export default function Sidebar() {
                                 onClick={() => handleNavigate(item.path)}
                                 className={`nav-button ${isActive ? 'active' : ''}`}
                             >
-                                <ListItemIcon className="nav-icon">
-                                    {item.icon}
-                                </ListItemIcon>
+                                <ListItemIcon className="nav-icon">{item.icon}</ListItemIcon>
                                 <ListItemText primary={item.label} className="nav-text" />
                             </ListItemButton>
                         </ListItem>
@@ -91,12 +102,10 @@ export default function Sidebar() {
                 <Divider className="sidebar-divider" />
                 <ListItem disablePadding>
                     <ListItemButton onClick={onLogout} className="logout-button">
-                        <ListItemIcon className="nav-icon">
-                            <LogoutIcon />
-                        </ListItemIcon>
+                        <ListItemIcon className="nav-icon"><LogoutIcon /></ListItemIcon>
                         <Box>
                             <Typography variant="body2" className="user-name">
-                                {user.username}
+                                Logout
                             </Typography>
                         </Box>
                     </ListItemButton>

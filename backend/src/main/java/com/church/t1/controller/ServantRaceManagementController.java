@@ -1,12 +1,12 @@
 package com.church.t1.controller;
 
-import com.church.t1.dto.response.LookupDTO;
+import com.church.t1.dto.request.MarkAttendanceDTO;
+import com.church.t1.dto.response.EventInfoDTO;
+import com.church.t1.model.enums.AttendanceStatus;
 import com.church.t1.service.ServantRaceManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,12 +18,12 @@ public class ServantRaceManagementController {
     private final ServantRaceManagementService servantRaceManagementService;
 
     @GetMapping("/events")
-    public ResponseEntity<List<LookupDTO>> getAvailableEvents() {
-        return ResponseEntity.ok(servantRaceManagementService.getAvailableEvents());
+    public ResponseEntity<List<EventInfoDTO>> getEvents(@RequestParam boolean scannable) {
+        return ResponseEntity.ok(servantRaceManagementService.getEvents(scannable));
     }
 
-    @GetMapping("/weeks")
-    public ResponseEntity<List<LookupDTO>> getAvailableWeeks() {
-        return ResponseEntity.ok(servantRaceManagementService.getAvailableWeeks());
+    @PostMapping("/attendance")
+    public ResponseEntity<AttendanceStatus> markAttendance(@RequestBody MarkAttendanceDTO markAttendanceDTO) {
+        return ResponseEntity.ok(servantRaceManagementService.markAttendance(markAttendanceDTO));
     }
 }

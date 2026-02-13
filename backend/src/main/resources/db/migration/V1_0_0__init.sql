@@ -53,6 +53,7 @@ CREATE TABLE event (
     version BIGINT NOT NULL DEFAULT 0,
     name VARCHAR(255) NOT NULL,
     type VARCHAR(255) NOT NULL,
+    is_scannable BOOLEAN NOT NULL,
     weight INTEGER NOT NULL
 );
 
@@ -86,24 +87,24 @@ CREATE TABLE student_log (
     CONSTRAINT uq_student_logs_user_event UNIQUE (user_id, event_id, week_id)
 );
 
-INSERT INTO event (name, type, weight) VALUES
-('Service Liturgy', 'GRAND_PRIX', 300),
-('Sunday School', 'GRAND_PRIX', 200),
-('Vespers', 'GRAND_PRIX', 200),
-('Tasbeha', 'GRAND_PRIX', 200),
-('Bible Study', 'GRAND_PRIX', 150),
-('Deacons School', 'GRAND_PRIX', 150);
+INSERT INTO event (name, type, is_scannable, weight) VALUES
+('Service Liturgy', 'GRAND_PRIX', TRUE, 15),
+('Sunday School', 'GRAND_PRIX', TRUE, 15),
+('Vespers', 'GRAND_PRIX', TRUE, 15),
+('Tasbeha', 'GRAND_PRIX', TRUE, 15),
+('Bible Study', 'GRAND_PRIX', TRUE, 15),
+('Deacons School', 'GRAND_PRIX', TRUE,15);
 
-INSERT INTO event (name, type, weight) VALUES
-('Speed Competition', 'PRACTICE', 100),
-('Paper Competition', 'PRACTICE', 100),
-('Coptic Language', 'PRACTICE', 100);
+INSERT INTO event (name, type, is_scannable, weight) VALUES
+('Speed Competition', 'PRACTICE', FALSE, 10),
+('Paper Competition', 'PRACTICE', FALSE, 10),
+('Coptic Language', 'PRACTICE', FALSE, 10);
 
-INSERT INTO event (name, type, weight) VALUES
-('Extra Liturgy', 'SPRINT', 100),
-('Extra Tasbeha', 'SPRINT', 100),
-('Confession', 'SPRINT', 100),
-('Psalm Recitation', 'SPRINT', 100);
+INSERT INTO event (name, type, is_scannable, weight) VALUES
+('Extra Liturgy', 'SPRINT', TRUE,5),
+('Extra Tasbeha', 'SPRINT', TRUE, 5),
+('Confession', 'SPRINT', TRUE, 5),
+('Psalm Recitation', 'SPRINT', TRUE, 5);
 
 INSERT INTO family (grade, name) VALUES (7, 'Saint Karas');
 INSERT INTO team_profile (family_id, year, fast_type, team_name, team_code, logo_url) VALUES (1, 2026, 'GREAT_LENT', 'McLaren', 'MCL', '/');
@@ -115,11 +116,11 @@ INSERT INTO family (grade, name) VALUES (9, 'Saint Moses');
 INSERT INTO team_profile (family_id, year, fast_type, team_name, team_code, logo_url) VALUES (3, 2026, 'GREAT_LENT', 'Mercedes', 'MER', '/');
 
 INSERT INTO week (name, week_number, start_date, end_date) VALUES
-('Preparation Week (Week 1)', 1, '2026-02-13 00:00:00', '2026-02-19 23:59:59'),
-('Temptation Sunday (Week 2)', 2, '2026-02-20 00:00:00', '2026-02-26 23:59:59'),
-('Prodigal Son (Week 3)', 3, '2026-02-27 00:00:00', '2026-03-05 23:59:59'),
-('Samaritan Woman (Week 4)', 4, '2026-03-06 00:00:00', '2026-03-12 23:59:59'),
-('Paralytic Man (Week 5)', 5, '2026-03-13 00:00:00', '2026-03-19 23:59:59'),
-('Born Blind (Week 6)', 6, '2026-03-20 00:00:00', '2026-03-26 23:59:59'),
-('Palm Sunday (Week 7)', 7, '2026-03-27 00:00:00', '2026-04-02 23:59:59'),
-('Holy Week (Week 8)', 8, '2026-04-03 00:00:00', '2026-04-12 23:59:59');
+('Preparation Week', 1, '2026-02-13 00:00:00', '2026-02-19 23:59:59'),
+('Temptation Sunday', 2, '2026-02-20 00:00:00', '2026-02-26 23:59:59'),
+('Prodigal Son', 3, '2026-02-27 00:00:00', '2026-03-05 23:59:59'),
+('Samaritan Woman', 4, '2026-03-06 00:00:00', '2026-03-12 23:59:59'),
+('Paralytic Man', 5, '2026-03-13 00:00:00', '2026-03-19 23:59:59'),
+('Born Blind', 6, '2026-03-20 00:00:00', '2026-03-26 23:59:59'),
+('Palm Sunday', 7, '2026-03-27 00:00:00', '2026-04-02 23:59:59'),
+('Holy Week', 8, '2026-04-03 00:00:00', '2026-04-12 23:59:59');

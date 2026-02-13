@@ -5,7 +5,7 @@
 }
 
 .driver-header {
-    display: flex;
+display: flex;
     justify-content: space-between;
     align-items: center;
     background: @f1-black;
@@ -58,6 +58,42 @@
         font-style: italic; 
         color: @f1-red; 
         line-height: 1; 
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        text-align: center;
+        padding: 24px 16px;
+        gap: 16px;
+
+        .driver-identity {
+            flex-direction: column;
+            width: 100%;
+            gap: 12px;
+        }
+
+        .team-logo {
+            height: 50px;
+            border-right: none;
+            padding-right: 0;
+            margin-bottom: 8px;
+        }
+
+        .driver-name { 
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+
+        .driver-stats {
+            width: 100%;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 16px;
+            text-align: center;
+        }
+        
+        .rank-text {
+            font-size: 2.5rem;
+        }
     }
 }
 

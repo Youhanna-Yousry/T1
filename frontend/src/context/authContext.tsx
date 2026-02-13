@@ -1,6 +1,12 @@
 import { createContext, useState, useContext, ReactNode } from "react";
 import useInitAuth from "hooks/useInitAuth";
 
+interface AuthContextType {
+    user: AuthUser | null;
+    setUser: (user: AuthUser | null) => void;
+    isAuthLoading: boolean;
+}
+
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export function AuthProvider({ children }: { children: ReactNode }) {

@@ -19,5 +19,8 @@ public class Event extends BasicEntity {
     private EventType type;
 
     @Column(nullable = false)
+    private boolean isScannable;
+
+    @Column(nullable = false)
     private Integer weight;
 }

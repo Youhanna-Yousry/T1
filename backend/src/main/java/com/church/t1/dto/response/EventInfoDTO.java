@@ -7,9 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class LookupDTO {
+public class EventInfoDTO {
 
-    private Long id;
+    private long id;
 
     private String name;
+
+    private int weight;
 }

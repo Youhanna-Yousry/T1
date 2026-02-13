@@ -29,7 +29,8 @@
     "start": "react-scripts-less start",
     "build": "react-scripts-less build",
     "test": "react-scripts-less test",
-    "eject": "react-scripts-less eject"
+    "eject": "react-scripts-less eject",
+    "lint": "eslint . --ext ts,tsx,js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "eslintConfig": {
     "extends": [

@@ -1,0 +1,52 @@
+@import 'styles/colors.less';
+
+@topbar-bg: #15151e;
+@topbar-border: #e10600;
+@bg-page: #f2f2f2;
+@z-index-appbar: 1300;
+
+.layout-root {
+    display: flex;
+    min-height: 100vh;
+    background-color: @bg-page;
+}
+
+.mobile-app-bar {
+    background-color: @topbar-bg !important;
+    border-bottom: 2px solid @topbar-border;
+    z-index: @z-index-appbar !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+
+    .menu-button {
+        margin-right: 16px;
+        color: #fff;
+    }
+
+    .brand-text {
+        font-style: italic;
+        font-weight: 900;
+        letter-spacing: 1px;
+        color: #fff;
+    }
+
+    .brand-accent {
+        color: @topbar-border;
+    }
+}
+
+.main-content {
+    flex-grow: 1;
+    width: 100%;
+    min-height: 100vh;
+    background-color: @bg-page;
+    padding: 0;
+    transition: margin-top 0.3s ease;
+
+    @media (max-width: 900px) {
+        margin-top: 64px;
+    }
+
+    @media (min-width: 901px) {
+        margin-top: 0;
+    }
+}

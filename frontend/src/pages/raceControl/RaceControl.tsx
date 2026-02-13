@@ -1,253 +1,246 @@
-// import { useState, useEffect } from "react";
-// import { QrReader } from "react-qr-reader";
-// import { Box, Container, Grid, Typography, Select, MenuItem, 
-//     FormControl, InputLabel, Paper, Chip, Stack, IconButton, Alert, Snackbar 
-// } from "@mui/material";
-// import { 
-//     Cameraswitch as CameraIcon, 
-//     History as HistoryIcon, 
-//     Flag as FlagIcon,
-//     AccessTime as TimeIcon
-// } from "@mui/icons-material";
-// import Loading from "components/Loading";
-// import useAxiosInterceptor from "hooks/useAxiosInterceptor";
-// import { getEvents, markAttendance, getWeeks } from "services/servantRaceControllerService"; 
-// import "./RaceControl.less";
+import { useState, useEffect } from "react";
+import { Scanner } from "@yudiel/react-qr-scanner";
+import {
+    Box, Container, Grid, Typography, Select, MenuItem,
+    FormControl, InputLabel, Paper, Stack, Snackbar, Alert, Chip, SelectChangeEvent
+} from "@mui/material";
+import { History as HistoryIcon, Flag as FlagIcon } from "@mui/icons-material";
+import useAxiosInterceptor from "hooks/useAxiosInterceptor";
+import Loading from "components/Loading";
 
-// // Types
-// interface ScanLog {
-//     id: number;
-//     studentEmail: string;
-//     timestamp: string;
-//     status: "SUCCESS" | "ERROR";
-//     message: string;
-// }
+import { getEvents, EventInfo, markAttendance } from "services/servantService";
+import "./RaceControl.less";
 
-// export default function RaceControl() {
-//     useAxiosInterceptor();
-    
-//     // --- State ---
-//     const [events, setEvents] = useState<any[]>([]);
-//     const [weeks, setWeeks] = useState<any[]>([]);
-    
-//     // Selection State
-//     const [selectedEvent, setSelectedEvent] = useState<string>("");
-//     const [selectedWeek, setSelectedWeek] = useState<string>("CURRENT"); // 'CURRENT' or specific ID
-    
-//     // Scanner State
-//     const [facingMode, setFacingMode] = useState<"user" | "environment">("environment");
-//     const [scanLogs, setScanLogs] = useState<ScanLog[]>([]);
-//     const [lastScanned, setLastScanned] = useState<string | null>(null);
-    
-//     // Feedback State
-//     const [notification, setNotification] = useState<{open: boolean, message: string, severity: "success" | "error"}>({
-//         open: false, message: "", severity: "success"
-//     });
+type ScanStatus = "USER_REGISTERED_SUCCESSFULLY" | "USER_NOT_FOUND" | "USER_ALREADY_REGISTERED";
 
-//     // --- Init ---
-//     useEffect(() => {
-//         // Fetch available events and weeks on mount
-//         // You would replace this with your actual API calls
-//         // Promise.all([getEvents(), getWeeks()]).then(...)
-        
-//         // Mock Data for visualization
-//         setEvents([
-//             { id: 1, name: "Service Liturgy" },
-//             { id: 2, name: "Sunday School" },
-//             { id: 3, name: "Vespers" },
-//         ]);
-//         setWeeks([
-//             { id: 101, name: "Week 1: Preparation" },
-//             { id: 102, name: "Week 2: Qualifying" },
-//         ]);
-//     }, []);
+interface ScanLog {
+    id: number;
+    email: string;
+    timestamp: string;
+    status: ScanStatus;
+}
 
-//     // --- Handlers ---
-    
-//     const handleScan = async (result: any, error: any) => {
-//         if (result) {
-//             const email = result?.text;
-            
-//             // Prevent spamming the same code instantly
-//             if (email === lastScanned) return; 
-//             setLastScanned(email);
+export default function RaceControl() {
+    useAxiosInterceptor();
 
-//             // 1. Validation
-//             if (!selectedEvent) {
-//                 showNotification("⚠️ SAFETY CAR: Please select an event first!", "error");
-//                 return;
-//             }
+    const [events, setEvents] = useState<EventInfo[]>([]);
+    const [selectedEvent, setSelectedEvent] = useState<EventInfo | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [scanLogs, setScanLogs] = useState<ScanLog[]>([]);
+    const [isPaused, setIsPaused] = useState(false);
 
-//             // 2. Optimistic UI Update (Add to log as "Processing")
-//             const newLogId = Date.now();
-            
-//             try {
-//                 // 3. API Call
-//                 // await markAttendance(selectedEvent, selectedWeek, email);
-                
-//                 // Mock Success
-//                 logScan(newLogId, email, "SUCCESS", "Sector time recorded");
-//                 showNotification(`✅ ATTENDANCE MARKED: ${email}`, "success");
+    const [notification, setNotification] = useState<{ open: boolean, message: string, severity: "success" | "error" | "warning" }>({
+        open: false, message: "", severity: "success"
+    });
 
-//                 // Reset last scanned after 3 seconds so they can scan again if needed
-//                 setTimeout(() => setLastScanned(null), 3000);
+    useEffect(() => {
+        getEvents(true)
+            .then(data => setEvents(data))
+            .catch(() => showNotification("Failed to load events", "error"))
+            .finally(() => setLoading(false));
+    }, []);
 
-//             } catch (err) {
-//                 logScan(newLogId, email, "ERROR", "Driver not found or duplicate");
-//                 showNotification("❌ RED FLAG: Failed to mark attendance", "error");
-//                 setLastScanned(null); // Allow immediate retry on error
-//             }
-//         }
-//     };
+    const handleEventChange = (e: SelectChangeEvent<string>) => {
+        const eventId = Number(e.target.value);
+        const eventObj = events.find(ev => ev.id === eventId) || null;
+        setSelectedEvent(eventObj);
+        setScanLogs([]);
+    };
 
-//     const logScan = (id: number, email: string, status: "SUCCESS" | "ERROR", message: string) => {
-//         setScanLogs(prev => [{
-//             id, 
-//             studentEmail: email, 
-//             timestamp: new Date().toLocaleTimeString(), 
-//             status, 
-//             message
-//         }, ...prev].slice(0, 10)); // Keep last 10
-//     };
+    const handleScan = async (results: any[]) => {
+        if (isPaused || !results || results.length === 0) return;
 
-//     const showNotification = (message: string, severity: "success" | "error") => {
-//         setNotification({ open: true, message, severity });
-//     };
+        const rawValue = results[0].rawValue;
+        if (!rawValue) return;
 
-//     return (
-//         <Box className="race-control-page">
-//             <Container maxWidth="lg">
-                
-//                 <Box className="control-header">
-//                     <Typography variant="h4" className="page-title">
-//                         RACE <span className="red-text">CONTROL</span>
-//                     </Typography>
-//                     <Chip 
-//                         icon={<FlagIcon />} 
-//                         label={selectedEvent ? "SESSION ACTIVE" : "PIT LANE OPEN"} 
-//                         color={selectedEvent ? "success" : "warning"}
-//                         className="status-chip"
-//                     />
-//                 </Box>
+        const alreadyScannedInSession = scanLogs.some(log => log.email === rawValue);
 
-//                 <Grid container spacing={3}>
-//                     <Grid size={{ xs: 12, md: 5 }}>
-//                         <Paper className="control-panel">
-//                             <Typography variant="h6" className="panel-title">SESSION SETUP</Typography>
-                            
-//                             <Stack spacing={3}>
-//                                 <FormControl fullWidth variant="filled" className="f1-input">
-//                                     <InputLabel>🏁 SELECT EVENT (GRAND PRIX)</InputLabel>
-//                                     <Select
-//                                         value={selectedEvent}
-//                                         onChange={(e) => setSelectedEvent(e.target.value)}
-//                                     >
-//                                         {events.map(e => (
-//                                             <MenuItem key={e.id} value={e.id}>{e.name}</MenuItem>
-//                                         ))}
-//                                     </Select>
-//                                 </FormControl>
+        if (alreadyScannedInSession) {
+            setIsPaused(true);
+            showNotification(`ALREADY SCANNED IN SESSION: ${rawValue}`, "warning");
+            setTimeout(() => setIsPaused(false), 2000);
+            return;
+        }
 
-//                                 <FormControl fullWidth variant="filled" className="f1-input">
-//                                     <InputLabel>⏱️ SELECT WEEK (LAP)</InputLabel>
-//                                     <Select
-//                                         value={selectedWeek}
-//                                         onChange={(e) => setSelectedWeek(e.target.value)}
-//                                     >
-//                                         <MenuItem value="CURRENT">⚡ CURRENT WEEK (LIVE)</MenuItem>
-//                                         {weeks.map(w => (
-//                                             <MenuItem key={w.id} value={w.id}>{w.name}</MenuItem>
-//                                         ))}
-//                                     </Select>
-//                                 </FormControl>
-//                             </Stack>
-//                         </Paper>
+        if (!selectedEvent) {
+            setIsPaused(true);
+            showNotification("SAFETY CAR: Please select an event first!", "warning");
+            setTimeout(() => setIsPaused(false), 2000);
+            return;
+        }
 
-//                         {/* Recent Scans (Telemetry) */}
-//                         <Paper className="telemetry-panel">
-//                             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-//                                 <Typography variant="h6" className="panel-title">TELEMETRY LOG</Typography>
-//                                 <HistoryIcon className="icon-muted" />
-//                             </Box>
-                            
-//                             <Stack spacing={1}>
-//                                 {scanLogs.length === 0 && (
-//                                     <Typography className="no-data-text">Waiting for data...</Typography>
-//                                 )}
-//                                 {scanLogs.map(log => (
-//                                     <Box key={log.id} className={`log-row ${log.status.toLowerCase()}`}>
-//                                         <Box>
-//                                             <Typography variant="body2" className="log-email">
-//                                                 {log.studentEmail.split('@')[0]}
-//                                             </Typography>
-//                                             <Typography variant="caption" className="log-msg">
-//                                                 {log.message}
-//                                             </Typography>
-//                                         </Box>
-//                                         <Box textAlign="right">
-//                                             <Typography variant="caption" className="log-time">
-//                                                 {log.timestamp}
-//                                             </Typography>
-//                                             <Box className={`status-dot ${log.status.toLowerCase()}`} />
-//                                         </Box>
-//                                     </Box>
-//                                 ))}
-//                             </Stack>
-//                         </Paper>
-//                     </Grid>
+        setIsPaused(true);
+        const newLogId = Date.now();
 
-//                     {/* Right Column: Camera Feed */}
-//                     <Grid item xs={12} md={7}>
-//                         <Paper className="camera-frame">
-//                             <Box className="camera-header">
-//                                 <Box display="flex" alignItems="center" gap={1}>
-//                                     <Box className="recording-dot" />
-//                                     <Typography variant="subtitle2">ONBOARD CAM_01</Typography>
-//                                 </Box>
-//                                 <IconButton onClick={() => setFacingMode(prev => prev === "user" ? "environment" : "user")}>
-//                                     <CameraIcon className="camera-icon" />
-//                                 </IconButton>
-//                             </Box>
-                            
-//                             <Box className="camera-viewport">
-//                                 {/* The Scanner Component */}
-//                                 <QrReader
-//                                     constraints={{ facingMode: facingMode }}
-//                                     onResult={handleScan}
-//                                     containerStyle={{ width: '100%', height: '100%' }}
-//                                     videoStyle={{ objectFit: 'cover' }}
-//                                     scanDelay={500}
-//                                 />
-                                
-//                                 {/* Overlay Graphics */}
-//                                 <Box className="scanner-overlay">
-//                                     <Box className="corner tl" />
-//                                     <Box className="corner tr" />
-//                                     <Box className="corner bl" />
-//                                     <Box className="corner br" />
-//                                 </Box>
-//                             </Box>
+        try {
+            const statusString = await markAttendance(selectedEvent.id, rawValue, selectedEvent.weight) as ScanStatus;
 
-//                             <Box className="camera-footer">
-//                                 <Typography variant="caption">
-//                                     SCANNING FOR DRIVER ID (QR CODE)...
-//                                 </Typography>
-//                             </Box>
-//                         </Paper>
-//                     </Grid>
-//                 </Grid>
-//             </Container>
+            if (statusString === "USER_REGISTERED_SUCCESSFULLY") {
+                logScan(newLogId, rawValue, statusString);
+                showNotification(`Checked In: ${rawValue}`, "success");
+            }
+            else if (statusString === "USER_ALREADY_REGISTERED") {
+                logScan(newLogId, rawValue, statusString);
+                showNotification(`Duplicate: ${rawValue}`, "error");
+            }
+            else if (statusString === "USER_NOT_FOUND") {
+                logScan(newLogId, rawValue, statusString);
+                showNotification(`User Not Found: ${rawValue}`, "warning");
+            }
+            else {
+                showNotification(`Unknown Response: ${JSON.stringify(statusString)}`, "error");
+            }
 
-//             <Snackbar 
-//                 open={notification.open} 
-//                 autoHideDuration={4000} 
-//                 onClose={() => setNotification(p => ({...p, open: false}))}
-//                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-//             >
-//                 <Alert severity={notification.severity} variant="filled">
-//                     {notification.message}
-//                 </Alert>
-//             </Snackbar>
-//         </Box>
-//     );
-// }
+        } catch (error) {
+            showNotification("SYSTEM FAILURE: Network Error", "error");
+        } finally {
+            setTimeout(() => { setIsPaused(false); }, 2000);
+        }
+    };
+
+    const logScan = (id: number, email: string, status: ScanStatus) => {
+        setScanLogs(prev => [{
+            id,
+            email,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+            status
+        }, ...prev].slice(0, 15));
+    };
+
+    const showNotification = (message: string, severity: "success" | "error" | "warning") => {
+        setNotification({ open: true, message, severity });
+    };
+
+    if (loading) return <Loading />;
+
+    return (
+        <Box className="race-control-page">
+            <Container maxWidth="xl" className="race-container">
+                <Box className="control-header content-wrapper">
+                    <Box>
+                        <Typography variant="h4" className="page-title">
+                            RACE <span className="red-text">CONTROL</span>
+                        </Typography>
+                    </Box>
+                    <Chip
+                        icon={<FlagIcon />}
+                        label={selectedEvent ? "SESSION ACTIVE" : "PIT LANE OPEN"}
+                        color={selectedEvent ? "success" : "warning"}
+                        className="status-chip"
+                    />
+                </Box>
+
+                <Grid
+                    container
+                    spacing={3}
+                    className="content-wrapper"
+                    justifyContent="center"
+                >
+                    <Grid size={{ xs: 12, md: 4, lg: 3 }}>
+                        <Stack spacing={3}>
+                            <Paper className="control-panel">
+                                <Typography variant="h6" className="panel-title">SESSION CONFIG</Typography>
+                                <FormControl fullWidth variant="filled" className="f1-input">
+                                    <InputLabel>🏁 SELECT EVENT</InputLabel>
+                                    <Select
+                                        value={selectedEvent ? String(selectedEvent.id) : ''}
+                                        onChange={handleEventChange}
+                                        MenuProps={{ className: 'f1-menu-popover' }}
+                                    >
+                                        <MenuItem value=""><em>Select Event...</em></MenuItem>
+                                        {events.map(e => (
+                                            <MenuItem key={e.id} value={String(e.id)}>{e.name}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Paper>
+
+                            <Paper className="telemetry-panel">
+                                <Box className="panel-header">
+                                    <Typography variant="h6" className="panel-title">LIVE TIMING</Typography>
+                                    <HistoryIcon fontSize="small" sx={{ opacity: 0.5 }} />
+                                </Box>
+                                <Box className="log-container">
+                                    {scanLogs.length === 0 && (
+                                        <Box className="empty-state">
+                                            <Typography variant="body2">WAITING FOR DRIVERS...</Typography>
+                                        </Box>
+                                    )}
+                                    {scanLogs.map(log => (
+                                        <Box
+                                            key={log.id}
+                                            className={`log-row ${log.status === "USER_REGISTERED_SUCCESSFULLY" ? 'success' :
+                                                log.status === "USER_ALREADY_REGISTERED" ? 'error' : 'warning'
+                                                }`}
+                                        >
+                                            <Box className="log-info">
+                                                <Typography variant="body2" className="driver-id">{log.email}</Typography>
+                                                <Typography variant="caption" className="log-msg">
+                                                    {log.status.replace(/_/g, " ")}
+                                                </Typography>
+                                            </Box>
+                                            <Box className="log-meta">
+                                                <Typography variant="caption">{log.timestamp}</Typography>
+                                                <Box className={`status-led ${log.status === "USER_REGISTERED_SUCCESSFULLY" ? 'success' :
+                                                    log.status === "USER_ALREADY_REGISTERED" ? 'error' : 'warning'
+                                                    }`} />
+                                            </Box>
+                                        </Box>
+                                    ))}
+                                </Box>
+                            </Paper>
+                        </Stack>
+                    </Grid>
+
+                    <Grid size={{ xs: 12, md: 8, lg: 9 }}>
+                        <Paper className="camera-frame">
+                            <Box className="camera-header">
+                                <Box display="flex" alignItems="center" gap={2}>
+                                    <Box className="rec-dot" />
+                                    <Typography variant="subtitle2" sx={{ letterSpacing: 2 }}>ONBOARD CAM_1</Typography>
+                                </Box>
+                                <Chip
+                                    label={isPaused ? "PROCESSING..." : "LIVE"}
+                                    size="small"
+                                    className={`cam-status ${isPaused ? 'paused' : 'live'}`}
+                                />
+                            </Box>
+
+                            <Box className="scanner-wrapper">
+                                <Scanner
+                                    onScan={handleScan}
+                                    allowMultiple={true}
+                                    scanDelay={300}
+                                    components={{ torch: true, zoom: true }}
+                                    sound={false}
+                                    styles={{ container: { width: '100%', height: '100%' }, video: { objectFit: 'cover' } }}
+                                />
+                                <Box className="hud-overlay">
+                                    <div className="crosshair" />
+                                    <div className="corner tl" /> <div className="corner tr" />
+                                    <div className="corner bl" /> <div className="corner br" />
+                                    {!selectedEvent && (
+                                        <Box className="warning-overlay">
+                                            <Typography variant="h5">SELECT EVENT TO ENABLE SCANNER</Typography>
+                                        </Box>
+                                    )}
+                                </Box>
+                            </Box>
+                        </Paper>
+                    </Grid>
+                </Grid>
+            </Container>
+
+            <Snackbar
+                open={notification.open}
+                autoHideDuration={2500}
+                onClose={() => setNotification(p => ({ ...p, open: false }))}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert severity={notification.severity} variant="filled" sx={{ width: '100%' }}>
+                    {notification.message}
+                </Alert>
+            </Snackbar>
+        </Box>
+    );
+}
