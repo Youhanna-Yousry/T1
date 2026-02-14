@@ -23,6 +23,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
     { label: "DASHBOARD", path: "/dashboard", icon: <DashboardIcon />, roles: ["STUDENT"] },
+    { label: "RACER CODE", path: "/racer-code", icon: <QrCode2Outlined />, roles: ["STUDENT"] },
     { label: "RACE CONTROL", path: "/race-control", icon: <QrCode2Outlined />, roles: ["SERVANT"] }
 ];
 

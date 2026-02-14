@@ -15,7 +15,7 @@ type ScanStatus = "USER_REGISTERED_SUCCESSFULLY" | "USER_NOT_FOUND" | "USER_ALRE
 
 interface ScanLog {
     id: number;
-    email: string;
+    username: string;
     timestamp: string;
     status: ScanStatus;
 }
@@ -53,7 +53,7 @@ export default function RaceControl() {
         const rawValue = results[0].rawValue;
         if (!rawValue) return;
 
-        const alreadyScannedInSession = scanLogs.some(log => log.email === rawValue);
+        const alreadyScannedInSession = scanLogs.some(log => log.username === rawValue);
 
         if (alreadyScannedInSession) {
             setIsPaused(true);
@@ -98,10 +98,10 @@ export default function RaceControl() {
         }
     };
 
-    const logScan = (id: number, email: string, status: ScanStatus) => {
+    const logScan = (id: number, username: string, status: ScanStatus) => {
         setScanLogs(prev => [{
             id,
-            email,
+            username,
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
             status
         }, ...prev].slice(0, 15));
@@ -174,7 +174,7 @@ export default function RaceControl() {
                                                 }`}
                                         >
                                             <Box className="log-info">
-                                                <Typography variant="body2" className="driver-id">{log.email}</Typography>
+                                                <Typography variant="body2" className="driver-id">{log.username}</Typography>
                                                 <Typography variant="caption" className="log-msg">
                                                     {log.status.replace(/_/g, " ")}
                                                 </Typography>

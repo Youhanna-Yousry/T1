@@ -28,7 +28,7 @@ public class ServantRaceManagementService {
 
     public AttendanceStatus markAttendance(MarkAttendanceDTO markAttendanceDTO) {
         try {
-            int rowsAffected = studentLogRepository.logStudentAttendance(markAttendanceDTO.getEmail(),
+            int rowsAffected = studentLogRepository.logStudentAttendance(markAttendanceDTO.getUsername(),
                     markAttendanceDTO.getEventId(), markAttendanceDTO.getWeight());
 
             if (rowsAffected == 0) {

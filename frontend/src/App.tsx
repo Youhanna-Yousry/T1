@@ -7,6 +7,7 @@ import Login from 'pages/login/Login';
 import RaceControl from 'pages/raceControl/RaceControl';
 import { useAuth } from 'context/authContext';
 import RoleRoute from 'components/RoleRoute';
+import RacerCode from 'pages/racerCode/RacerCode';
 
 const HomeRedirect = () => {
   const { user } = useAuth();
@@ -24,6 +25,10 @@ function App() {
 
         <Route element={<RoleRoute allowedRoles={["STUDENT"]} />}>
           <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+
+        <Route element={<RoleRoute allowedRoles={["STUDENT"]} />}>
+          <Route path="/racer-code" element={<RacerCode />} />
         </Route>
 
         <Route element={<RoleRoute allowedRoles={["SERVANT"]} />}>

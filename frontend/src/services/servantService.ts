@@ -11,7 +11,7 @@ export async function getEvents(scannable: boolean): Promise<EventInfo[]> {
     return response.data;
 }
 
-export async function markAttendance(eventId: number, email: string, weight: number): Promise<string> {
-    const response = await axios.post("/servant/attendance", { eventId, email, weight })
+export async function markAttendance(eventId: number, username: string, weight: number): Promise<string> {
+    const response = await axios.post("/servant/attendance", { eventId, username, weight })
     return response.data;
 }
