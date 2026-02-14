@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
     Box, Drawer, List, ListItem, ListItemButton, ListItemIcon,
     ListItemText, Typography, Divider, IconButton, useMediaQuery, useTheme
@@ -8,6 +9,7 @@ import {
     Dashboard as DashboardIcon, ChevronLeft as ChevronLeftIcon,
     Logout as LogoutIcon,
     QrCode2Outlined,
+    Translate as TranslateIcon
 } from "@mui/icons-material";
 import { useAuth } from "context/authContext";
 import { logout } from "services/authService";
@@ -21,12 +23,6 @@ interface NavItem {
     roles: ("SERVANT" | "STUDENT")[];
 }
 
-const NAV_ITEMS: NavItem[] = [
-    { label: "DASHBOARD", path: "/dashboard", icon: <DashboardIcon />, roles: ["STUDENT"] },
-    { label: "RACER CODE", path: "/racer-code", icon: <QrCode2Outlined />, roles: ["STUDENT"] },
-    { label: "RACE CONTROL", path: "/race-control", icon: <QrCode2Outlined />, roles: ["SERVANT"] }
-];
-
 interface SidebarProps {
     mobileOpen: boolean;
     onClose: () => void;
@@ -36,15 +32,31 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
     const navigate = useNavigate();
     const location = useLocation();
     const { user, setUser } = useAuth();
+    const { t, i18n } = useTranslation();
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
     const [isDesktopOpen, setIsDesktopOpen] = useState(true);
+
+    const isOpen = isMobile ? mobileOpen : isDesktopOpen;
+
+    useEffect(() => {
+        document.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+    }, [i18n.language]);
+
+    const toggleLanguage = () => {
+        i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en');
+    };
+
+    const navItems = useMemo<NavItem[]>(() => [
+        { label: t("sidebar.dashboard"), path: "/dashboard", icon: <DashboardIcon />, roles: ["STUDENT"] },
+        { label: t("sidebar.racer_code"), path: "/racer-code", icon: <QrCode2Outlined />, roles: ["STUDENT"] },
+        { label: t("sidebar.race_control"), path: "/race-control", icon: <QrCode2Outlined />, roles: ["SERVANT"] }
+    ], [t]);
 
     if (!user) return null;
 
-    const allowedItems = NAV_ITEMS.filter(item => item.roles.includes(user.role));
+    const allowedItems = navItems.filter(item => item.roles.includes(user.role));
 
     const handleNavigate = (path: string) => {
         navigate(path);
@@ -58,24 +70,23 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
         });
     };
 
-    const isOpen = isMobile ? mobileOpen : isDesktopOpen;
-
     return (
         <Drawer
             variant={isMobile ? "temporary" : "permanent"}
             open={isOpen}
             onClose={onClose}
-            className={`f1-sidebar ${isOpen ? 'open' : 'closed'} ${isMobile ? 'mobile' : ''}`}
+            anchor={isMobile && i18n.language === 'ar' ? 'right' : 'left'}
+            className={`f1-sidebar ${isOpen ? 'open' : 'closed'}`}
             ModalProps={{ keepMounted: true }}
         >
-            <Box className={`sidebar-header ${!isOpen && !isMobile ? 'closed' : ''}`}>
+            <Box className="sidebar-header">
                 <Typography variant="h6" className="brand-text">
-                    TAKYULA <span className="red-text">1</span>
+                    TAKYULA <Box component="span" className="red-text">1</Box>
                 </Typography>
 
                 {!isMobile && (
                     <IconButton onClick={() => setIsDesktopOpen(!isDesktopOpen)} className="toggle-btn">
-                        <ChevronLeftIcon sx={{ transform: isOpen ? 'rotate(0deg)' : 'rotate(180deg)', transition: '0.3s' }} />
+                        <ChevronLeftIcon className="toggle-icon" />
                     </IconButton>
                 )}
             </Box>
@@ -91,7 +102,9 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
                                 onClick={() => handleNavigate(item.path)}
                                 className={`nav-button ${isActive ? 'active' : ''}`}
                             >
-                                <ListItemIcon className="nav-icon">{item.icon}</ListItemIcon>
+                                <ListItemIcon className="nav-icon">
+                                    {item.icon}
+                                </ListItemIcon>
                                 <ListItemText primary={item.label} className="nav-text" />
                             </ListItemButton>
                         </ListItem>
@@ -101,12 +114,24 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
 
             <Box className="sidebar-footer">
                 <Divider className="sidebar-divider" />
+
                 <ListItem disablePadding>
-                    <ListItemButton onClick={onLogout} className="logout-button">
-                        <ListItemIcon className="nav-icon"><LogoutIcon /></ListItemIcon>
-                        <Box>
+                    <ListItemButton onClick={toggleLanguage} className="nav-button">
+                        <ListItemIcon className="nav-icon"><TranslateIcon /></ListItemIcon>
+                        <Box className="footer-text-wrapper">
                             <Typography variant="body2" className="user-name">
-                                Logout
+                                {t("sidebar.switch_lang")}
+                            </Typography>
+                        </Box>
+                    </ListItemButton>
+                </ListItem>
+
+                <ListItem disablePadding>
+                    <ListItemButton onClick={onLogout} className="logout-button nav-button">
+                        <ListItemIcon className="nav-icon"><LogoutIcon /></ListItemIcon>
+                        <Box className="footer-text-wrapper">
+                            <Typography variant="body2" className="user-name">
+                                {t("sidebar.logout")}
                             </Typography>
                         </Box>
                     </ListItemButton>

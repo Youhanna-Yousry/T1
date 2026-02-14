@@ -1,5 +1,7 @@
+import React from "react";
 import QRCode from "react-qr-code";
 import useAxiosInterceptor from "hooks/useAxiosInterceptor";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "context/authContext";
 import { Box, Typography, Card } from "@mui/material";
 import Loading from "components/Loading/Loading";
@@ -7,6 +9,7 @@ import "./RacerCode.less";
 
 export default function RacerCode() {
     useAxiosInterceptor();
+    const { t } = useTranslation();
     const { user } = useAuth();
     const username = user?.username;
 
@@ -17,7 +20,7 @@ export default function RacerCode() {
             <Card className="code-card">
                 <Box className="card-header">
                     <Typography variant="h5" className="header-title">
-                        OFFICIAL ENTRY CODE
+                        {t("racer_code.title")}
                     </Typography>
                 </Box>
 
@@ -33,7 +36,9 @@ export default function RacerCode() {
                 </Box>
 
                 <Box className="card-footer">
-                    <Typography variant="caption" className="label">DRIVER HANDLE</Typography>
+                    <Typography variant="caption" className="label">
+                        {t("racer_code.driver_handle")}
+                    </Typography>
                     <Typography variant="h4" className="username-text">
                         {username}
                     </Typography>

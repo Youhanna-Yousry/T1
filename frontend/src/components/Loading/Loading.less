@@ -44,7 +44,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 24px;
+    
+    margin-block-end: 24px;
 
     .f1-spinner {
         color: @f1-red !important;
@@ -72,7 +73,7 @@
         font-style: italic;
         color: @color-white;
         letter-spacing: 2px;
-        margin-bottom: 8px;
+        margin-block-end: 8px;
         text-transform: uppercase;
         text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
@@ -94,12 +95,12 @@
 .loading-stripe {
     position: absolute;
     bottom: 0;
-    right: 15%;
+    inset-inline-end: 15%;
     width: 200px;
     height: 100%;
     background: linear-gradient(180deg, transparent 50%, @effect-red-bg-light 100%);
     transform: skewX(-20deg);
-    border-right: 1px solid fade(@f1-red, 30%);
+    border-inline-end: 1px solid fade(@f1-red, 30%);
     pointer-events: none;
 }
 

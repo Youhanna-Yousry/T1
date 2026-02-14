@@ -1,0 +1,54 @@
+{
+  "sidebar": {
+    "dashboard": "DASHBOARD",
+    "racer_code": "RACER CODE",
+    "race_control": "RACE CONTROL",
+    "logout": "Logout",
+    "language": "Language",
+    "switch_lang": "العربية"
+  },
+  "dashboard": {
+    "week": "WEEK",
+    "grand_prix": "GRAND PRIX",
+    "practice": "PRACTICE",
+    "sprint": "SPRINT",
+    "total_pts": "TOTAL: {{count}} PTS"
+  },
+  "activities": {
+    "service_liturgy": "Service Liturgy",
+    "sunday_school": "Sunday School",
+    "vespers": "Vespers",
+    "tasbeha": "Tasbeha",
+    "bible_study": "Bible Study",
+    "deacons_school": "Deacons School",
+    "speed_competition": "Speed Competition",
+    "paper_competition": "Paper Competition",
+    "coptic_language": "Coptic Language",
+    "extra_liturgy": "Extra Liturgy",
+    "extra_tasbeha": "Extra Tasbeha",
+    "confession": "Confession",
+    "psalm_recitation": "Psalm Recitation"
+  },
+  "status": {
+    "dns": "DNS",
+    "cmp": "CMP"
+  },
+  "loading": {
+    "title": "SYSTEM INITIALIZING",
+    "subtitle": "ESTABLISHING TELEMETRY LINK..."
+  },
+  "racer_code": {
+    "title": "OFFICIAL ENTRY CODE",
+    "driver_handle": "DRIVER HANDLE"
+  },
+  "login": {
+    "title": "DRIVER AUTHENTICATION",
+    "username": "Username",
+    "password": "Password",
+    "submit": "START ENGINE",
+    "loading": "IGNITION...",
+    "secure_conn": "SECURE CONNECTION",
+    "error_auth": "AUTHENTICATION FAILED: Invalid Telemetry.",
+    "error_sys": "SYSTEM ERROR: Connection Lost."
+  }
+}

@@ -12,15 +12,23 @@
     background: @f1-black;
     color: @color-white;
     padding: 24px 32px;
+    
     border-left: 8px solid @f1-red;
     border-radius: 0 4px 4px 0;
+    
+    [dir="rtl"] & {
+        border-left: none;
+        border-right: 8px solid @f1-red;
+        border-radius: 4px 0 0 4px;
+    }
+
     margin-top: 20px;
     box-shadow: 0 4px 12px fade(#000, 25%);
 
     .driver-identity {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 24px; 
     }
 
     .team-logo {
@@ -28,8 +36,19 @@
         width: auto;
         object-fit: contain;
         filter: drop-shadow(0 0 8px @glass-high);
-        border-right: 1px solid fade(@color-white, 15%);
-        padding-right: 20px;
+        
+        border-right: 1px solid fade(@color-white, 20%);
+        padding-right: 24px;
+        margin-right: 0;
+
+        [dir="rtl"] & {
+            border-right: none;
+            padding-right: 0;
+            margin-right: 0;
+
+            border-left: 1px solid fade(@color-white, 20%);
+            padding-left: 24px; 
+        }
     }
 
     .driver-name { 
@@ -52,6 +71,10 @@
 
     .driver-stats {
         text-align: right;
+
+        [dir="rtl"] & {
+            text-align: left;
+        }
     }
 
     .rank-text { 
@@ -75,8 +98,15 @@
 
         .team-logo {
             height: 50px;
+            
             border-right: none;
             padding-right: 0;
+            
+            [dir="rtl"] & {
+                border-left: none;
+                padding-left: 0;
+            }
+            
             margin-bottom: 8px;
         }
 
@@ -90,6 +120,10 @@
             border-top: 1px solid @glass-med;
             padding-top: 16px;
             text-align: center;
+            
+            [dir="rtl"] & {
+                text-align: center; 
+            }
         }
         
         .rank-text {
@@ -146,7 +180,14 @@
     padding: 10px 14px;
     background: @f1-light-gray;
     border-radius: 4px;
-    border-right: 4px solid transparent;
+    
+    border-right: 4px solid transparent; 
+    
+    [dir="rtl"] & {
+        border-right: none;
+        border-left: 4px solid transparent;
+    }
+
     transition: all 0.2s ease;
 
     .status-text {
@@ -157,30 +198,32 @@
 
     &.completed {
         background: fade(@color-success, 8%);
-        border-right: 4px solid @color-success;
+        border-right-color: @color-success;
+        
+        [dir="rtl"] & {
+            border-left-color: @color-success;
+        }
         
         .status-text { color: @color-success-dark; }
 
         &:hover {
-        background: fade(@color-success, 12%);
+            background: fade(@color-success, 12%);
         }
     }
 
     &.pending {
-        border-right: 4px solid @color-text-disabled;
+        border-right-color: @color-text-disabled;
+        
+        [dir="rtl"] & {
+            border-left-color: @color-text-disabled;
+        }
+
         opacity: 0.8;
         
         .status-text { color: @color-text-disabled; }
 
         &:hover {
-        background: darken(@f1-light-gray, 5%);
+            background: darken(@f1-light-gray, 5%);
         }
     }
-}
-
-.points-chip {
-    background-color: @f1-black !important;
-    color: @f1-accent !important;
-    font-weight: 800 !important;
-    border-radius: 4px !important;
 }

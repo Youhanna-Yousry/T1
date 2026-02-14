@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import useAxiosInterceptor from "hooks/useAxiosInterceptor";
 import { useAuth } from "context/authContext";
+import { useTranslation } from "react-i18next";
 import { Container, Grid, Typography, Box, Card, Stack, Divider } from "@mui/material";
 import { getStudentDashboard, StudentDashboard } from "services/studentService";
 import Loading from "components/Loading/Loading";
@@ -30,6 +31,7 @@ const getDriverCode = (fullName: string) => {
 export default function Dashboard() {
     useAxiosInterceptor();
     const { user } = useAuth();
+    const { t } = useTranslation();
     const [data, setData] = useState<StudentDashboard | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -45,6 +47,11 @@ export default function Dashboard() {
 
     const { studentInfo, weeklyInfo } = data;
 
+    const getTranslatedEventName = (name: string) => {
+        const key = `activities.${name.toLowerCase().replace(/\s+/g, '_')}`;
+        return t(key, name);
+    };
+
     const CategoryCard = ({ title, category }: { title: string, category: any }) => (
         <Grid size={{ xs: 12, md: 4 }}>
             <Card className="event-category-card">
@@ -54,9 +61,11 @@ export default function Dashboard() {
                 <Stack spacing={1.5} className="card-content">
                     {category.events.map((event: any, idx: number) => (
                         <Box key={idx} className={`event-row ${event.completed ? 'completed' : 'pending'}`}>
-                            <Typography variant="body2">{event.name}</Typography>
+                            <Typography variant="body2">
+                                {getTranslatedEventName(event.name)}
+                            </Typography>
                             <Typography variant="caption" className="status-text">
-                                {event.completed ? 'CMP' : 'DNS'}
+                                {event.completed ? t("status.cmp") : t("status.dns")}
                             </Typography>
                         </Box>
                     ))}
@@ -91,20 +100,22 @@ export default function Dashboard() {
                     </Box>
                     <Box className="driver-stats">
                         <Typography variant="h3" className="rank-text">P{studentInfo.rank}</Typography>
-                        <Typography variant="caption">TOTAL: {studentInfo.totalPoints} PTS</Typography>
+                        <Typography variant="caption">
+                            {t("dashboard.total_pts", { count: studentInfo.totalPoints })}
+                        </Typography>
                     </Box>
                 </Box>
 
                 <Divider className="section-divider" />
 
                 <Typography variant="h5" gutterBottom className="section-label">
-                    WEEKEND SESSION: {weeklyInfo.weekName}
+                    {t("dashboard.week")}: {weeklyInfo.weekName}
                 </Typography>
 
                 <Grid container spacing={3}>
-                    <CategoryCard title="🏁 GRAND PRIX" category={weeklyInfo.grandPrix} />
-                    <CategoryCard title="🏎️ PRACTICE" category={weeklyInfo.practice} />
-                    <CategoryCard title="⚡ SPRINT" category={weeklyInfo.sprint} />
+                    <CategoryCard title={`🏁 ${t("dashboard.grand_prix")}`} category={weeklyInfo.grandPrix} />
+                    <CategoryCard title={`🏎️ ${t("dashboard.practice")}`} category={weeklyInfo.practice} />
+                    <CategoryCard title={`⚡ ${t("dashboard.sprint")}`} category={weeklyInfo.sprint} />
                 </Grid>
             </Container>
         </Box>

@@ -1,0 +1,54 @@
+{
+  "sidebar": {
+    "dashboard": "لوحة القيادة",
+    "racer_code": "كود المتسابق",
+    "race_control": "تحكم السباق",
+    "logout": "تسجيل خروج",
+    "language": "اللغة",
+    "switch_lang": "English"
+  },
+  "dashboard": {
+    "week": "الأسبوع",
+    "grand_prix": "السباق الكبير (Grand Prix)",
+    "practice": "تجارب (Practice)",
+    "sprint": "سباق سريع (Sprint)",
+    "total_pts": "الإجمالي: {{count}} نقطة"
+  },
+  "activities": {
+    "service_liturgy": "قداس الخدمة",
+    "sunday_school": "مدارس الأحد",
+    "vespers": "عشية",
+    "tasbeha": "تسبحة",
+    "bible_study": "درس الكتاب",
+    "deacons_school": "مدرسة الشمامسة",
+    "speed_competition": "مسابقة السرعة",
+    "paper_competition": "المسابقة الورقية",
+    "coptic_language": "اللغة القبطية",
+    "extra_liturgy": "قداس إضافي",
+    "extra_tasbeha": "تسبحة إضافية",
+    "confession": "الاعتراف",
+    "psalm_recitation": "حفظ المزامير"
+  },
+  "status": {
+    "dns": "لم يبدأ",
+    "cmp": "مكتمل"
+  },
+  "loading": {
+    "title": "جاري تهيئة النظام",
+    "subtitle": "جاري إنشاء اتصال البيانات..."
+  }, 
+  "racer_code": {
+    "title": "كود الدخول الرسمي",
+    "driver_handle": "اسم المتسابق"
+  },
+  "login": {
+    "title": "مصادقة السائق",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "submit": "تشغيل المحرك",
+    "loading": "جاري التشغيل...",
+    "secure_conn": "اتصال آمن",
+    "error_auth": "فشل المصادقة: بيانات غير صحيحة.",
+    "error_sys": "خطأ في النظام: فقد الاتصال."
+  }
+}
