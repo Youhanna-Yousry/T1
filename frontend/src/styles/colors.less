@@ -1,23 +1,52 @@
-// F1 Theme Global Colors
-@f1-red: #dc0000;
-@f1-red-dark: #a00000;
-@f1-black: #1a1a1a;
-@f1-dark-gray: #2a2a2a;
+// ==========================================
+// F1 Brand Colors
+// ==========================================
+@f1-red:        #dc0000;
+@f1-red-dark:   #a00000;
+@f1-accent:     #ffb81c; // Yellow/Orange accent
+
+// ==========================================
+// UI Backgrounds (Dark Theme)
+// ==========================================
+@f1-black:      #1a1a1a;
+@f1-dark-gray:  #2a2a2a;
 @f1-light-gray: #f5f5f5;
-@f1-accent: #ffb81c;
 
-// Neutral Colors
-@color-white: #ffffff;
-@color-text-primary: @f1-black;
-@color-text-secondary: #666;
-@color-text-tertiary: #888;
-@color-text-disabled: #999;
-@color-border-light: #e0e0e0;
-@color-border-medium: #bdbdbd;
-@color-error: #d32f2f;
-@color-placeholder: #999;
+// The "Tech" Blues used in Layout/Sidebar/Login
+@bg-dark-blue:  #15151e; 
+@bg-panel:      #1f1f2b; 
+@bg-deep:       #0b0b10; 
+@bg-page-light: #f2f2f2;
 
-// Background Colors
-@color-bg-dark: @f1-black;
-@color-bg-dark-secondary: @f1-dark-gray;
-@color-bg-input: @color-white;
+// ==========================================
+// Text & Borders
+// ==========================================
+@color-white:           #ffffff;
+@color-text-primary:    @f1-black;
+@color-text-muted:      #8d8d9b;
+@color-text-tertiary:   #888888;
+@color-text-disabled:   #999999;
+
+@color-border-light:    rgba(255, 255, 255, 0.1);
+@color-border-medium:   #bdbdbd;
+
+// ==========================================
+// Status Colors
+// ==========================================
+@color-success:         #10b981;
+@color-success-dark:    #059669;
+@color-warning:         #f59e0b;
+@color-error:           #d32f2f;
+@color-error-light:     #ff8a80;
+
+// ==========================================
+// Glass / Transparencies (Utilities)
+// ==========================================
+// Usage: background: @glass-low;
+@glass-low:     rgba(255, 255, 255, 0.05);
+@glass-med:     rgba(255, 255, 255, 0.1);
+@glass-high:    rgba(255, 255, 255, 0.2);
+
+// Specific F1 Effects
+@effect-red-glow:       rgba(220, 0, 0, 0.3);
+@effect-red-bg-light:   rgba(225, 6, 0, 0.1); // Used for active states/alerts

@@ -1,6 +1,6 @@
 package com.church.t1.repository;
 
-import com.church.t1.entity.RefreshToken;
+import com.church.t1.model.entity.RefreshToken;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,7 +20,7 @@ public interface RefreshTokenRepository extends JpaRepository<@NonNull RefreshTo
     @Modifying
     @Query("""
                 DELETE FROM RefreshToken t
-                WHERE (t.revoked = true OR t.expiryDate < CURRENT_TIMESTAMP())
+                WHERE (t.revoked = true OR t.expiryDate < CURRENT_TIMESTAMP)
                 AND t.updatedAt < :cutoff
             """)
     int deleteOldTokens(Instant cutoff);

@@ -18,7 +18,7 @@ export default function UseAxiosInterceptor() {
                     return config;
                 }
 
-                const token = auth.userTokenAndRole.token;
+                const token = auth.user?.token;
                 if (!config.headers['Authorization'] && token) {
                     config.headers['Authorization'] = `Bearer ${token}`;
                 }

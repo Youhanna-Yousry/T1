@@ -1,4 +1,4 @@
-@import '../../../styles/colors.less';
+@import 'styles/colors.less';
 
 .submit-button {
   margin-top: 24px;
@@ -22,14 +22,14 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 184, 28, 0.3), transparent);
+    background: linear-gradient(90deg, transparent, fade(@f1-accent, 30%), transparent);
     transition: left 0.5s ease;
   }
 
   &:hover {
     background: linear-gradient(135deg, lighten(@f1-red, 3%) 0%, lighten(@f1-red-dark, 3%) 100%);
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(220, 0, 0, 0.3);
+    box-shadow: 0 10px 30px @effect-red-glow;
 
     &::before {
       left: 100%;
@@ -41,7 +41,7 @@
   }
 
   &:disabled {
-    background: linear-gradient(135deg, #999 0%, #666 100%);
+    background: linear-gradient(135deg, @color-text-disabled 0%, #666 100%);
     cursor: not-allowed;
     box-shadow: none;
   }

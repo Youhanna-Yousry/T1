@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Stack, Card, Typography, Box, Alert } from "@mui/material";
+import { Stack, Card, Typography, Box, Alert, Divider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import { login } from "services/authService";
@@ -19,14 +19,14 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const { userTokenAndRole, setUserTokenAndRole } = useAuth();
+    const { user, setUser } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (userTokenAndRole.token) {
+        if (user?.token) {
             navigate("/");
         }
-    }, [userTokenAndRole, navigate]);
+    }, [user, navigate]);
 
     const handleUsernameChange = (username: string) => {
         setCredentials((prev) => ({ ...prev, username }));
@@ -45,13 +45,13 @@ export default function Login() {
 
         try {
             const result = await login(credentials);
-            setUserTokenAndRole(result);
+            setUser(result);
             navigate("/");
         } catch (err: any) {
             if (err?.response?.status === 401) {
-                setError("Incorrect username or password.");
+                setError("AUTHENTICATION FAILED: Invalid Telemetry.");
             } else {
-                setError("An unexpected error occurred. Please try again later.");
+                setError("SYSTEM ERROR: Connection Lost.");
             }
         } finally {
             setLoading(false);
@@ -62,17 +62,33 @@ export default function Login() {
 
     return (
         <Box className="login-page">
+            <div className="bg-stripe" />
+
             <Card className="login-card">
-                <Stack spacing={3}>
+                <Box className="card-header-deco">
+                    <Typography variant="caption" className="system-text">
+                        SYS_AUTH_V1
+                    </Typography>
+                    <Box className="status-light" />
+                </Box>
+
+                <Stack spacing={4}>
                     <Box className="login-title">
-                        <Typography variant="h4">Welcome Back</Typography>
-                        <Typography variant="body2">Sign in to your account</Typography>
+                        <Box display="flex" flexDirection="column" alignItems="center">
+                            <Typography variant="h3" className="brand-title">
+                                TAKYULA <span className="red-text">1</span>
+                            </Typography>
+                            <Divider className="title-divider" />
+                            <Typography variant="subtitle2" className="subtitle">
+                                DRIVER AUTHENTICATION
+                            </Typography>
+                        </Box>
                     </Box>
 
-                    <Stack component="form" spacing={2.5} onSubmit={handleSubmit}>
+                    <Stack component="form" spacing={3} onSubmit={handleSubmit}>
                         <TextInput
                             id="username"
-                            label="Username"
+                            label="USERNAME"
                             value={credentials.username}
                             onChange={(username) => handleUsernameChange(username)}
                             error={!!error}
@@ -85,14 +101,25 @@ export default function Login() {
                         />
 
                         {error && (
-                            <Alert variant="filled" severity="error">
+                            <Alert variant="filled" severity="error" className="f1-alert">
                                 {error}
                             </Alert>
                         )}
 
-                        <SubmitButton loading={loading} disabled={isSubmitDisabled} text="Sign In" />
+                        <Box mt={2}>
+                            <SubmitButton
+                                loading={loading}
+                                disabled={isSubmitDisabled}
+                                text={loading ? "IGNITION..." : "START ENGINE"}
+                            />
+                        </Box>
                     </Stack>
                 </Stack>
+
+                <Box className="card-footer-deco">
+                    <Typography variant="caption">SECURE CONNECTION</Typography>
+                    <Typography variant="caption">FIA_2026</Typography>
+                </Box>
             </Card>
         </Box>
     );

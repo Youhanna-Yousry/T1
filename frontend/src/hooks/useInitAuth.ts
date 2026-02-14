@@ -3,15 +3,15 @@ import { useEffect } from "react";
 import { refresh } from "services/authService";
 
 export default function useInitAuth(setIsAuthLoading: (loading: boolean) => void,
-    setUserTokenAndRole: (userTokenAndRole: UserTokenAndRole) => void) {
+    setUser: (user: AuthUser) => void) {
 
     useEffect(() => {
         refresh()
-            .then((newTokenAndRole) => {
-                setUserTokenAndRole(newTokenAndRole);
+            .then((user) => {
+                setUser(user);
             })
             .catch(_ => {
-                setUserTokenAndRole({} as UserTokenAndRole);
+                setUser({} as AuthUser);
             })
             .finally(() => {
                 setIsAuthLoading(false);

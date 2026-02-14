@@ -1,16 +1,22 @@
 import { createContext, useState, useContext, ReactNode } from "react";
 import useInitAuth from "hooks/useInitAuth";
 
+interface AuthContextType {
+    user: AuthUser | null;
+    setUser: (user: AuthUser | null) => void;
+    isAuthLoading: boolean;
+}
+
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [userTokenAndRole, setUserTokenAndRole] = useState<UserTokenAndRole>({} as UserTokenAndRole);
+    const [user, setUser] = useState<AuthUser | null>(null);
     const [isAuthLoading, setIsAuthLoading] = useState(true);
 
-    useInitAuth(setIsAuthLoading, setUserTokenAndRole);
+    useInitAuth(setIsAuthLoading, setUser);
 
     return (
-        <AuthContext.Provider value={{ userTokenAndRole, setUserTokenAndRole, isAuthLoading }}>
+        <AuthContext.Provider value={{ user, setUser, isAuthLoading }}>
             {children}
         </AuthContext.Provider>
     );

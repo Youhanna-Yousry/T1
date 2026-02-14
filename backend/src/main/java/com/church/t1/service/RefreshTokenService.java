@@ -1,7 +1,7 @@
 package com.church.t1.service;
 
-import com.church.t1.entity.Account;
-import com.church.t1.entity.RefreshToken;
+import com.church.t1.model.entity.RefreshToken;
+import com.church.t1.model.entity.User;
 import com.church.t1.repository.RefreshTokenRepository;
 import lombok.Getter;
 import lombok.NonNull;
@@ -22,9 +22,9 @@ public class RefreshTokenService {
     @Getter
     private long refreshTokenExpirationMs;
 
-    public RefreshToken createRefreshToken(@NonNull Account account) {
+    public RefreshToken createRefreshToken(@NonNull User user) {
         RefreshToken token = RefreshToken.builder()
-                .account(account)
+                .user(user)
                 .token(UUID.randomUUID().toString())
                 .expiryDate(Instant.now().plusMillis(refreshTokenExpirationMs))
                 .build();

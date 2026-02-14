@@ -1,6 +1,6 @@
 package com.church.t1.security;
 
-import com.church.t1.entity.Account;
+import com.church.t1.model.enums.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,8 +38,8 @@ public class SecurityConfig {
                 ).authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests //
                                 .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/student/**").hasRole(Account.Role.STUDENT.name())
-                                .requestMatchers("/api/servant/**").hasRole(Account.Role.SERVANT.name())
+                                .requestMatchers("/api/student/**").hasRole(Role.STUDENT.name())
+                                .requestMatchers("/api/servant/**").hasRole(Role.SERVANT.name())
                                 .anyRequest().authenticated()
                 );
 
