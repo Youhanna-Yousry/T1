@@ -28,8 +28,8 @@ public class TeamProfile extends BasicEntity {
     @Column(nullable = false)
     private String teamCode;
 
-    @Column
-    private String logoUrl;
+    @Column(nullable = false)
+    private String teamColor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "family_id", nullable = false)

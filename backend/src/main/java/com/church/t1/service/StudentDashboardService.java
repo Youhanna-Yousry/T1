@@ -50,6 +50,7 @@ public class StudentDashboardService {
                 .rank(studentSummary.getRank())
                 .teamCode(studentSummary.getTeamCode())
                 .teamName(studentSummary.getTeamName())
+                .teamColor(studentSummary.getTeamColor())
                 .build();
 
         return StudentDashboardDTO.builder()
@@ -70,19 +71,12 @@ public class StudentDashboardService {
                     boolean isEventAttended = attendedEventIds.contains(event.getId());
                     return EventProgressDTO.builder()
                             .name(event.getName())
-                            .points(isEventAttended ? event.getWeight() : 0)
                             .isCompleted(isEventAttended)
                             .build();
                 })
                 .toList();
 
-        int totalPoints = eventProgressDTOs.stream()
-                .filter(EventProgressDTO::isCompleted)
-                .mapToInt(EventProgressDTO::getPoints)
-                .sum();
-
         return CategoryDTO.builder()
-                .totalPoints(totalPoints)
                 .events(eventProgressDTOs)
                 .build();
     }

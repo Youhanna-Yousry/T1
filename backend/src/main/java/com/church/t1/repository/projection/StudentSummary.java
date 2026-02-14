@@ -13,4 +13,6 @@ public interface StudentSummary {
     String getTeamName();
 
     String getTeamCode();
+
+    String getTeamColor();
 }

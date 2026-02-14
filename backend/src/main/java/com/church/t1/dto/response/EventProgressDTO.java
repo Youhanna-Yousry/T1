@@ -9,7 +9,5 @@ public class EventProgressDTO {
 
     private String name;
 
-    private int points;
-
     private boolean isCompleted;
 }

@@ -67,7 +67,7 @@ CREATE TABLE team_profile (
     fast_type VARCHAR(255) NOT NULL,
     team_name VARCHAR(255) NOT NULL,
     team_code VARCHAR(255) NOT NULL,
-    logo_url VARCHAR(255),
+    team_color VARCHAR(255) NOT NULl,
     CONSTRAINT fk_team_profile_family FOREIGN KEY (family_id) REFERENCES family (id),
     CONSTRAINT uq_team_profile_family_year_fast UNIQUE (family_id, year, fast_type)
 );
@@ -107,13 +107,13 @@ INSERT INTO event (name, type, is_scannable, weight) VALUES
 ('Psalm Recitation', 'SPRINT', TRUE, 5);
 
 INSERT INTO family (grade, name) VALUES (7, 'Saint Karas');
-INSERT INTO team_profile (family_id, year, fast_type, team_name, team_code, logo_url) VALUES (1, 2026, 'GREAT_LENT', 'McLaren', 'MCL', '/');
+INSERT INTO team_profile (family_id, year, fast_type, team_name, team_code, team_color) VALUES (1, 2026, 'GREAT_LENT', 'McLaren', 'MCL', '#FF8000');
 
 INSERT INTO family (grade, name) VALUES (8, 'Saint George');
-INSERT INTO team_profile (family_id, year, fast_type, team_name, team_code, logo_url) VALUES (2, 2026, 'GREAT_LENT', 'Red Bull Racing', 'RBR', '/');
+INSERT INTO team_profile (family_id, year, fast_type, team_name, team_code, team_color) VALUES (2, 2026, 'GREAT_LENT', 'Red Bull Racing', 'RBR', '#3671C6');
 
 INSERT INTO family (grade, name) VALUES (9, 'Saint Moses');
-INSERT INTO team_profile (family_id, year, fast_type, team_name, team_code, logo_url) VALUES (3, 2026, 'GREAT_LENT', 'Mercedes', 'MER', '/');
+INSERT INTO team_profile (family_id, year, fast_type, team_name, team_code, team_color) VALUES (3, 2026, 'GREAT_LENT', 'Mercedes', 'MER', '#27F4D2');
 
 INSERT INTO week (name, week_number, start_date, end_date) VALUES
 ('Preparation Week', 1, '2026-02-13 00:00:00', '2026-02-19 23:59:59'),

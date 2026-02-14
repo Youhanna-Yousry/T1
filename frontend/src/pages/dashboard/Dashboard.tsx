@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import useAxiosInterceptor from "hooks/useAxiosInterceptor";
 import { useAuth } from "context/authContext";
-import { Container, Grid, Typography, Box, Card, Stack, Chip, Divider } from "@mui/material";
+import { Container, Grid, Typography, Box, Card, Stack, Divider } from "@mui/material";
 import { getStudentDashboard, StudentDashboard } from "services/studentService";
 import Loading from "components/Loading/Loading";
 
@@ -50,13 +50,14 @@ export default function Dashboard() {
             <Card className="event-category-card">
                 <Box className="card-header">
                     <Typography variant="h6" className="category-title">{title}</Typography>
-                    <Chip label={`${category.totalPoints} PTS`} size="small" className="points-chip" />
                 </Box>
                 <Stack spacing={1.5} className="card-content">
                     {category.events.map((event: any, idx: number) => (
-                        <Box key={idx} className={`event-row ${event.isCompleted ? 'completed' : ''}`}>
+                        <Box key={idx} className={`event-row ${event.completed ? 'completed' : 'pending'}`}>
                             <Typography variant="body2">{event.name}</Typography>
-                            <Typography variant="caption" className="event-pts">+{event.points}</Typography>
+                            <Typography variant="caption" className="status-text">
+                                {event.completed ? 'CMP' : 'DNS'}
+                            </Typography>
                         </Box>
                     ))}
                 </Stack>
@@ -79,7 +80,12 @@ export default function Dashboard() {
                                 {getDriverCode(studentInfo.name)}
                             </Typography>
                             <Typography variant="subtitle2" className="team-text">
-                                {studentInfo.teamName} <span className="team-code">| {studentInfo.teamCode}</span>
+                                {studentInfo.teamName} <span
+                                    className="team-code"
+                                    style={{ color: studentInfo.teamColor }}
+                                >
+                                    | {studentInfo.teamCode}
+                                </span>
                             </Typography>
                         </Box>
                     </Box>

@@ -20,7 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
                     DENSE_RANK() OVER (ORDER BY u.total_points DESC) as rank,
                     u.total_points as totalPoints,
                     tf.team_name as teamName,
-                    tf.team_code as teamCode
+                    tf.team_code as teamCode,
+                    tf.team_color as teamColor
                 FROM users u
                 LEFT JOIN family f ON u.family_id = f.id
                 LEFT JOIN team_profile tf ON f.id = tf.family_id

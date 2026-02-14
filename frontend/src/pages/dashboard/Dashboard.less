@@ -1,4 +1,5 @@
 @import 'styles/colors.less';
+@import 'styles/fonts.less';
 
 .dashboard-page {
     padding-bottom: 40px;
@@ -148,22 +149,32 @@
     border-right: 4px solid transparent;
     transition: all 0.2s ease;
 
-    &:hover {
-        background: darken(@f1-light-gray, 5%);
+    .status-text {
+        font-family: @font-tech; 
+        font-weight: 700;
+        letter-spacing: 1px;
     }
 
     &.completed {
         background: fade(@color-success, 8%);
         border-right: 4px solid @color-success;
         
-        .event-pts { color: @color-success-dark; }
+        .status-text { color: @color-success-dark; }
+
+        &:hover {
+        background: fade(@color-success, 12%);
+        }
     }
 
-    .event-pts { 
-        font-weight: 800; 
-        color: @f1-red; 
-        min-width: 40px;
-        text-align: right;
+    &.pending {
+        border-right: 4px solid @color-text-disabled;
+        opacity: 0.8;
+        
+        .status-text { color: @color-text-disabled; }
+
+        &:hover {
+        background: darken(@f1-light-gray, 5%);
+        }
     }
 }
 

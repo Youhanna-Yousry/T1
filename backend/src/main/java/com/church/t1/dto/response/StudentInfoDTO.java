@@ -16,4 +16,6 @@ public class StudentInfoDTO {
     private String teamName;
 
     private String teamCode;
+
+    private String teamColor;
 }

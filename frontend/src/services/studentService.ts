@@ -1,21 +1,20 @@
 import axios from "api/axios";
 
-interface StudentInfoDto {
+interface StudentInfo {
     name: string;
     teamName: string;
     teamCode: string;
+    teamColor: string;
     rank: number;
     totalPoints: number;
 }
 
 interface Event {
     name: string;
-    points: number;
-    isCompleted: boolean;
+    completed: boolean;
 }
 
 interface Category {
-    totalPoints: number;
     events: Event[];
 }
 
@@ -27,7 +26,7 @@ interface WeeklyInfo {
 }
 
 export interface StudentDashboard {
-    studentInfo: StudentInfoDto;
+    studentInfo: StudentInfo;
     weeklyInfo: WeeklyInfo;
 }
 

@@ -9,7 +9,5 @@ import java.util.List;
 @Builder
 public class CategoryDTO {
 
-    private int totalPoints;
-
     private List<EventProgressDTO> events;
 }
