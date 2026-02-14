@@ -52,10 +52,11 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
     };
 
     const onLogout = () => {
-        logout();
-        setUser(null);
-        navigate("/login");
-    }
+        logout().then(() => {
+            setUser(null);
+            navigate("/login");
+        });
+    };
 
     const isOpen = isMobile ? mobileOpen : isDesktopOpen;
 
@@ -69,7 +70,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
         >
             <Box className={`sidebar-header ${!isOpen && !isMobile ? 'closed' : ''}`}>
                 <Typography variant="h6" className="brand-text">
-                    TAKULA <span className="red-text">1</span>
+                    TAKYULA <span className="red-text">1</span>
                 </Typography>
 
                 {!isMobile && (

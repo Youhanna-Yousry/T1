@@ -5,7 +5,7 @@
 }
 
 .driver-header {
-display: flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     background: @f1-black;
@@ -14,7 +14,7 @@ display: flex;
     border-left: 8px solid @f1-red;
     border-radius: 0 4px 4px 0;
     margin-top: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 12px fade(#000, 25%);
 
     .driver-identity {
         display: flex;
@@ -26,8 +26,8 @@ display: flex;
         height: 80px;
         width: auto;
         object-fit: contain;
-        filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
-        border-right: 1px solid rgba(255,255,255,0.15);
+        filter: drop-shadow(0 0 8px @glass-high);
+        border-right: 1px solid fade(@color-white, 15%);
         padding-right: 20px;
     }
 
@@ -86,7 +86,7 @@ display: flex;
 
         .driver-stats {
             width: 100%;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid @glass-med;
             padding-top: 16px;
             text-align: center;
         }
@@ -99,7 +99,7 @@ display: flex;
 
 .section-divider {
     margin: 32px 0 !important;
-    border-color: rgba(0,0,0,0.1) !important;
+    border-color: fade(#000, 10%) !important;
     border-bottom-width: 2px !important;
 }
 
@@ -125,8 +125,8 @@ display: flex;
         justify-content: space-between; 
         align-items: center;
         padding: 16px;
-        background-color: #fff;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
+        background-color: @color-white;
+        border-bottom: 1px solid fade(#000, 5%);
 
         .category-title {
             font-weight: 700;
@@ -153,10 +153,10 @@ display: flex;
     }
 
     &.completed {
-        background: rgba(0, 128, 0, 0.08);
-        border-right: 4px solid #10b981;
+        background: fade(@color-success, 8%);
+        border-right: 4px solid @color-success;
         
-        .event-pts { color: #059669; }
+        .event-pts { color: @color-success-dark; }
     }
 
     .event-pts { 

@@ -27,7 +27,7 @@ export default function MainLayout() {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" className="brand-text">
-                            TAKULA <span className="brand-accent">1</span>
+                            TAKYULA <span className="brand-accent">1</span>
                         </Typography>
                     </Toolbar>
                 </AppBar>

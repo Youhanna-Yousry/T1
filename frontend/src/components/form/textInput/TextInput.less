@@ -1,57 +1,53 @@
 @import 'styles/colors.less';
 
-.text-input, .password-input {
-  margin-bottom: 20px;
+.input-container {
+    .MuiTextField-root, .MuiFormControl-root {
+        width: 100%;
+        
+        .MuiInputBase-root {
+            background-color: @glass-low;
+            border-radius: 4px;
+            color: @color-white;
+            transition: all 0.2s ease;
 
-  .MuiOutlinedInput-root {
-    border-radius: 8px;
-    background: @color-bg-input;
+            fieldset { border-color: fade(@color-white, 20%); }
+            
+            &:hover fieldset { border-color: fade(@color-white, 40%); }
+            
+            &.Mui-focused {
+                background-color: fade(@color-white, 8%);
+                fieldset { 
+                    border-color: @f1-red !important; 
+                    border-width: 1px !important;
+                }
+            }
+        }
 
-    fieldset {
-      border-color: @color-border-light;
-      border-width: 1px;
+        input {
+            color: @color-white !important;
+            &:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0 100px #2a2a35 inset !important;
+                -webkit-text-fill-color: white !important;
+            }
+        }
+
+        .MuiInputLabel-root {
+            color: @color-text-muted;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            
+            &.Mui-focused {
+                color: @f1-red;
+            }
+        }
+
+        .MuiInputAdornment-root {
+            margin-right: 8px;
+            .MuiIconButton-root {
+                color: @color-text-muted;
+                &:hover { color: @color-white; }
+            }
+        }
     }
-
-    &:hover fieldset {
-      border-color: @color-border-medium;
-    }
-
-    &.Mui-focused fieldset {
-      border-color: @f1-red;
-    }
-
-    &.Mui-error fieldset {
-      border-color: @color-error;
-    }
-
-    input {
-      padding: 14px 16px;
-      color: @color-text-primary;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 1.4;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-
-      &::placeholder {
-        color: @color-placeholder;
-        opacity: 0.6;
-        font-weight: 400;
-      }
-    }
-  }
-
-  .MuiInputLabel-root {
-    color: @color-text-secondary;
-    font-size: 16px;
-    font-weight: 500;
-
-    &.Mui-focused {
-      color: @f1-red;
-    }
-
-    &.Mui-error {
-      color: @color-error;
-    }
-  }
 }

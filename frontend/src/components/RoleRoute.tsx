@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "context/authContext";
-import Loading from "components/Loading";
+import Loading from "components/Loading/Loading";
 
 interface RoleRouteProps {
     allowedRoles: ("STUDENT" | "SERVANT")[];

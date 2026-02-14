@@ -3,7 +3,7 @@ import useAxiosInterceptor from "hooks/useAxiosInterceptor";
 import { useAuth } from "context/authContext";
 import { Container, Grid, Typography, Box, Card, Stack, Chip, Divider } from "@mui/material";
 import { getStudentDashboard, StudentDashboard } from "services/studentService";
-import Loading from "components/Loading";
+import Loading from "components/Loading/Loading";
 
 import "./Dashboard.less";
 

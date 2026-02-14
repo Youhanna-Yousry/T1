@@ -1,36 +1,35 @@
 @import 'styles/colors.less';
+@import 'styles/fonts.less';
 
-@topbar-bg: #15151e;
-@topbar-border: #e10600;
-@bg-page: #f2f2f2;
 @z-index-appbar: 1300;
 
 .layout-root {
     display: flex;
     min-height: 100vh;
-    background-color: @bg-page;
+    background-color: @bg-page-light;
 }
 
 .mobile-app-bar {
-    background-color: @topbar-bg !important;
-    border-bottom: 2px solid @topbar-border;
+    background-color: @bg-dark-blue !important;
+    border-bottom: 2px solid @f1-red;
     z-index: @z-index-appbar !important;
     box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
 
     .menu-button {
         margin-right: 16px;
-        color: #fff;
+        color: @color-white;
     }
 
     .brand-text {
+        font-family: @font-display;
         font-style: italic;
-        font-weight: 900;
+        font-weight: @weight-black;
         letter-spacing: 1px;
-        color: #fff;
+        color: @color-white;
     }
 
     .brand-accent {
-        color: @topbar-border;
+        color: @f1-red;
     }
 }
 
@@ -38,7 +37,7 @@
     flex-grow: 1;
     width: 100%;
     min-height: 100vh;
-    background-color: @bg-page;
+    background-color: @bg-page-light;
     padding: 0;
     transition: margin-top 0.3s ease;
 

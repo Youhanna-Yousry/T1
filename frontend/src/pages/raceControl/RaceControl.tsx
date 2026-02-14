@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import { History as HistoryIcon, Flag as FlagIcon } from "@mui/icons-material";
 import useAxiosInterceptor from "hooks/useAxiosInterceptor";
-import Loading from "components/Loading";
+import Loading from "components/Loading/Loading";
 
 import { getEvents, EventInfo, markAttendance } from "services/servantService";
 import "./RaceControl.less";

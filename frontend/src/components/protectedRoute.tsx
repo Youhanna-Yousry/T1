@@ -1,6 +1,6 @@
 import { useAuth } from "context/authContext";
 import { Navigate } from "react-router-dom";
-import Loading from "components/Loading";
+import Loading from "components/Loading/Loading";
 
 export default function ProtectedRoute({ element }: { element: React.ReactNode }): React.ReactElement {
     const { user, isAuthLoading } = useAuth();

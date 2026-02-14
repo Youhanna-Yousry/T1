@@ -1,18 +1,15 @@
 @import 'styles/colors.less';
+@import 'styles/fonts.less';
 
-@sidebar-bg: #15151e;
-@sidebar-active: @f1-red;
-@text-color: #ffffff;
-@text-muted: #8d8d9b;
 @anim-speed: 0.4s;
 @drawer-width: 260px;
 @drawer-closed-width: 70px;
 
 .f1-sidebar {
     .MuiDrawer-paper {
-        background-color: @sidebar-bg;
-        color: @text-color;
-        border-right: 1px solid rgba(255,255,255,0.1);
+        background-color: @bg-dark-blue;
+        color: @color-white;
+        border-right: 1px solid @glass-med;
         overflow-x: hidden;
         white-space: nowrap; 
         box-sizing: border-box;
@@ -59,14 +56,14 @@
     .red-text { color: @f1-red; }
 
     .toggle-btn {
-        color: @text-muted;
+        color: @color-text-muted;
         transition: transform @anim-speed ease;
-        &:hover { color: @text-color; }
+        &:hover { color: @color-white; }
     }
 }
 
 .sidebar-divider {
-    background-color: rgba(255,255,255,0.1) !important;
+    background-color: @glass-med !important;
 }
 
 .nav-list {
@@ -88,7 +85,7 @@
     justify-content: flex-start !important;
 
     .nav-icon {
-        color: @text-muted;
+        color: @color-text-muted;
         min-width: 0 !important;
         margin-right: 16px;
         justify-content: center;
@@ -101,24 +98,24 @@
         transition: opacity 0.2s ease;
         
         .MuiTypography-root {
-            font-family: "Titillium Web", sans-serif;
-            font-weight: 600;
+            font-family: @font-display;
+            font-weight: @weight-semi;
             font-size: 0.9rem;
             letter-spacing: 0.5px;
         }
     }
 
     &:hover {
-        background-color: rgba(255,255,255,0.05) !important;
-        .nav-icon { color: @text-color; }
+        background-color: @glass-low !important;
+        .nav-icon { color: @color-white; }
     }
 
     &.active {
-        background: linear-gradient(90deg, rgba(255,24,1,0.15) 0%, rgba(0,0,0,0) 100%) !important;
+        background: linear-gradient(90deg, fade(@f1-red, 15%) 0%, fade(@f1-red, 0%) 100%) !important;
         border-right: 4px solid @f1-red;
         
         .nav-icon { color: @f1-red; }
-        .nav-text { color: @text-color; }
+        .nav-text { color: @color-white; }
     }
 }
 
@@ -151,14 +148,14 @@
         padding-left: 20px;
 
         .nav-icon {
-            color: @text-muted;
+            color: @color-text-muted;
             min-width: 0;
             margin-right: 16px;
             transition: color 0.2s ease, margin 0.2s ease;
         }
         
         .user-name {
-            color: @text-color;
+            color: @color-white;
             transition: color 0.2s ease;
             font-weight: 900;
             text-transform: uppercase;
@@ -167,7 +164,7 @@
         }
         
         &:hover {
-            background-color: rgba(255, 0, 0, 0.1) !important;
+            background-color: @effect-red-bg-light !important;
             .nav-icon { color: @f1-red; }
             .user-name { color: @f1-red; }
         }

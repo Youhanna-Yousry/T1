@@ -1,31 +1,28 @@
 @import 'styles/colors.less';
-
-@bg-dark: #15151e;
-@panel-bg: #1f1f2b; 
-@text-white: #ffffff;
-@text-muted: #8d8d9b;
-@border-dark: rgba(255,255,255,0.1);
+@import 'styles/fonts.less';
 
 .race-control-page {
     padding-top: 24px;
     padding-bottom: 40px;
-    background-color: #f2f2f2;
+    background-color: @bg-page-light;
     min-height: 100vh;
 }
 
 .race-container {
     display: flex !important;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch; 
+    width: 100%;           
     min-height: 80vh;
     padding-left: 16px;
     padding-right: 16px;
+    box-sizing: border-box;
 }
-
 
 .content-wrapper {
     width: 100%;
     max-width: 1400px;
+    margin: 0 auto; 
 }
 
 .control-header {
@@ -34,80 +31,102 @@
     align-items: center;
     margin-bottom: 24px;
     padding-bottom: 16px;
-    border-bottom: 2px solid rgba(0,0,0,0.1);
+    border-bottom: 2px solid fade(#000, 10%);
 
     .page-title {
-        font-weight: 900;
+        font-family: @font-display;
+        font-weight: @weight-black;
         font-style: italic;
         letter-spacing: -1px;
         color: @f1-black;
         line-height: 1;
+        font-size: 2rem;
     }
+    
     .red-text { color: @f1-red; }
     .status-chip { font-weight: 800; border-radius: 4px; }
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+
+        .page-title {
+            font-size: 1.8rem;
+        }
+
+        .MuiButton-root, .status-chip {
+            width: 100%;
+        }
+    }
 }
 
 .control-panel {
-    background-color: @panel-bg !important;
-    color: @text-white !important;
+    background-color: @bg-panel !important;
+    color: @color-white !important;
     padding: 20px;
     border-radius: 8px;
     border-left: 6px solid @f1-red;
     margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px fade(#000, 20%);
+    
+    overflow: hidden; 
 
     .panel-title {
+        font-family: @font-display;
         font-weight: 800;
         font-size: 0.8rem;
         letter-spacing: 1px;
-        color: @text-muted;
+        color: @color-text-muted;
         margin-bottom: 16px;
+        text-transform: uppercase;
     }
 }
 
 .f1-input {
     .MuiFilledInput-root {
-        background-color: rgba(0,0,0,0.4) !important; 
-        color: #fff !important;
+        background-color: fade(#000, 40%) !important; 
+        color: @color-white !important;
         border-radius: 4px;
         
         &:hover:not(.Mui-disabled) {
-            background-color: rgba(0,0,0,0.6) !important;
+            background-color: fade(#000, 60%) !important;
         }
 
-        &:before { border-bottom-color: rgba(255,255,255,0.2) !important; }
+        &:before { border-bottom-color: fade(@color-white, 20%) !important; }
         &:after { border-bottom-color: @f1-red !important; }
 
-        .MuiSelect-icon { color: #fff !important; }
+        .MuiSelect-icon { color: @color-white !important; }
     }
     
     .MuiInputLabel-root {
-        color: rgba(255,255,255,0.7) !important;
+        color: fade(@color-white, 70%) !important;
         font-weight: 700;
         &.Mui-focused { color: @f1-red !important; }
     }
 }
 
 .telemetry-panel {
-    background-color: @bg-dark !important;
-    color: @text-white !important;
+    background-color: @bg-dark-blue !important;
+    color: @color-white !important;
     border-radius: 8px;
     height: 600px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 12px fade(#000, 30%);
 
     .panel-header {
         padding: 16px;
-        border-bottom: 1px solid @border-dark;
+        border-bottom: 1px solid @color-border-light;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: rgba(0,0,0,0.2);
+        background: fade(#000, 20%);
     }
 
     .panel-title {
+        font-family: @font-display;
         font-weight: 800;
         font-size: 0.9rem;
         letter-spacing: 1px;
@@ -128,7 +147,7 @@
         text-align: center;
         padding-top: 50px;
         opacity: 0.5;
-        font-family: monospace;
+        font-family: @font-tech;
     }
 }
 
@@ -138,32 +157,46 @@
     align-items: center;
     padding: 8px 12px;
     margin-bottom: 6px;
-    background: rgba(255,255,255,0.03);
+    background: @glass-low;
     border-radius: 4px;
     border-left: 3px solid transparent;
     transition: all 0.2s ease;
     animation: slideIn 0.3s ease;
 
-    .driver-id { font-weight: 700; font-family: monospace; font-size: 0.9rem; }
-    .log-msg { display: block; font-size: 0.7rem; opacity: 0.7; }
-    .log-meta { text-align: right; opacity: 0.6; font-family: monospace; font-size: 0.75rem; }
+    .driver-id { 
+        font-weight: @weight-bold; 
+        font-family: @font-tech; 
+        font-size: 0.9rem; 
+    }
+    .log-msg { 
+        display: block; 
+        font-size: 0.7rem; 
+        opacity: 0.7; 
+        font-family: @font-display;
+    }
+    .log-meta { 
+        text-align: right; 
+        opacity: 0.6; 
+        font-family: @font-tech; 
+        font-size: 0.75rem; 
+    }
 
     &.success { 
-        border-left-color: #10b981; 
-        background: rgba(16, 185, 129, 0.1); 
-        .status-led { background: #10b981; box-shadow: 0 0 6px #10b981; }
+        border-left-color: @color-success; 
+        background: fade(@color-success, 10%); 
+        .status-led { background: @color-success; box-shadow: 0 0 6px @color-success; }
     }
     
     &.error { 
         border-left-color: @f1-red; 
-        background: rgba(225, 6, 0, 0.1); 
+        background: @effect-red-bg-light; 
         .status-led { background: @f1-red; box-shadow: 0 0 6px @f1-red; }
     }
     
     &.warning { 
-        border-left-color: #f59e0b; 
-        background: rgba(245, 158, 11, 0.1); 
-        .status-led { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
+        border-left-color: @color-warning; 
+        background: fade(@color-warning, 10%); 
+        .status-led { background: @color-warning; box-shadow: 0 0 6px @color-warning; }
     }
 }
 
@@ -176,18 +209,23 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    border: 4px solid #1f1f2b;
+    border: 4px solid @bg-panel;
+
+    // Fix for mobile aspect ratio
+    @media (max-width: 900px) {
+        min-height: 300px;
+    }
 }
 
 .camera-header {
-    background: rgba(0,0,0,0.85);
+    background: fade(#000, 85%);
     padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #fff;
+    color: @color-white;
     z-index: 10;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid @color-border-light;
 
     .rec-dot {
         width: 10px; height: 10px; background: @f1-red; border-radius: 50%;
@@ -195,9 +233,12 @@
     }
 
     .cam-status {
+        font-family: @font-display;
         font-weight: 800;
-        &.live { background: #10b981; color: #000; }
-        &.paused { background: @f1-red; color: #fff; }
+        padding: 2px 8px;
+        border-radius: 2px;
+        &.live { background: @color-success; color: #000; }
+        &.paused { background: @f1-red; color: @color-white; }
     }
 }
 
@@ -215,14 +256,14 @@
 
     .crosshair {
         position: absolute; top: 50%; left: 50%; width: 20px; height: 20px;
-        border: 1px solid rgba(255,255,255,0.3);
+        border: 1px solid fade(@color-white, 30%);
         transform: translate(-50%, -50%);
-        &:before { content: ''; position: absolute; top: 9px; left: -10px; width: 40px; height: 1px; background: rgba(255,255,255,0.5); }
-        &:after { content: ''; position: absolute; left: 9px; top: -10px; height: 40px; width: 1px; background: rgba(255,255,255,0.5); }
+        &:before { content: ''; position: absolute; top: 9px; left: -10px; width: 40px; height: 1px; background: fade(@color-white, 50%); }
+        &:after { content: ''; position: absolute; left: 9px; top: -10px; height: 40px; width: 1px; background: fade(@color-white, 50%); }
     }
 
     .corner {
-        position: absolute; width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.8);
+        position: absolute; width: 40px; height: 40px; border: 3px solid fade(@color-white, 80%);
     }
     .tl { top: 40px; left: 40px; border-right: 0; border-bottom: 0; }
     .tr { top: 40px; right: 40px; border-left: 0; border-bottom: 0; }
@@ -231,12 +272,14 @@
 
     .warning-overlay {
         position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.7);
+        background: fade(#000, 70%);
         display: flex; justify-content: center; align-items: center;
         color: @f1-red;
+        font-family: @font-display;
         font-weight: 900;
         letter-spacing: 2px;
         text-align: center;
+        padding: 20px;
     }
 }
 
@@ -245,23 +288,23 @@
 
 .f1-menu-popover {
     .MuiPaper-root {
-        background-color: @panel-bg !important;
-        color: #fff !important;
-        border: 1px solid rgba(255,255,255,0.1);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        background-color: @bg-panel !important;
+        color: @color-white !important;
+        border: 1px solid @color-border-light;
+        box-shadow: 0 10px 30px fade(#000, 50%);
     }
 
     .MuiMenuItem-root {
-        font-family: "Titillium Web", sans-serif;
+        font-family: @font-display;
         font-weight: 600;
         border-left: 3px solid transparent;
         padding: 12px 16px;
-        color: rgba(255,255,255,0.8);
+        color: fade(@color-white, 80%);
 
         &:hover, &.Mui-selected, &.Mui-selected:hover {
-            background-color: rgba(225, 6, 0, 0.15) !important;
+            background-color: fade(@f1-red, 15%) !important;
             border-left-color: @f1-red;
-            color: #fff;
+            color: @color-white;
         }
     }
 }

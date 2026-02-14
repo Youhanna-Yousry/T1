@@ -76,7 +76,7 @@ export default function Login() {
                     <Box className="login-title">
                         <Box display="flex" flexDirection="column" alignItems="center">
                             <Typography variant="h3" className="brand-title">
-                                TAKULA <span className="red-text">1</span>
+                                TAKYULA <span className="red-text">1</span>
                             </Typography>
                             <Divider className="title-divider" />
                             <Typography variant="subtitle2" className="subtitle">
@@ -86,23 +86,19 @@ export default function Login() {
                     </Box>
 
                     <Stack component="form" spacing={3} onSubmit={handleSubmit}>
-                        <Box className="input-group">
-                            <TextInput
-                                id="username"
-                                label="USERNAME"
-                                value={credentials.username}
-                                onChange={(username) => handleUsernameChange(username)}
-                                error={!!error}
-                            />
-                        </Box>
+                        <TextInput
+                            id="username"
+                            label="USERNAME"
+                            value={credentials.username}
+                            onChange={(username) => handleUsernameChange(username)}
+                            error={!!error}
+                        />
 
-                        <Box className="input-group">
-                            <PasswordInput
-                                value={credentials.password}
-                                onChange={(password) => handlePasswordChange(password)}
-                                error={!!error}
-                            />
-                        </Box>
+                        <PasswordInput
+                            value={credentials.password}
+                            onChange={(password) => handlePasswordChange(password)}
+                            error={!!error}
+                        />
 
                         {error && (
                             <Alert variant="filled" severity="error" className="f1-alert">
