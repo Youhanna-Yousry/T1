@@ -5,7 +5,7 @@ import {
     ListItemText, Typography, Divider, IconButton, useMediaQuery, useTheme
 } from "@mui/material";
 import {
-    Dashboard as DashboardIcon, EmojiEvents as TrophyIcon, ChevronLeft as ChevronLeftIcon,
+    Dashboard as DashboardIcon, ChevronLeft as ChevronLeftIcon,
     Logout as LogoutIcon,
     QrCode2Outlined,
 } from "@mui/icons-material";
@@ -23,8 +23,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
     { label: "DASHBOARD", path: "/dashboard", icon: <DashboardIcon />, roles: ["STUDENT"] },
-    { label: "LEADERBOARD", path: "/leaderboard", icon: <TrophyIcon />, roles: ["STUDENT"] },
-    { label: "RACE CONTROL", path: "/race-control", icon: <QrCode2Outlined />, roles: ["SERVANT"] },
+    { label: "RACE CONTROL", path: "/race-control", icon: <QrCode2Outlined />, roles: ["SERVANT"] }
 ];
 
 interface SidebarProps {
