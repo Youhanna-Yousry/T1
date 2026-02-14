@@ -21,7 +21,7 @@ public interface StudentLogRepository extends JpaRepository<StudentLog, Long> {
             INSERT INTO student_log (event_id, points_earned, user_id, week_id)
             SELECT :eventId, :weight, u.id, w.id
             FROM users u, week w
-            WHERE u.email = :email AND CURRENT_DATE BETWEEN w.start_date AND w.end_date
+            WHERE u.username = :username AND CURRENT_DATE BETWEEN w.start_date AND w.end_date
             """, nativeQuery = true)
-    int logStudentAttendance(String email, Long eventId, Integer weight);
+    int logStudentAttendance(String username, Long eventId, Integer weight);
 }

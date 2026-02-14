@@ -9,7 +9,7 @@ public class MarkAttendanceDTO {
 
     private long eventId;
 
-    private String email;
+    private String username;
 
     private int weight;
 }
