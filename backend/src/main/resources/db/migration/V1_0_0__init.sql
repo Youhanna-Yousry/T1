@@ -144,7 +144,7 @@ competition_id BIGINT;
     family_9_id BIGINT;
 BEGIN
     INSERT INTO competition (name, year, type)
-    VALUES ('Great Lent 2026', 2026, 'GREAT_LENT')
+    VALUES ('Great Lent', 2026, 'GREAT_LENT')
     RETURNING id INTO competition_id;
 
     INSERT INTO family (grade, name) VALUES (7, 'Saint Karas') RETURNING id INTO family_7_id;
