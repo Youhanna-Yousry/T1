@@ -19,8 +19,7 @@ CREATE TABLE users (
     last_name VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(20) NOT NULL,
-    total_points INT NOT NULl DEFAULT 0,
-    CONSTRAINT fk_users_family FOREIGN KEY  (family_id) REFERENCES family (id)
+    CONSTRAINT fk_users_family FOREIGN KEY (family_id) REFERENCES family (id)
 );
 
 CREATE TABLE refresh_token (
@@ -35,15 +34,28 @@ CREATE TABLE refresh_token (
     CONSTRAINT fk_refresh_token_users FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
+CREATE TABLE competition (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    version BIGINT NOT NULL DEFAULT 0,
+    name VARCHAR(255) NOT NULL,
+    year INTEGER NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
 CREATE TABLE week (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
     version BIGINT NOT NULL DEFAULT 0,
+    competition_id BIGINT,
     name VARCHAR(255) NOT NULL,
     week_number INTEGER NOT NULL,
     start_date TIMESTAMP,
-    end_date TIMESTAMP
+    end_date TIMESTAMP,
+    CONSTRAINT fk_week_competition FOREIGN KEY (competition_id) REFERENCES competition (id) ON DELETE CASCADE
 );
 
 CREATE TABLE event (
@@ -63,13 +75,13 @@ CREATE TABLE team_profile (
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
     version BIGINT NOT NULL DEFAULT 0,
     family_id BIGINT NOT NULL,
-    year INTEGER NOT NULL,
-    fast_type VARCHAR(255) NOT NULL,
+    competition_id BIGINT,
     team_name VARCHAR(255) NOT NULL,
     team_code VARCHAR(255) NOT NULL,
     team_color VARCHAR(255) NOT NULl,
-    CONSTRAINT fk_team_profile_family FOREIGN KEY (family_id) REFERENCES family (id),
-    CONSTRAINT uq_team_profile_family_year_fast UNIQUE (family_id, year, fast_type)
+    CONSTRAINT fk_team_profile_family FOREIGN KEY (family_id) REFERENCES family (id) ON DELETE CASCADE,
+    CONSTRAINT fk_team_profile_competition FOREIGN KEY (competition_id) REFERENCES competition (id) ON DELETE CASCADE,
+    CONSTRAINT uq_team_profile_per_competition UNIQUE (family_id, competition_id)
 );
 
 CREATE TABLE student_log (
@@ -81,10 +93,28 @@ CREATE TABLE student_log (
     event_id BIGINT NOT NULL,
     week_id BIGINT NOT NULL,
     points_earned INTEGER,
-    CONSTRAINT fk_student_logs_user FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT fk_student_logs_event FOREIGN KEY (event_id) REFERENCES event (id),
-    CONSTRAINT fk_student_logs_week FOREIGN KEY (week_id) REFERENCES week (id),
+    CONSTRAINT fk_student_logs_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT fk_student_logs_event FOREIGN KEY (event_id) REFERENCES event (id) ON DELETE CASCADE,
+    CONSTRAINT fk_student_logs_week FOREIGN KEY (week_id) REFERENCES week (id) ON DELETE CASCADE,
     CONSTRAINT uq_student_logs_user_event UNIQUE (user_id, event_id, week_id)
+);
+
+CREATE TABLE weekly_result (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    version BIGINT NOT NULL DEFAULT 0,
+    competition_id BIGINT NOT NULL,
+    week_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    family_id BIGINT NOT NULL,
+    raw_attendance_score INTEGER DEFAULT 0,
+    rank_in_week INTEGER,
+    championship_points INTEGER DEFAULT 0,
+    CONSTRAINT fk_result_comp FOREIGN KEY (competition_id) REFERENCES competition (id) ON DELETE CASCADE,
+    CONSTRAINT fk_result_week FOREIGN KEY (week_id) REFERENCES week (id) ON DELETE CASCADE,
+    CONSTRAINT fk_result_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT uq_weekly_result UNIQUE (week_id, user_id)
 );
 
 INSERT INTO event (name, type, is_scannable, weight) VALUES
@@ -98,7 +128,7 @@ INSERT INTO event (name, type, is_scannable, weight) VALUES
 INSERT INTO event (name, type, is_scannable, weight) VALUES
 ('Speed Competition', 'PRACTICE', FALSE, 10),
 ('Paper Competition', 'PRACTICE', FALSE, 10),
-('Coptic Language', 'PRACTICE', FALSE, 10);
+ ('Coptic Language', 'PRACTICE', FALSE, 10);
 
 INSERT INTO event (name, type, is_scannable, weight) VALUES
 ('Extra Liturgy', 'SPRINT', TRUE,5),
@@ -106,21 +136,33 @@ INSERT INTO event (name, type, is_scannable, weight) VALUES
 ('Confession', 'SPRINT', TRUE, 5),
 ('Psalm Recitation', 'SPRINT', TRUE, 5);
 
-INSERT INTO family (grade, name) VALUES (7, 'Saint Karas');
-INSERT INTO team_profile (family_id, year, fast_type, team_name, team_code, team_color) VALUES (1, 2026, 'GREAT_LENT', 'McLaren', 'MCL', '#FF8000');
+DO $$
+DECLARE
+competition_id BIGINT;
+    family_7_id BIGINT;
+    family_8_id BIGINT;
+    family_9_id BIGINT;
+BEGIN
+    INSERT INTO competition (name, year, type)
+    VALUES ('Great Lent 2026', 2026, 'GREAT_LENT')
+    RETURNING id INTO competition_id;
 
-INSERT INTO family (grade, name) VALUES (8, 'Saint George');
-INSERT INTO team_profile (family_id, year, fast_type, team_name, team_code, team_color) VALUES (2, 2026, 'GREAT_LENT', 'Red Bull Racing', 'RBR', '#3671C6');
+    INSERT INTO family (grade, name) VALUES (7, 'Saint Karas') RETURNING id INTO family_7_id;
+    INSERT INTO family (grade, name) VALUES (8, 'Saint George') RETURNING id INTO family_8_id;
+    INSERT INTO family (grade, name) VALUES (9, 'Saint Moses') RETURNING id INTO family_9_id;
 
-INSERT INTO family (grade, name) VALUES (9, 'Saint Moses');
-INSERT INTO team_profile (family_id, year, fast_type, team_name, team_code, team_color) VALUES (3, 2026, 'GREAT_LENT', 'Mercedes', 'MER', '#27F4D2');
+    INSERT INTO team_profile (family_id, competition_id, team_name, team_code, team_color) VALUES
+    (family_7_id, competition_id, 'McLaren', 'MCL', '#FF8000'),
+    (family_8_id, competition_id, 'Red Bull Racing', 'RBR', '#3671C6'),
+    (family_9_id, competition_id, 'Mercedes', 'MER', '#27F4D2');
 
-INSERT INTO week (name, week_number, start_date, end_date) VALUES
-('Preparation Week', 1, '2026-02-13 00:00:00', '2026-02-19 23:59:59'),
-('Week of Temptation', 2, '2026-02-20 00:00:00', '2026-02-26 23:59:59'),
-('The Prodigal Son', 3, '2026-02-27 00:00:00', '2026-03-05 23:59:59'),
-('The Samaritan Woman', 4, '2026-03-06 00:00:00', '2026-03-12 23:59:59'),
-('The Paralytic Man', 5, '2026-03-13 00:00:00', '2026-03-19 23:59:59'),
-('The Man Born Blind', 6, '2026-03-20 00:00:00', '2026-03-26 23:59:59'),
-('Palm Sunday Week', 7, '2026-03-27 00:00:00', '2026-04-02 23:59:59'),
-('Holy Pascha Week', 8, '2026-04-03 00:00:00', '2026-04-12 23:59:59');
+    INSERT INTO week (name, competition_id, week_number, start_date, end_date) VALUES
+    ('Preparation Week',    competition_id, 1, '2026-02-14 00:00:00', '2026-02-19 23:59:59'),
+    ('Week of Temptation',  competition_id, 2, '2026-02-20 00:00:00', '2026-02-26 23:59:59'),
+    ('The Prodigal Son',    competition_id, 3, '2026-02-27 00:00:00', '2026-03-05 23:59:59'),
+    ('The Samaritan Woman', competition_id, 4, '2026-03-06 00:00:00', '2026-03-12 23:59:59'),
+    ('The Paralytic Man',   competition_id, 5, '2026-03-13 00:00:00', '2026-03-19 23:59:59'),
+    ('The Man Born Blind',  competition_id, 6, '2026-03-20 00:00:00', '2026-03-26 23:59:59'),
+    ('Palm Sunday Week',    competition_id, 7, '2026-03-27 00:00:00', '2026-04-02 23:59:59'),
+    ('Holy Pascha Week',    competition_id, 8, '2026-04-03 00:00:00', '2026-04-11 23:59:59');
+END $$;

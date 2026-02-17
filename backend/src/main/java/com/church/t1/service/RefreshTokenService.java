@@ -17,10 +17,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RefreshTokenService {
 
-    private final RefreshTokenRepository refreshTokenRepository;
     @Value("${app.auth.refreshToken.expirationMs}")
     @Getter
     private long refreshTokenExpirationMs;
+
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public RefreshToken createRefreshToken(@NonNull User user) {
         RefreshToken token = RefreshToken.builder()

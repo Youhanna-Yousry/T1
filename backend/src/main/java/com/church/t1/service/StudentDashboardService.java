@@ -1,20 +1,17 @@
 package com.church.t1.service;
 
-import com.church.t1.dto.response.*;
-import com.church.t1.model.entity.Event;
-import com.church.t1.model.entity.Week;
-import com.church.t1.model.enums.EventType;
-import com.church.t1.repository.EventRepository;
-import com.church.t1.repository.StudentLogRepository;
+import com.church.t1.dto.response.StudentDashboardDTO;
+import com.church.t1.dto.response.StudentInfoDTO;
+import com.church.t1.dto.response.WeeklyInfoDTO;
+import com.church.t1.dto.response.CompetitionInfoDTO;
+import com.church.t1.model.entity.Competition;
+import com.church.t1.model.entity.User;
+import com.church.t1.model.enums.CompetitionStatus;
 import com.church.t1.repository.UserRepository;
-import com.church.t1.repository.WeekRepository;
-import com.church.t1.repository.projection.StudentSummary;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Set;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,63 +19,35 @@ public class StudentDashboardService {
 
     private final UserRepository userRepository;
 
-    private final WeekRepository weekRepository;
+    private final CompetitionManager competitionManager;
 
-    private final EventRepository eventRepository;
+    private final DriverTelemetryService driverTelemetryService;
 
-    private final StudentLogRepository studentLogRepository;
+    private final RaceControlService raceControlService;
 
-    public StudentDashboardDTO getStudentDashboard(String username) {
-        StudentSummary studentSummary = userRepository.findStudentSummary(username)
-                .orElseThrow(EntityNotFoundException::new);
+    @Transactional(readOnly = true)
+    public StudentDashboardDTO getStudentDashboard(String username, Long competitionId, Long weekId) {
+        User driver = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Driver (User) not found: " + username));
 
-        Week currentWeek = weekRepository.findCurrentWeek()
-                .orElseThrow(() -> new RuntimeException("No active race week found!"));
+        CompetitionContext context = competitionManager.resolveContext(competitionId, weekId);
 
-        List<Event> weeklyEvents = eventRepository.findAll();
+        StudentInfoDTO driverStats = driverTelemetryService.getDriverStats(driver, context.competition());
 
-        Set<Long> attendedEventIds = studentLogRepository.findAttendedEventsByUserIdAndWeekId(studentSummary.getId(),
-                currentWeek.getId());
-
-        CategoryDTO grandPrix = buildCategory(weeklyEvents, attendedEventIds, EventType.GRAND_PRIX);
-        CategoryDTO sprint = buildCategory(weeklyEvents, attendedEventIds, EventType.SPRINT);
-        CategoryDTO practice = buildCategory(weeklyEvents, attendedEventIds, EventType.PRACTICE);
-
-        StudentInfoDTO driver = StudentInfoDTO.builder()
-                .name(studentSummary.getName())
-                .totalPoints(studentSummary.getTotalPoints())
-                .rank(studentSummary.getRank())
-                .teamCode(studentSummary.getTeamCode())
-                .teamName(studentSummary.getTeamName())
-                .teamColor(studentSummary.getTeamColor())
-                .build();
+        WeeklyInfoDTO trackData = raceControlService.getTrackData(driver, context.week());
 
         return StudentDashboardDTO.builder()
-                .studentInfo(driver)
-                .weeklyInfo(WeeklyInfoDTO.builder()
-                        .weekName(currentWeek.getName())
-                        .grandPrix(grandPrix)
-                        .sprint(sprint)
-                        .practice(practice)
-                        .build())
+                .competitionInfo(mapToInfo(context.competition()))
+                .driverInfo(driverStats)
+                .trackData(trackData)
                 .build();
     }
 
-    private CategoryDTO buildCategory(List<Event> allEvents, Set<Long> attendedEventIds, EventType type) {
-        List<EventProgressDTO> eventProgressDTOs = allEvents.stream()
-                .filter(e -> e.getType() == type)
-                .map(event -> {
-                    boolean isEventAttended = attendedEventIds.contains(event.getId());
-                    return EventProgressDTO.builder()
-                            .name(event.getName())
-                            .isCompleted(isEventAttended)
-                            .build();
-                })
-                .toList();
-
-        return CategoryDTO.builder()
-                .events(eventProgressDTOs)
+    private CompetitionInfoDTO mapToInfo(Competition competition) {
+        return CompetitionInfoDTO.builder()
+                .name(competition.getName())
+                .year(competition.getYear())
+                .status(Boolean.TRUE.equals(competition.getIsActive()) ? CompetitionStatus.ACTIVE : CompetitionStatus.ARCHIVED)
                 .build();
     }
-
 }

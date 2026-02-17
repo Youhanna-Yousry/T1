@@ -7,7 +7,9 @@ import lombok.Getter;
 @Builder
 public class StudentDashboardDTO {
 
-    private StudentInfoDTO studentInfo;
+    private CompetitionInfoDTO competitionInfo;
 
-    private WeeklyInfoDTO weeklyInfo;
+    private StudentInfoDTO driverInfo;
+
+    private WeeklyInfoDTO trackData;
 }

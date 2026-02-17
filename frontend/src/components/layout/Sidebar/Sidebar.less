@@ -99,11 +99,16 @@
     .nav-icon {
         color: @color-text-muted;
         min-width: 0 !important;
-        
         margin-inline-end: 16px; 
-        
         justify-content: center;
         transition: color 0.2s ease, margin 0.2s ease;
+    }
+
+    .MuiListItemText-primary, .MuiTypography-root {
+        font-family: @font-display !important;
+        font-weight: @weight-semi;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
     }
 
     .nav-text, .user-name {
@@ -111,13 +116,6 @@
         opacity: 1;
         transition: opacity 0.2s ease;
         text-align: start;
-        
-        .MuiTypography-root {
-            font-family: @font-display;
-            font-weight: @weight-semi;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-        }
     }
 
     &:hover {
@@ -127,7 +125,6 @@
 
     &.active {
         background: linear-gradient(90deg, fade(@f1-red, 15%) 0%, fade(@f1-red, 0%) 100%) !important;
-        
         border-inline-start: 4px solid @f1-red; 
         
         .nav-icon { color: @f1-red; }
@@ -146,7 +143,7 @@
         margin-inline-end: 0;
     }
 
-    .nav-text, .user-name, .footer-text-wrapper {
+    .nav-text, .user-name, .footer-text-wrapper, .MuiListItemText-root {
         opacity: 0;
         width: 0;
         display: none;
@@ -157,11 +154,18 @@
     margin-top: auto;
     padding-bottom: 16px;
 
+    .MuiButtonBase-root {
+        .MuiTypography-root {
+            font-family: @font-display !important;
+            font-weight: @weight-semi;
+        }
+    }
+
     .logout-button {
         &:hover {
             background-color: @effect-red-bg-light !important;
             .nav-icon { color: @f1-red; }
-            .user-name { color: @f1-red; }
+            .user-name, .MuiTypography-root { color: @f1-red; }
         }
     }
     

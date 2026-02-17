@@ -8,11 +8,16 @@
     "switch_lang": "English"
   },
   "dashboard": {
+    "season": "موسم",
     "week": "الأسبوع",
     "grand_prix": "السباق الكبير (Grand Prix)",
     "practice": "تجارب (Practice)",
     "sprint": "سباق سريع (Sprint)",
     "total_pts": "الإجمالي: {{count}} نقطة"
+  },
+  "competitions": {
+    "great_lent": "الصوم الكبير",
+    "nativity": "صوم الميلاد"
   },
   "activities": {
     "service_liturgy": "قداس الخدمة",
@@ -30,6 +35,8 @@
     "psalm_recitation": "حفظ المزامير"
   },
   "status": {
+    "live": "مباشر",
+    "archived": "أرشيف",
     "dns": "لم يبدأ",
     "cmp": "مكتمل"
   },

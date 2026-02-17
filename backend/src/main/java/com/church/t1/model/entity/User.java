@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "users")
 @Getter
 @Setter
+@Table(name = "users")
 public class User extends BasicEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,7 +32,4 @@ public class User extends BasicEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @Column(nullable = false)
-    private Integer totalPoints = 0;
 }

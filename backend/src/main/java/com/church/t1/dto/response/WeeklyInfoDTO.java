@@ -9,6 +9,8 @@ public class WeeklyInfoDTO {
 
     private String weekName;
 
+    private Integer weekNumber;
+
     private CategoryDTO grandPrix;
 
     private CategoryDTO sprint;

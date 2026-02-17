@@ -8,11 +8,16 @@
     "switch_lang": "العربية"
   },
   "dashboard": {
+    "season": "SEASON",
     "week": "WEEK",
     "grand_prix": "GRAND PRIX",
     "practice": "PRACTICE",
     "sprint": "SPRINT",
     "total_pts": "TOTAL: {{count}} PTS"
+  },
+  "competitions": {
+    "great_lent": "GREAT LENT",
+    "nativity": "NATIVITY FAST"
   },
   "activities": {
     "service_liturgy": "Service Liturgy",
@@ -30,6 +35,8 @@
     "psalm_recitation": "Psalm Recitation"
   },
   "status": {
+    "live": "LIVE",
+    "archived": "ARCHIVED",
     "dns": "DNS",
     "cmp": "CMP"
   },

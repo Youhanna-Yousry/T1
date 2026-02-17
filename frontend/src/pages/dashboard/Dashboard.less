@@ -5,6 +5,66 @@
     padding-bottom: 40px;
 }
 
+.competition-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 4px solid @f1-red; 
+
+    .comp-info {
+        .comp-year {
+            font-family: @font-tech;
+            color: @f1-dark-gray;
+            letter-spacing: 2px;
+            font-weight: @weight-bold;
+            line-height: 1;
+        }
+
+        .comp-name {
+            font-family: @font-display;
+            font-weight: @weight-black;
+            font-style: italic;
+            margin-top: 4px;
+            line-height: 1;
+            color: @f1-black;
+        }
+    }
+
+    .status-chip {
+        font-family: @font-tech;
+        font-weight: @weight-bold;
+        border-radius: 4px;
+        height: 24px;
+        
+        .MuiChip-icon {
+            margin-left: 5px;
+            margin-right: -6px;
+            
+            [dir="rtl"] & {
+                margin-left: -6px;
+                margin-right: 5px;
+            }
+            
+            font-size: 10px !important;
+        }
+        
+        &.active {
+            background-color: fade(@color-success, 10%);
+            color: @color-success-dark;
+            border: 1px solid fade(@color-success, 20%);
+        }
+
+        &.archived {
+            background-color: @f1-light-gray;
+            color: @color-text-muted;
+            border: 1px solid @color-border-medium;
+        }
+    }
+}
+
 .driver-header {
     display: flex;
     justify-content: space-between;
@@ -29,6 +89,13 @@
         display: flex;
         align-items: center;
         gap: 24px; 
+        
+        .identity-text {
+            text-align: left;
+            [dir="rtl"] & {
+                text-align: right; 
+            }
+        }
     }
 
     .team-logo {
@@ -52,7 +119,7 @@
     }
 
     .driver-name { 
-        font-weight: 900; 
+        font-weight: @weight-black; 
         text-transform: uppercase; 
         letter-spacing: 2px;
         line-height: 1;
@@ -62,11 +129,12 @@
     .team-text {
         opacity: 0.9;
         font-size: 0.85rem;
+        color: @color-text-muted;
     }
 
     .team-code { 
         color: @f1-accent; 
-        font-weight: bold;
+        font-weight: @weight-bold;
     }
 
     .driver-stats {
@@ -78,7 +146,7 @@
     }
 
     .rank-text { 
-        font-weight: 900; 
+        font-weight: @weight-black; 
         font-style: italic; 
         color: @f1-red; 
         line-height: 1; 
@@ -94,25 +162,19 @@
             flex-direction: column;
             width: 100%;
             gap: 12px;
+            
+            .identity-text {
+                text-align: center;
+                [dir="rtl"] & { text-align: center; }
+            }
         }
 
         .team-logo {
             height: 50px;
-            
             border-right: none;
             padding-right: 0;
-            
-            [dir="rtl"] & {
-                border-left: none;
-                padding-left: 0;
-            }
-            
+            [dir="rtl"] & { border-left: none; padding-left: 0; }
             margin-bottom: 8px;
-        }
-
-        .driver-name { 
-            font-size: 2.5rem;
-            line-height: 1;
         }
 
         .driver-stats {
@@ -120,31 +182,29 @@
             border-top: 1px solid @glass-med;
             padding-top: 16px;
             text-align: center;
-            
-            [dir="rtl"] & {
-                text-align: center; 
-            }
-        }
-        
-        .rank-text {
-            font-size: 2.5rem;
+            [dir="rtl"] & { text-align: center; }
         }
     }
 }
 
 .section-divider {
     margin: 32px 0 !important;
-    border-color: fade(#000, 10%) !important;
+    border-color: @color-border-medium !important;
     border-bottom-width: 2px !important;
+    opacity: 0.3;
 }
 
 .section-label {
-    font-weight: 800;
+    font-family: @font-display !important;
+    font-weight: @weight-black !important;
+    font-style: italic;
     text-transform: uppercase;
     color: @f1-dark-gray;
     margin-bottom: 24px;
     text-align: center;
     letter-spacing: 1.5px;
+    
+    font-size: 1.8rem; 
 }
 
 .event-category-card {
@@ -154,6 +214,7 @@
     padding: 0 !important;
     border-radius: 6px !important;
     overflow: hidden;
+    background-color: @color-white;
 
     .card-header {
         display: flex; 
@@ -161,15 +222,28 @@
         align-items: center;
         padding: 16px;
         background-color: @color-white;
-        border-bottom: 1px solid fade(#000, 5%);
+        border-bottom: 1px solid fade(@f1-black, 5%);
 
         .category-title {
-            font-weight: 700;
+            font-family: @font-display !important;
+            font-weight: @weight-black;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: @f1-black;
+            
+            @media (max-width: 600px) {
+                font-size: 1rem;
+            }
         }
     }
 
     .card-content {
         padding: 16px;
+        
+        .MuiTypography-body2 {
+             font-family: @font-display; 
+             font-weight: @weight-semi;
+        }
     }
 }
 
@@ -182,9 +256,10 @@
     border-radius: 4px;
     
     border-right: 4px solid transparent; 
+    border-left: 0;
     
     [dir="rtl"] & {
-        border-right: none;
+        border-right: 0;
         border-left: 4px solid transparent;
     }
 
@@ -192,7 +267,7 @@
 
     .status-text {
         font-family: @font-tech; 
-        font-weight: 700;
+        font-weight: @weight-bold;
         letter-spacing: 1px;
     }
 
@@ -201,6 +276,7 @@
         border-right-color: @color-success;
         
         [dir="rtl"] & {
+            border-right-color: transparent;
             border-left-color: @color-success;
         }
         
@@ -215,11 +291,11 @@
         border-right-color: @color-text-disabled;
         
         [dir="rtl"] & {
+            border-right-color: transparent;
             border-left-color: @color-text-disabled;
         }
 
         opacity: 0.8;
-        
         .status-text { color: @color-text-disabled; }
 
         &:hover {
