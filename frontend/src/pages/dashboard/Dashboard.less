@@ -194,17 +194,34 @@
     opacity: 0.3;
 }
 
-.section-label {
-    font-family: @font-display !important;
-    font-weight: @weight-black !important;
-    font-style: italic;
-    text-transform: uppercase;
-    color: @f1-dark-gray;
-    margin-bottom: 24px;
+.week-header {
     text-align: center;
-    letter-spacing: 1.5px;
-    
-    font-size: 1.8rem; 
+    margin-bottom: 32px;
+
+    .round-counter {
+        display: block;
+        font-family: @font-tech;
+        color: @f1-red;
+        font-weight: @weight-bold;
+        letter-spacing: 2px;
+        line-height: 1;
+        margin-bottom: 4px;
+        font-size: 1rem;
+    }
+
+    .week-title {
+        font-family: @font-display;
+        font-weight: @weight-black;
+        font-style: italic;
+        color: @f1-black;
+        text-transform: uppercase;
+        line-height: 1.1;
+        
+        font-size: 2.5rem;
+        @media (max-width: 600px) {
+            font-size: 1.8rem;
+        }
+    }
 }
 
 .event-category-card {

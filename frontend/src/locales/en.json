@@ -49,7 +49,6 @@
     "driver_handle": "DRIVER HANDLE"
   },
   "login": {
-    "title": "DRIVER AUTHENTICATION",
     "username": "Username",
     "password": "Password",
     "submit": "START ENGINE",

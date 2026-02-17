@@ -1,4 +1,5 @@
 @import 'styles/colors.less';
+@import 'styles/fonts.less';
 
 .input-container {
     .MuiTextField-root, .MuiFormControl-root {
@@ -10,6 +11,7 @@
             color: @color-white;
             transition: all 0.2s ease;
             position: relative; 
+            font-family: @font-display !important; 
 
             fieldset { 
                 border-color: fade(@color-white, 20%);
@@ -29,17 +31,21 @@
 
         input {
             color: @color-white !important;
+            font-family: @font-display !important;
+            font-weight: @weight-semi;
             
             &::-ms-reveal, &::-ms-clear { display: none; }
             &:-webkit-autofill {
                 -webkit-box-shadow: 0 0 0 100px #2a2a35 inset !important;
                 -webkit-text-fill-color: white !important;
                 caret-color: white;
+                font-family: @font-display !important; 
             }
         }
 
         .MuiInputLabel-root {
             color: @color-text-muted;
+            font-family: @font-display !important;
             font-weight: 600;
             letter-spacing: 1px;
             font-size: 0.85rem;
@@ -77,6 +83,7 @@
         left: auto;
         right: 28px;
         transform-origin: top right;
+        letter-spacing: 0 !important; 
 
         &.MuiInputLabel-shrink {
             transform: translate(0, -9px) scale(0.75);

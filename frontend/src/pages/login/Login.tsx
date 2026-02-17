@@ -101,7 +101,7 @@ export default function Login() {
                             </Typography>
                             <Divider className="title-divider" />
                             <Typography variant="subtitle2" className="subtitle">
-                                {t("login.title")}
+                                DRIVER AUTHENTICATION
                             </Typography>
                         </Box>
                     </Box>

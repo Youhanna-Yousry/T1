@@ -43,6 +43,8 @@ export default function Dashboard() {
 
     const { competitionInfo, driverInfo, trackData } = data;
 
+    const formatRound = (num: number) => num.toString().padStart(2, '0');
+
     const CompetitionHeader = () => {
         const displayName = getTranslatedCompetitionName(competitionInfo.name, t);
 
@@ -123,9 +125,14 @@ export default function Dashboard() {
 
                 <Divider className="section-divider" />
 
-                <Typography variant="h5" gutterBottom className="section-label">
-                    {trackData.weekName} GP
-                </Typography>
+                <Box className="week-header">
+                    <Typography variant="overline" className="round-counter">
+                        Round {formatRound(trackData.weekNumber)}
+                    </Typography>
+                    <Typography variant="h3" className="week-title">
+                        {trackData.weekName.toUpperCase()}
+                    </Typography>
+                </Box>
 
                 <Grid container spacing={3}>
                     <CategoryCard title={`🏁 ${t("dashboard.grand_prix")}`} category={trackData.grandPrix} />
