@@ -4,6 +4,9 @@ import com.church.t1.model.entity.WeeklyResult;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface WeeklyResultRepository extends JpaRepository<WeeklyResult, Long> {
 
     @Query("SELECT COALESCE(SUM(wr.championshipPoints), 0) FROM WeeklyResult wr " +
@@ -15,4 +18,8 @@ public interface WeeklyResultRepository extends JpaRepository<WeeklyResult, Long
             "GROUP BY wr.user.id " +
             "HAVING SUM(wr.championshipPoints) > :myPoints")
     Integer calculateRank(Long competitionId, Integer myPoints);
+
+    Optional<WeeklyResult> findByWeekIdAndUserId(Long weekId, Long userId);
+
+    List<WeeklyResult> findByWeekId(Long weekId);
 }

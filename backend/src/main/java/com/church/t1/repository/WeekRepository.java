@@ -13,5 +13,7 @@ public interface WeekRepository extends JpaRepository<Week, Long> {
             "AND :now BETWEEN w.startDate AND w.endDate")
     Optional<Week> findCurrentWeek(Long competitionId, Instant now);
 
-    Optional<Week> findFirstByCompetitionIdOrderByWeekNumberAsc(Long compId);
+    Optional<Week> findFirstByCompetitionIdOrderByWeekNumberAsc(Long competitionId);
+
+    Optional<Week> findFirstByEndDateBeforeOrderByEndDateDesc(Instant now);
 }
