@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import useAxiosInterceptor from "hooks/useAxiosInterceptor";
 import { useAuth } from "context/authContext";
 import { useTranslation } from "react-i18next";
+import { getTranslatedEventName, getTranslatedCompetitionName } from "utils/translationUtils";
 import { Container, Grid, Typography, Box, Card, Stack, Divider, Chip } from "@mui/material";
 import { getStudentDashboard, StudentDashboard } from "services/studentService";
 import Loading from "components/Loading/Loading";
-import CircleIcon from '@mui/icons-material/Circle'; // You might need to install @mui/icons-material
+import CircleIcon from '@mui/icons-material/Circle';
 
 import "./Dashboard.less";
 
@@ -42,19 +43,8 @@ export default function Dashboard() {
 
     const { competitionInfo, driverInfo, trackData } = data;
 
-    const getTranslatedEventName = (name: string) => {
-        const key = `activities.${name.toLowerCase().replace(/\s+/g, '_')}`;
-        return t(key, name);
-    };
-
     const CompetitionHeader = () => {
-        const getTranslatedCompetitionName = (fullName: string) => {
-            const nameOnly = fullName.replace(/[0-9]/g, '').trim();
-            const key = `competitions.${nameOnly.toLowerCase().replace(/\s+/g, '_')}`;
-            return t(key, nameOnly);
-        };
-
-        const displayName = getTranslatedCompetitionName(competitionInfo.name);
+        const displayName = getTranslatedCompetitionName(competitionInfo.name, t);
 
         return (
             <Box className="competition-header">
@@ -85,7 +75,7 @@ export default function Dashboard() {
                     {category.events.map((event: any, idx: number) => (
                         <Box key={idx} className={`event-row ${event.completed ? 'completed' : 'pending'}`}>
                             <Typography variant="body2">
-                                {getTranslatedEventName(event.name)}
+                                {getTranslatedEventName(event.name, t)}
                             </Typography>
                             <Typography variant="caption" className="status-text">
                                 {event.completed ? t("status.cmp") : t("status.dns")}
@@ -134,7 +124,7 @@ export default function Dashboard() {
                 <Divider className="section-divider" />
 
                 <Typography variant="h5" gutterBottom className="section-label">
-                    {trackData.weekName}
+                    {trackData.weekName} GP
                 </Typography>
 
                 <Grid container spacing={3}>

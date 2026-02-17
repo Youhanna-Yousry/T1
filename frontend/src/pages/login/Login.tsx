@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Stack, Card, Typography, Box, Alert, Divider, IconButton } from "@mui/material"; // Added IconButton
+import { Stack, Card, Typography, Box, Alert, Divider, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Translate as TranslateIcon } from "@mui/icons-material"; // Added Icon
+import { Translate as TranslateIcon } from "@mui/icons-material";
 
 import { login } from "services/authService";
 import { useAuth } from "context/authContext";

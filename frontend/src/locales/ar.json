@@ -17,7 +17,7 @@
   },
   "competitions": {
     "great_lent": "الصوم الكبير",
-    "nativity": "صوم الميلاد"
+    "nativity_fast": "صوم الميلاد"
   },
   "activities": {
     "service_liturgy": "قداس الخدمة",
@@ -57,5 +57,32 @@
     "secure_conn": "اتصال آمن",
     "error_auth": "فشل المصادقة: بيانات غير صحيحة.",
     "error_sys": "خطأ في النظام: فقد الاتصال."
+  },
+  "race_control": {
+    "title": "تحكم السباق",
+    "session_active": "الجلسة نشطة",
+    "pit_lane_open": "ممر الصيانة مفتوح",
+    "session_config": "إعدادات الجلسة",
+    "select_event_label": "اختر الحدث",
+    "select_event_placeholder": "اختر الحدث...",
+    "live_timing": "التوقيت الحي",
+    "waiting_drivers": "في انتظار السائقين...",
+    "onboard_cam": "كاميرا المراقبة 1",
+    "live": "مباشر",
+    "processing": "جاري المعالجة...",
+    "scanner_warning": "اختر الحدث لتفعيل الماسح",
+    "msgs": {
+      "safety_car": "سيارة الأمان: برجاء اختيار حدث أولاً!",
+      "already_scanned": "تم مسح هذا السائق مسبقاً: {{name}}",
+      "checked_in": "تم تسجيل الدخول: {{name}}",
+      "duplicate": "تكرار: {{name}}",
+      "not_found": "غير موجود: {{name}}",
+      "sys_fail": "فشل النظام: خطأ في الشبكة"
+    },
+    "log_status": {
+      "USER_REGISTERED_SUCCESSFULLY": "تم التسجيل بنجاح",
+      "USER_ALREADY_REGISTERED": "محاولة مكررة (Duplicate)",
+      "USER_NOT_FOUND": "سائق غير معروف"
+    }
   }
 }

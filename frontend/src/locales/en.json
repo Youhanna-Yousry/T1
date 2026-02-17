@@ -17,7 +17,7 @@
   },
   "competitions": {
     "great_lent": "GREAT LENT",
-    "nativity": "NATIVITY FAST"
+    "nativity_fast": "NATIVITY FAST"
   },
   "activities": {
     "service_liturgy": "Service Liturgy",
@@ -57,5 +57,32 @@
     "secure_conn": "SECURE CONNECTION",
     "error_auth": "AUTHENTICATION FAILED: Invalid Telemetry.",
     "error_sys": "SYSTEM ERROR: Connection Lost."
+  },
+  "race_control": {
+    "title": "RACE CONTROL",
+    "session_active": "SESSION ACTIVE",
+    "pit_lane_open": "PIT LANE OPEN",
+    "session_config": "SESSION CONFIG",
+    "select_event_label": "SELECT EVENT",
+    "select_event_placeholder": "Select Event...",
+    "live_timing": "LIVE TIMING",
+    "waiting_drivers": "WAITING FOR DRIVERS...",
+    "onboard_cam": "ONBOARD CAM_1",
+    "live": "LIVE",
+    "processing": "PROCESSING...",
+    "scanner_warning": "SELECT EVENT TO ENABLE SCANNER",
+    "msgs": {
+      "safety_car": "SAFETY CAR: Please select an event first!",
+      "already_scanned": "ALREADY SCANNED IN SESSION: {{name}}",
+      "checked_in": "Checked In: {{name}}",
+      "duplicate": "Duplicate: {{name}}",
+      "not_found": "User Not Found: {{name}}",
+      "sys_fail": "SYSTEM FAILURE: Network Error"
+    },
+    "log_status": {
+      "USER_REGISTERED_SUCCESSFULLY": "ENTRY CONFIRMED",
+      "USER_ALREADY_REGISTERED": "DUPLICATE ENTRY",
+      "USER_NOT_FOUND": "UNKNOWN DRIVER"
+    }
   }
 }
