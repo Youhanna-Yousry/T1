@@ -1,0 +1,87 @@
+{
+  "sidebar": {
+    "dashboard": "لوحة القيادة",
+    "racer_code": "كود المتسابق",
+    "race_control": "تحكم السباق",
+    "logout": "تسجيل خروج",
+    "language": "اللغة",
+    "switch_lang": "English"
+  },
+  "dashboard": {
+    "season": "موسم",
+    "week": "الأسبوع",
+    "grand_prix": "السباق الكبير (Grand Prix)",
+    "practice": "تجارب (Practice)",
+    "sprint": "سباق سريع (Sprint)",
+    "total_pts": "الإجمالي: {{count}} نقطة"
+  },
+  "competitions": {
+    "great_lent": "الصوم الكبير",
+    "nativity_fast": "صوم الميلاد"
+  },
+  "activities": {
+    "service_liturgy": "قداس الخدمة",
+    "sunday_school": "مدارس الأحد",
+    "vespers": "عشية",
+    "tasbeha": "تسبحة",
+    "bible_study": "درس الكتاب",
+    "deacons_school": "مدرسة الشمامسة",
+    "speed_competition": "مسابقة السرعة",
+    "paper_competition": "المسابقة الورقية",
+    "coptic_language": "اللغة القبطية",
+    "extra_liturgy": "قداس إضافي",
+    "extra_tasbeha": "تسبحة إضافية",
+    "confession": "الاعتراف",
+    "psalm_recitation": "حفظ المزامير"
+  },
+  "status": {
+    "live": "مباشر",
+    "archived": "أرشيف",
+    "dns": "لم يبدأ",
+    "cmp": "مكتمل"
+  },
+  "loading": {
+    "title": "جاري تهيئة النظام",
+    "subtitle": "جاري إنشاء اتصال البيانات..."
+  }, 
+  "racer_code": {
+    "title": "كود الدخول الرسمي",
+    "driver_handle": "اسم المتسابق"
+  },
+  "login": {
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "submit": "تشغيل المحرك",
+    "loading": "جاري التشغيل...",
+    "secure_conn": "اتصال آمن",
+    "error_auth": "فشل المصادقة: بيانات غير صحيحة.",
+    "error_sys": "خطأ في النظام: فقد الاتصال."
+  },
+  "race_control": {
+    "title": "تحكم السباق",
+    "session_active": "الجلسة نشطة",
+    "pit_lane_open": "ممر الصيانة مفتوح",
+    "session_config": "إعدادات الجلسة",
+    "select_event_label": "اختر الحدث",
+    "select_event_placeholder": "اختر الحدث...",
+    "live_timing": "التوقيت الحي",
+    "waiting_drivers": "في انتظار السائقين...",
+    "onboard_cam": "كاميرا المراقبة 1",
+    "live": "مباشر",
+    "processing": "جاري المعالجة...",
+    "scanner_warning": "اختر الحدث لتفعيل الماسح",
+    "msgs": {
+      "safety_car": "سيارة الأمان: برجاء اختيار حدث أولاً!",
+      "already_scanned": "تم مسح هذا السائق مسبقاً: {{name}}",
+      "checked_in": "تم تسجيل الدخول: {{name}}",
+      "duplicate": "تكرار: {{name}}",
+      "not_found": "غير موجود: {{name}}",
+      "sys_fail": "فشل النظام: خطأ في الشبكة"
+    },
+    "log_status": {
+      "USER_REGISTERED_SUCCESSFULLY": "تم التسجيل بنجاح",
+      "USER_ALREADY_REGISTERED": "محاولة مكررة (Duplicate)",
+      "USER_NOT_FOUND": "سائق غير معروف"
+    }
+  }
+}

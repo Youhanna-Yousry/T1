@@ -17,7 +17,7 @@ import java.time.Instant;
 public class RefreshToken extends BasicEntity {
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
     @Column(nullable = false, unique = true)

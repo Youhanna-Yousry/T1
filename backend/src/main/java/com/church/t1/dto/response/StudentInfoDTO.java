@@ -7,15 +7,17 @@ import lombok.Getter;
 @Builder
 public class StudentInfoDTO {
 
-    private String name;
+    private String firstName;
 
-    private int rank;
-
-    private int totalPoints;
+    private String lastName;
 
     private String teamName;
 
     private String teamCode;
 
     private String teamColor;
+
+    private Integer championshipPoints;
+
+    private Integer championshipRank;
 }

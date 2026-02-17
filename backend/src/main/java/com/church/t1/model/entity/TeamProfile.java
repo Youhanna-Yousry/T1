@@ -1,6 +1,5 @@
 package com.church.t1.model.entity;
 
-import com.church.t1.model.enums.FastType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,18 +8,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(uniqueConstraints = {
-        @UniqueConstraint(
-                columnNames = {"family_id", "year", "fast_type"}
-        )
+        @UniqueConstraint(columnNames = {"family_id", "competition_id"})
 })
 public class TeamProfile extends BasicEntity {
 
-    @Column(nullable = false)
-    private Integer year;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "family_id", nullable = false)
+    private Family family;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private FastType fastType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "competition_id", nullable = false)
+    private Competition competition;
 
     @Column(nullable = false)
     private String teamName;
@@ -30,8 +28,4 @@ public class TeamProfile extends BasicEntity {
 
     @Column(nullable = false)
     private String teamColor;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "family_id", nullable = false)
-    private Family family;
 }

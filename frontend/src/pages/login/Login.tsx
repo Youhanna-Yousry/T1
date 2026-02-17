@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
-import { Stack, Card, Typography, Box, Alert, Divider } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Stack, Card, Typography, Box, Alert, Divider, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Translate as TranslateIcon } from "@mui/icons-material";
 
 import { login } from "services/authService";
 import { useAuth } from "context/authContext";
@@ -12,6 +14,7 @@ import { SubmitButton } from "components/form/submitButton/SubmitButton";
 import "./Login.less";
 
 export default function Login() {
+    const { t, i18n } = useTranslation();
     const [credentials, setCredentials] = useState({
         username: "",
         password: "",
@@ -21,6 +24,15 @@ export default function Login() {
 
     const { user, setUser } = useAuth();
     const navigate = useNavigate();
+
+    const toggleLanguage = () => {
+        const newLang = i18n.language === 'en' ? 'ar' : 'en';
+        i18n.changeLanguage(newLang);
+    };
+
+    useEffect(() => {
+        document.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+    }, [i18n.language]);
 
     useEffect(() => {
         if (user?.token) {
@@ -49,9 +61,9 @@ export default function Login() {
             navigate("/");
         } catch (err: any) {
             if (err?.response?.status === 401) {
-                setError("AUTHENTICATION FAILED: Invalid Telemetry.");
+                setError(t("login.error_auth"));
             } else {
-                setError("SYSTEM ERROR: Connection Lost.");
+                setError(t("login.error_sys"));
             }
         } finally {
             setLoading(false);
@@ -63,6 +75,15 @@ export default function Login() {
     return (
         <Box className="login-page">
             <div className="bg-stripe" />
+
+            <Box className="lang-toggle-wrapper">
+                <IconButton onClick={toggleLanguage} className="lang-btn">
+                    <TranslateIcon />
+                    <Typography variant="button" className="lang-text">
+                        {i18n.language === 'en' ? 'العربية' : 'ENGLISH'}
+                    </Typography>
+                </IconButton>
+            </Box>
 
             <Card className="login-card">
                 <Box className="card-header-deco">
@@ -76,7 +97,7 @@ export default function Login() {
                     <Box className="login-title">
                         <Box display="flex" flexDirection="column" alignItems="center">
                             <Typography variant="h3" className="brand-title">
-                                TAKYULA <span className="red-text">1</span>
+                                TAKYULA <Box component="span" className="red-text">1</Box>
                             </Typography>
                             <Divider className="title-divider" />
                             <Typography variant="subtitle2" className="subtitle">
@@ -88,13 +109,14 @@ export default function Login() {
                     <Stack component="form" spacing={3} onSubmit={handleSubmit}>
                         <TextInput
                             id="username"
-                            label="USERNAME"
+                            label={t("login.username")}
                             value={credentials.username}
                             onChange={(username) => handleUsernameChange(username)}
                             error={!!error}
                         />
 
                         <PasswordInput
+                            label={t("login.password")}
                             value={credentials.password}
                             onChange={(password) => handlePasswordChange(password)}
                             error={!!error}
@@ -110,14 +132,14 @@ export default function Login() {
                             <SubmitButton
                                 loading={loading}
                                 disabled={isSubmitDisabled}
-                                text={loading ? "IGNITION..." : "START ENGINE"}
+                                text={loading ? t("login.loading") : t("login.submit")}
                             />
                         </Box>
                     </Stack>
                 </Stack>
 
                 <Box className="card-footer-deco">
-                    <Typography variant="caption">SECURE CONNECTION</Typography>
+                    <Typography variant="caption">{t("login.secure_conn")}</Typography>
                     <Typography variant="caption">FIA_2026</Typography>
                 </Box>
             </Card>

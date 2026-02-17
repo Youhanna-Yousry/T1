@@ -9,12 +9,11 @@
     .MuiDrawer-paper {
         background-color: @bg-dark-blue;
         color: @color-white;
-        border-right: 1px solid @glass-med;
+        border-inline-end: 1px solid @glass-med;
         overflow-x: hidden;
         white-space: nowrap; 
         box-sizing: border-box;
         transition: width @anim-speed cubic-bezier(0.4, 0, 0.2, 1) !important;
-        
         width: @drawer-width;
     }
 
@@ -40,26 +39,39 @@
         width: auto;
         transition: opacity 0.2s ease, width 0.2s ease;
     }
-    
-    &.closed {
-        justify-content: center; 
-        padding: 0; 
-
-        .brand-text {
-            opacity: 0;
-            pointer-events: none;
-            width: 0; 
-            overflow: hidden;
-        }
-    }
 
     .red-text { color: @f1-red; }
 
     .toggle-btn {
         color: @color-text-muted;
-        transition: transform @anim-speed ease;
+        transition: color 0.2s ease;
         &:hover { color: @color-white; }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+            transform: rotate(0deg); 
+        }
     }
+}
+
+.f1-sidebar.closed .sidebar-header {
+    justify-content: center; 
+    padding: 0; 
+
+    .brand-text {
+        opacity: 0;
+        pointer-events: none;
+        width: 0; 
+        overflow: hidden;
+    }
+
+    .toggle-icon {
+        transform: rotate(180deg);
+    }
+}
+
+[dir="rtl"] .f1-sidebar.closed .sidebar-header .toggle-icon {
+    transform: rotate(180deg);
 }
 
 .sidebar-divider {
@@ -80,29 +92,30 @@
     transition: all 0.2s ease !important;
     min-height: 48px;
     
-    padding-left: 20px !important; 
-    padding-right: 20px !important;
+    padding-inline-start: 20px !important; 
+    padding-inline-end: 20px !important;
     justify-content: flex-start !important;
 
     .nav-icon {
         color: @color-text-muted;
         min-width: 0 !important;
-        margin-right: 16px;
+        margin-inline-end: 16px; 
         justify-content: center;
         transition: color 0.2s ease, margin 0.2s ease;
     }
 
-    .nav-text {
+    .MuiListItemText-primary, .MuiTypography-root {
+        font-family: @font-display !important;
+        font-weight: @weight-semi;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+
+    .nav-text, .user-name {
         white-space: nowrap;
         opacity: 1;
         transition: opacity 0.2s ease;
-        
-        .MuiTypography-root {
-            font-family: @font-display;
-            font-weight: @weight-semi;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-        }
+        text-align: start;
     }
 
     &:hover {
@@ -112,7 +125,7 @@
 
     &.active {
         background: linear-gradient(90deg, fade(@f1-red, 15%) 0%, fade(@f1-red, 0%) 100%) !important;
-        border-right: 4px solid @f1-red;
+        border-inline-start: 4px solid @f1-red; 
         
         .nav-icon { color: @f1-red; }
         .nav-text { color: @color-white; }
@@ -120,17 +133,17 @@
 }
 
 .f1-sidebar.closed {
-    .nav-button, .logout-button {
+    .nav-button {
         justify-content: center !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
+        padding-inline-start: 0 !important;
+        padding-inline-end: 0 !important;
     }
 
     .nav-icon {
-        margin-right: 0; 
+        margin-inline-end: 0;
     }
 
-    .nav-text, .user-name {
+    .nav-text, .user-name, .footer-text-wrapper, .MuiListItemText-root {
         opacity: 0;
         width: 0;
         display: none;
@@ -141,32 +154,22 @@
     margin-top: auto;
     padding-bottom: 16px;
 
-    .logout-button {
-        padding: 16px;
-        transition: all 0.2s ease;
-        justify-content: flex-start; 
-        padding-left: 20px;
+    .MuiButtonBase-root {
+        .MuiTypography-root {
+            font-family: @font-display !important;
+            font-weight: @weight-semi;
+        }
+    }
 
-        .nav-icon {
-            color: @color-text-muted;
-            min-width: 0;
-            margin-right: 16px;
-            transition: color 0.2s ease, margin 0.2s ease;
-        }
-        
-        .user-name {
-            color: @color-white;
-            transition: color 0.2s ease;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
-        
+    .logout-button {
         &:hover {
             background-color: @effect-red-bg-light !important;
             .nav-icon { color: @f1-red; }
-            .user-name { color: @f1-red; }
+            .user-name, .MuiTypography-root { color: @f1-red; }
         }
+    }
+    
+    .footer-text-wrapper {
+         transition: opacity 0.2s ease;
     }
 }

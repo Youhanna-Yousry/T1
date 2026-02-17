@@ -1,12 +1,19 @@
 import axios from "api/axios";
 
-interface StudentInfo {
+interface CompetitionInfo {
     name: string;
+    year: number;
+    status: "ARCHIVED" | "ACTIVE";
+}
+
+interface DriverInfo {
+    firstName: string;
+    lastName: string;
     teamName: string;
     teamCode: string;
     teamColor: string;
-    rank: number;
-    totalPoints: number;
+    championshipPoints: number;
+    championshipRank: number;
 }
 
 interface Event {
@@ -18,16 +25,18 @@ interface Category {
     events: Event[];
 }
 
-interface WeeklyInfo {
+interface TrackData {
     weekName: string;
+    weekNumber: number;
     grandPrix: Category;
     sprint: Category;
     practice: Category;
 }
 
 export interface StudentDashboard {
-    studentInfo: StudentInfo;
-    weeklyInfo: WeeklyInfo;
+    competitionInfo: CompetitionInfo;
+    driverInfo: DriverInfo;
+    trackData: TrackData;
 }
 
 export async function getStudentDashboard(username: string): Promise<StudentDashboard> {

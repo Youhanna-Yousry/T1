@@ -6,6 +6,8 @@ import {
 } from "@mui/material";
 import { History as HistoryIcon, Flag as FlagIcon } from "@mui/icons-material";
 import useAxiosInterceptor from "hooks/useAxiosInterceptor";
+import { useTranslation } from "react-i18next";
+import { getTranslatedEventName } from "utils/translationUtils";
 import Loading from "components/Loading/Loading";
 
 import { getEvents, EventInfo, markAttendance } from "services/servantService";
@@ -22,6 +24,7 @@ interface ScanLog {
 
 export default function RaceControl() {
     useAxiosInterceptor();
+    const { t } = useTranslation();
 
     const [events, setEvents] = useState<EventInfo[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<EventInfo | null>(null);
@@ -36,8 +39,9 @@ export default function RaceControl() {
     useEffect(() => {
         getEvents(true)
             .then(data => setEvents(data))
-            .catch(() => showNotification("Failed to load events", "error"))
+            .catch(() => showNotification(t("race_control.msgs.sys_fail"), "error"))
             .finally(() => setLoading(false));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleEventChange = (e: SelectChangeEvent<string>) => {
@@ -57,14 +61,14 @@ export default function RaceControl() {
 
         if (alreadyScannedInSession) {
             setIsPaused(true);
-            showNotification(`ALREADY SCANNED IN SESSION: ${rawValue}`, "warning");
+            showNotification(t("race_control.msgs.already_scanned", { name: rawValue }), "warning");
             setTimeout(() => setIsPaused(false), 2000);
             return;
         }
 
         if (!selectedEvent) {
             setIsPaused(true);
-            showNotification("SAFETY CAR: Please select an event first!", "warning");
+            showNotification(t("race_control.msgs.safety_car"), "warning");
             setTimeout(() => setIsPaused(false), 2000);
             return;
         }
@@ -77,22 +81,22 @@ export default function RaceControl() {
 
             if (statusString === "USER_REGISTERED_SUCCESSFULLY") {
                 logScan(newLogId, rawValue, statusString);
-                showNotification(`Checked In: ${rawValue}`, "success");
+                showNotification(t("race_control.msgs.checked_in", { name: rawValue }), "success");
             }
             else if (statusString === "USER_ALREADY_REGISTERED") {
                 logScan(newLogId, rawValue, statusString);
-                showNotification(`Duplicate: ${rawValue}`, "error");
+                showNotification(t("race_control.msgs.duplicate", { name: rawValue }), "error");
             }
             else if (statusString === "USER_NOT_FOUND") {
                 logScan(newLogId, rawValue, statusString);
-                showNotification(`User Not Found: ${rawValue}`, "warning");
+                showNotification(t("race_control.msgs.not_found", { name: rawValue }), "warning");
             }
             else {
-                showNotification(`Unknown Response: ${JSON.stringify(statusString)}`, "error");
+                showNotification(`Unknown Response`, "error");
             }
 
         } catch (error) {
-            showNotification("SYSTEM FAILURE: Network Error", "error");
+            showNotification(t("race_control.msgs.sys_fail"), "error");
         } finally {
             setTimeout(() => { setIsPaused(false); }, 2000);
         }
@@ -119,12 +123,12 @@ export default function RaceControl() {
                 <Box className="control-header content-wrapper">
                     <Box>
                         <Typography variant="h4" className="page-title">
-                            RACE <span className="red-text">CONTROL</span>
+                            {t("race_control.title").split(' ')[0]} <span className="red-text">{t("race_control.title").split(' ').slice(1).join(' ')}</span>
                         </Typography>
                     </Box>
                     <Chip
                         icon={<FlagIcon />}
-                        label={selectedEvent ? "SESSION ACTIVE" : "PIT LANE OPEN"}
+                        label={selectedEvent ? t("race_control.session_active") : t("race_control.pit_lane_open")}
                         color={selectedEvent ? "success" : "warning"}
                         className="status-chip"
                     />
@@ -139,17 +143,17 @@ export default function RaceControl() {
                     <Grid size={{ xs: 12, md: 4, lg: 3 }}>
                         <Stack spacing={3}>
                             <Paper className="control-panel">
-                                <Typography variant="h6" className="panel-title">SESSION CONFIG</Typography>
+                                <Typography variant="h6" className="panel-title">{t("race_control.session_config")}</Typography>
                                 <FormControl fullWidth variant="filled" className="f1-input">
-                                    <InputLabel>🏁 SELECT EVENT</InputLabel>
+                                    <InputLabel>🏁 {t("race_control.select_event_label")}</InputLabel>
                                     <Select
                                         value={selectedEvent ? String(selectedEvent.id) : ''}
                                         onChange={handleEventChange}
                                         MenuProps={{ className: 'f1-menu-popover' }}
                                     >
-                                        <MenuItem value=""><em>Select Event...</em></MenuItem>
+                                        <MenuItem value=""><em>{t("race_control.select_event_placeholder")}</em></MenuItem>
                                         {events.map(e => (
-                                            <MenuItem key={e.id} value={String(e.id)}>{e.name}</MenuItem>
+                                            <MenuItem key={e.id} value={String(e.id)}>{getTranslatedEventName(e.name, t)}</MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
@@ -157,13 +161,13 @@ export default function RaceControl() {
 
                             <Paper className="telemetry-panel">
                                 <Box className="panel-header">
-                                    <Typography variant="h6" className="panel-title">LIVE TIMING</Typography>
+                                    <Typography variant="h6" className="panel-title">{t("race_control.live_timing")}</Typography>
                                     <HistoryIcon fontSize="small" sx={{ opacity: 0.5 }} />
                                 </Box>
                                 <Box className="log-container">
                                     {scanLogs.length === 0 && (
                                         <Box className="empty-state">
-                                            <Typography variant="body2">WAITING FOR DRIVERS...</Typography>
+                                            <Typography variant="body2">{t("race_control.waiting_drivers")}</Typography>
                                         </Box>
                                     )}
                                     {scanLogs.map(log => (
@@ -176,7 +180,7 @@ export default function RaceControl() {
                                             <Box className="log-info">
                                                 <Typography variant="body2" className="driver-id">{log.username}</Typography>
                                                 <Typography variant="caption" className="log-msg">
-                                                    {log.status.replace(/_/g, " ")}
+                                                    {t(`race_control.log_status.${log.status}`)}
                                                 </Typography>
                                             </Box>
                                             <Box className="log-meta">
@@ -197,10 +201,10 @@ export default function RaceControl() {
                             <Box className="camera-header">
                                 <Box display="flex" alignItems="center" gap={2}>
                                     <Box className="rec-dot" />
-                                    <Typography variant="subtitle2" sx={{ letterSpacing: 2 }}>ONBOARD CAM_1</Typography>
+                                    <Typography variant="subtitle2" sx={{ letterSpacing: 2 }}>{t("race_control.onboard_cam")}</Typography>
                                 </Box>
                                 <Chip
-                                    label={isPaused ? "PROCESSING..." : "LIVE"}
+                                    label={isPaused ? t("race_control.processing") : t("race_control.live")}
                                     size="small"
                                     className={`cam-status ${isPaused ? 'paused' : 'live'}`}
                                 />
@@ -221,7 +225,7 @@ export default function RaceControl() {
                                     <div className="corner bl" /> <div className="corner br" />
                                     {!selectedEvent && (
                                         <Box className="warning-overlay">
-                                            <Typography variant="h5">SELECT EVENT TO ENABLE SCANNER</Typography>
+                                            <Typography variant="h5">{t("race_control.scanner_warning")}</Typography>
                                         </Box>
                                     )}
                                 </Box>

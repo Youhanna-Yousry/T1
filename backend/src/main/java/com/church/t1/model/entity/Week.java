@@ -1,8 +1,6 @@
 package com.church.t1.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +9,11 @@ import java.time.Instant;
 @Entity
 @Getter
 @Setter
-@Table
 public class Week extends BasicEntity {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "competition_id", referencedColumnName = "id", nullable = false)
+    private Competition competition;
 
     @Column(nullable = false)
     private String name;
