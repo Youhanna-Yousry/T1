@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -22,20 +21,7 @@ public class ChampionshipService {
     @Transactional(readOnly = true)
     public List<ChampionshipStanding> getStandings(Long competitionId) {
         Competition competition = resolveCompetition(competitionId);
-
-        AtomicInteger rank = new AtomicInteger(1);
-        return weeklyResultRepository.findChampionshipStandings(competition.getId())
-                .stream()
-                .map(row -> new ChampionshipStanding(
-                        rank.getAndIncrement(),
-                        row.firstName(),
-                        row.lastName(),
-                        row.teamName(),
-                        row.teamCode(),
-                        row.teamColor(),
-                        row.totalPoints()
-                ))
-                .toList();
+        return weeklyResultRepository.findChampionshipStandings(competition.getId());
     }
 
     private Competition resolveCompetition(Long competitionId) {
