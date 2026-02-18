@@ -12,15 +12,15 @@ import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
-public class CompetitionManager {
+public class CompetitionContextService {
 
     private final CompetitionRepository competitionRepository;
     private final WeekRepository weekRepository;
 
-    CompetitionContext resolveContext(Long competitionId, Long weekId) {
+    public Context resolveContext(Long competitionId, Long weekId) {
         Competition competition = resolveCompetition(competitionId);
         Week week = resolveWeek(competition, weekId);
-        return new CompetitionContext(competition, week);
+        return new Context(competition, week);
     }
 
     private Competition resolveCompetition(Long id) {
@@ -42,7 +42,6 @@ public class CompetitionManager {
                 .or(() -> weekRepository.findFirstByCompetitionIdOrderByWeekNumberAsc(competition.getId()))
                 .orElseThrow(() -> new RuntimeException("No weeks setup for: " + competition.getName()));
     }
-}
 
-record CompetitionContext(Competition competition, Week week) {
+    public record Context(Competition competition, Week week) {}
 }

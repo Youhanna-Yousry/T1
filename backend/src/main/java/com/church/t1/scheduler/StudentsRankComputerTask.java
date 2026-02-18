@@ -32,10 +32,10 @@ public class StudentsRankComputerTask {
 
     private final WeeklyResultRepository weeklyResultRepository;
 
-    @Value("${app.ranking.base-points:40}")
+    @Value("${app.ranking.basePpoints:40}")
     private int basePoints;
 
-    @Value("${app.ranking.step-points:2}")
+    @Value("${app.ranking.stepPoints:2}")
     private int stepPoints;
 
     @Scheduled(cron = "${app.ranking.cron}")

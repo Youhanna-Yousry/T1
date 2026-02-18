@@ -28,7 +28,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthEntryPoint authEntryPoint, AuthTokenFilter authTokenFilter) {
-        http //
+        http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exceptionHandling ->
@@ -36,7 +36,7 @@ public class SecurityConfig {
                 ).sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests //
+                        authorizeRequests
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/student/**").hasRole(Role.STUDENT.name())
                                 .requestMatchers("/api/servant/**").hasRole(Role.SERVANT.name())

@@ -31,9 +31,9 @@ app:
     refreshToken:
       expirationMs: 604800000
       cleanupCron: 0 0 4 * * *
-      cleanupDays: 30\
+      cleanupDays: 30
   ranking:
-      cron: "0 0 3 * * FRI"
-      base-points: 40
-      step-points: 2
+      cron: 0 0 3 * * FRI
+      basePoints: 40
+      stepPoints: 2
 
