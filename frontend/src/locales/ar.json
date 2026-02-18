@@ -3,6 +3,7 @@
     "dashboard": "لوحة القيادة",
     "racer_code": "كود المتسابق",
     "race_control": "تحكم السباق",
+    "driver_championship": "البطولة",
     "logout": "تسجيل خروج",
     "language": "اللغة",
     "switch_lang": "English"
@@ -56,6 +57,16 @@
     "secure_conn": "اتصال آمن",
     "error_auth": "فشل المصادقة: بيانات غير صحيحة.",
     "error_sys": "خطأ في النظام: فقد الاتصال."
+  },
+  "championship": {
+    "title": "ترتيب السائقين",
+    "season_standings": "ترتيب سائقي 2025",
+    "col_pos": "المركز",
+    "col_driver": "السائق",
+    "col_team_name": "الجنسية",
+    "col_team": "الفريق",
+    "col_pts": "النقاط",
+    "no_data": "لا توجد بيانات بطولة"
   },
   "race_control": {
     "title": "تحكم السباق",

@@ -40,6 +40,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/student/**").hasRole(Role.STUDENT.name())
                                 .requestMatchers("/api/servant/**").hasRole(Role.SERVANT.name())
+                                .requestMatchers("/api/championship/**").authenticated()
                                 .anyRequest().authenticated()
                 );
 

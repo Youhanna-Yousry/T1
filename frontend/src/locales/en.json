@@ -3,6 +3,7 @@
     "dashboard": "DASHBOARD",
     "racer_code": "RACER CODE",
     "race_control": "RACE CONTROL",
+    "driver_championship": "CHAMPIONSHIP",
     "logout": "Logout",
     "language": "Language",
     "switch_lang": "العربية"
@@ -56,6 +57,16 @@
     "secure_conn": "SECURE CONNECTION",
     "error_auth": "AUTHENTICATION FAILED: Invalid Telemetry.",
     "error_sys": "SYSTEM ERROR: Connection Lost."
+  },
+  "championship": {
+    "title": "DRIVERS' STANDINGS",
+    "season_standings": "2025 DRIVERS' STANDINGS",
+    "col_pos": "POS.",
+    "col_driver": "DRIVER",
+    "col_team_name": "NATIONALITY",
+    "col_team": "TEAM",
+    "col_pts": "PTS.",
+    "no_data": "NO STANDINGS DATA AVAILABLE"
   },
   "race_control": {
     "title": "RACE CONTROL",
