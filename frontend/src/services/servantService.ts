@@ -1,17 +1,17 @@
 import axios from "api/axios"
 
-export interface EventInfo {
+export interface EventSummary {
     id: number;
     name: string;
-    weight: number;
+    points: number;
 }
 
-export async function getEvents(scannable: boolean): Promise<EventInfo[]> {
-    const response = await axios.get<EventInfo[]>(`/servant/events?scannable=${scannable}`);
+export async function getEvents(scannable: boolean): Promise<EventSummary[]> {
+    const response = await axios.get<EventSummary[]>(`/servant/events?scannable=${scannable}`);
     return response.data;
 }
 
-export async function markAttendance(eventId: number, username: string, weight: number): Promise<string> {
-    const response = await axios.post("/servant/attendance", { eventId, username, weight })
+export async function markAttendance(eventId: number, username: string, points: number): Promise<string> {
+    const response = await axios.post("/servant/attendance", { eventId, username, points })
     return response.data;
 }

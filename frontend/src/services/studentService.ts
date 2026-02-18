@@ -18,7 +18,7 @@ interface StudentProfile {
 
 interface EventProgress {
     name: string;
-    completed: boolean;
+    isCompleted: boolean;
 }
 
 interface EventCategory {

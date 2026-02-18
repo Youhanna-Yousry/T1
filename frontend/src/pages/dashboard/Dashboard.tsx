@@ -71,12 +71,12 @@ export default function Dashboard() {
                 </Box>
                 <Stack spacing={1.5} className="card-content">
                     {category.events.map((event: any, idx: number) => (
-                        <Box key={idx} className={`event-row ${event.completed ? 'completed' : 'pending'}`}>
+                        <Box key={idx} className={`event-row ${event.isCompleted ? 'completed' : 'pending'}`}>
                             <Typography variant="body2">
                                 {getTranslatedEventName(event.name, t)}
                             </Typography>
                             <Typography variant="caption" className="status-text">
-                                {event.completed ? t("status.cmp") : t("status.dns")}
+                                {event.isCompleted ? t("status.cmp") : t("status.dns")}
                             </Typography>
                         </Box>
                     ))}

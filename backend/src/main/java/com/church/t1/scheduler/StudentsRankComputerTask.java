@@ -95,6 +95,7 @@ public class StudentsRankComputerTask {
         if (result.getId() == null) {
             result.setWeek(ctx.week);
             result.setUser(user);
+            result.setFamily(user.getFamily());
             result.setCompetition(ctx.week.getCompetition());
         }
 

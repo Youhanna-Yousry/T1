@@ -21,11 +21,11 @@ public interface StudentLogRepository extends JpaRepository<StudentLog, Long> {
     @Transactional
     @Query(value = """
             INSERT INTO student_log (event_id, points_earned, user_id, week_id)
-            SELECT :eventId, :weight, u.id, w.id
+            SELECT :eventId, :points, u.id, w.id
             FROM users u, week w
             WHERE u.username = :username AND CURRENT_DATE BETWEEN w.start_date AND w.end_date
             """, nativeQuery = true)
-    int logStudentAttendance(String username, Long eventId, Integer weight);
+    int logStudentAttendance(String username, Long eventId, Integer points);
 
     @Query("SELECT sl.user as user, SUM(sl.pointsEarned) as totalScore " +
             "FROM StudentLog sl " +

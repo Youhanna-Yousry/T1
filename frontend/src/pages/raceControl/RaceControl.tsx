@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { getTranslatedEventName } from "utils/translationUtils";
 import Loading from "components/Loading/Loading";
 
-import { getEvents, EventInfo, markAttendance } from "services/servantService";
+import { getEvents, EventSummary, markAttendance } from "services/servantService";
 import "./RaceControl.less";
 
 type ScanStatus = "USER_REGISTERED_SUCCESSFULLY" | "USER_NOT_FOUND" | "USER_ALREADY_REGISTERED";
@@ -26,8 +26,8 @@ export default function RaceControl() {
     useAxiosInterceptor();
     const { t } = useTranslation();
 
-    const [events, setEvents] = useState<EventInfo[]>([]);
-    const [selectedEvent, setSelectedEvent] = useState<EventInfo | null>(null);
+    const [events, setEvents] = useState<EventSummary[]>([]);
+    const [selectedEvent, setSelectedEvent] = useState<EventSummary | null>(null);
     const [loading, setLoading] = useState(true);
     const [scanLogs, setScanLogs] = useState<ScanLog[]>([]);
     const [isPaused, setIsPaused] = useState(false);
@@ -77,7 +77,7 @@ export default function RaceControl() {
         const newLogId = Date.now();
 
         try {
-            const statusString = await markAttendance(selectedEvent.id, rawValue, selectedEvent.weight) as ScanStatus;
+            const statusString = await markAttendance(selectedEvent.id, rawValue, selectedEvent.points) as ScanStatus;
 
             if (statusString === "USER_REGISTERED_SUCCESSFULLY") {
                 logScan(newLogId, rawValue, statusString);
