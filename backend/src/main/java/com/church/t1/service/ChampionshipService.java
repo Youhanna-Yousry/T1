@@ -1,5 +1,6 @@
 package com.church.t1.service;
 
+import com.church.t1.dto.ChampionshipRow;
 import com.church.t1.dto.response.ChampionshipStanding;
 import com.church.t1.model.entity.Competition;
 import com.church.t1.repository.CompetitionRepository;
@@ -23,18 +24,18 @@ public class ChampionshipService {
     public List<ChampionshipStanding> getStandings(Long competitionId) {
         Competition competition = resolveCompetition(competitionId);
 
-        List<Object[]> rows = weeklyResultRepository.findChampionshipStandings(competition.getId());
+        List<ChampionshipRow> rows = weeklyResultRepository.findChampionshipStandings(competition.getId());
 
         AtomicInteger rank = new AtomicInteger(1);
         return rows.stream()
                 .map(row -> new ChampionshipStanding(
                         rank.getAndIncrement(),
-                        (String) row[1],
-                        (String) row[2],
-                        (String) row[3],
-                        (String) row[4],
-                        (String) row[5],
-                        ((Number) row[6]).intValue()
+                        row.firstName(),
+                        row.lastName(),
+                        row.teamName(),
+                        row.teamCode(),
+                        row.teamColor(),
+                        row.totalPoints()
                 ))
                 .toList();
     }
