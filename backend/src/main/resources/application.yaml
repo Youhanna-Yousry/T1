@@ -32,3 +32,8 @@ app:
       expirationMs: 604800000
       cleanupCron: 0 0 4 * * *
       cleanupDays: 30
+  ranking:
+      cron: 0 0 3 * * FRI
+      basePoints: 40
+      stepPoints: 2
+

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import useAxiosInterceptor from "hooks/useAxiosInterceptor";
-import { useAuth } from "context/authContext";
 import { useTranslation } from "react-i18next";
 import { getTranslatedEventName, getTranslatedCompetitionName } from "utils/translationUtils";
 import { Container, Grid, Typography, Box, Card, Stack, Divider, Chip } from "@mui/material";
@@ -26,42 +25,39 @@ const getDriverCode = (firstName: string, lastName: string) => {
 
 export default function Dashboard() {
     useAxiosInterceptor();
-    const { user } = useAuth();
     const { t } = useTranslation();
     const [data, setData] = useState<StudentDashboard | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (user?.username) {
-            getStudentDashboard(user.username)
-                .then(setData)
-                .finally(() => setLoading(false));
-        }
-    }, [user]);
+        getStudentDashboard()
+            .then(setData)
+            .finally(() => setLoading(false));
+    }, []);
 
     if (loading || !data) return <Loading />;
 
-    const { competitionInfo, driverInfo, trackData } = data;
+    const { competition, studentProfile, weeklyProgress } = data;
 
     const formatRound = (num: number) => num.toString().padStart(2, '0');
 
     const CompetitionHeader = () => {
-        const displayName = getTranslatedCompetitionName(competitionInfo.name, t);
+        const displayName = getTranslatedCompetitionName(competition.name, t);
 
         return (
             <Box className="competition-header">
                 <Box className="comp-info">
                     <Typography variant="overline" className="comp-year">
-                        {t("dashboard.season")} {competitionInfo.year}
+                        {t("dashboard.season")} {competition.year}
                     </Typography>
                     <Typography variant="h4" className="comp-name">
-                        {displayName} <span style={{ color: '#dc0000' }}>{competitionInfo.year}</span>
+                        {displayName} <span style={{ color: '#dc0000' }}>{competition.year}</span>
                     </Typography>
                 </Box>
                 <Chip
-                    icon={<CircleIcon style={{ fontSize: 12, color: competitionInfo.status === 'ACTIVE' ? '#2ecc71' : '#95a5a6' }} />}
-                    label={competitionInfo.status === 'ACTIVE' ? t("status.live") : t("status.archived")}
-                    className={`status-chip ${competitionInfo.status.toLowerCase()}`}
+                    icon={<CircleIcon style={{ fontSize: 12, color: competition.status === 'ACTIVE' ? '#2ecc71' : '#95a5a6' }} />}
+                    label={competition.status === 'ACTIVE' ? t("status.live") : t("status.archived")}
+                    className={`status-chip ${competition.status.toLowerCase()}`}
                 />
             </Box>
         );
@@ -75,12 +71,12 @@ export default function Dashboard() {
                 </Box>
                 <Stack spacing={1.5} className="card-content">
                     {category.events.map((event: any, idx: number) => (
-                        <Box key={idx} className={`event-row ${event.completed ? 'completed' : 'pending'}`}>
+                        <Box key={idx} className={`event-row ${event.isCompleted ? 'completed' : 'pending'}`}>
                             <Typography variant="body2">
                                 {getTranslatedEventName(event.name, t)}
                             </Typography>
                             <Typography variant="caption" className="status-text">
-                                {event.completed ? t("status.cmp") : t("status.dns")}
+                                {event.isCompleted ? t("status.cmp") : t("status.dns")}
                             </Typography>
                         </Box>
                     ))}
@@ -97,28 +93,28 @@ export default function Dashboard() {
                 <Box className="driver-header">
                     <Box className="driver-identity">
                         <img
-                            src={TEAM_LOGOS[driverInfo.teamCode]}
-                            alt={driverInfo.teamName}
+                            src={TEAM_LOGOS[studentProfile.teamCode]}
+                            alt={studentProfile.teamName}
                             className="team-logo"
                         />
                         <Box className="identity-text">
                             <Typography variant="h4" className="driver-name">
-                                {getDriverCode(driverInfo.firstName, driverInfo.lastName)}
+                                {getDriverCode(studentProfile.firstName, studentProfile.lastName)}
                             </Typography>
                             <Typography variant="subtitle2" className="team-text">
-                                {driverInfo.teamName} <span
+                                {studentProfile.teamName} <span
                                     className="team-code"
-                                    style={{ color: driverInfo.teamColor }}
+                                    style={{ color: studentProfile.teamColor }}
                                 >
-                                    | {driverInfo.teamCode}
+                                    | {studentProfile.teamCode}
                                 </span>
                             </Typography>
                         </Box>
                     </Box>
                     <Box className="driver-stats">
-                        <Typography variant="h3" className="rank-text">P{driverInfo.championshipRank}</Typography>
+                        <Typography variant="h3" className="rank-text">P{studentProfile.rank}</Typography>
                         <Typography variant="caption">
-                            {t("dashboard.total_pts", { count: driverInfo.championshipPoints })}
+                            {t("dashboard.total_pts", { count: studentProfile.totalPoints })}
                         </Typography>
                     </Box>
                 </Box>
@@ -127,17 +123,17 @@ export default function Dashboard() {
 
                 <Box className="week-header">
                     <Typography variant="overline" className="round-counter">
-                        Round {formatRound(trackData.weekNumber)}
+                        Round {formatRound(weeklyProgress.weekNumber)}
                     </Typography>
                     <Typography variant="h3" className="week-title">
-                        {trackData.weekName.toUpperCase()}
+                        {weeklyProgress.weekName.toUpperCase()}
                     </Typography>
                 </Box>
 
                 <Grid container spacing={3}>
-                    <CategoryCard title={`🏁 ${t("dashboard.grand_prix")}`} category={trackData.grandPrix} />
-                    <CategoryCard title={`🏎️ ${t("dashboard.practice")}`} category={trackData.practice} />
-                    <CategoryCard title={`⚡ ${t("dashboard.sprint")}`} category={trackData.sprint} />
+                    <CategoryCard title={`🏁 ${t("dashboard.grand_prix")}`} category={weeklyProgress.grandPrix} />
+                    <CategoryCard title={`🏎️ ${t("dashboard.practice")}`} category={weeklyProgress.practice} />
+                    <CategoryCard title={`⚡ ${t("dashboard.sprint")}`} category={weeklyProgress.sprint} />
                 </Grid>
             </Container>
         </Box>
