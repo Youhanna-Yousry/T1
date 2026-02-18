@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import axios from "api/axios";
 import useRefreshToken from "hooks/useRefreshToken";
 
-function isAuthEndpoint(url: string) {
-    return url.startsWith("/auth/");
+function isAuthEndpoint(url: string | undefined) {
+    return url && url.includes("/auth/");
 }
 
 export default function UseAxiosInterceptor() {
@@ -14,12 +14,12 @@ export default function UseAxiosInterceptor() {
     useEffect(() => {
         const requestInterceptor = axios.interceptors.request.use(
             config => {
-                if (isAuthEndpoint(config.url || '')) {
+                if (isAuthEndpoint(config.url)) {
                     return config;
                 }
 
                 const token = auth.user?.token;
-                if (!config.headers['Authorization'] && token) {
+                if (token && !config.headers['Authorization']) {
                     config.headers['Authorization'] = `Bearer ${token}`;
                 }
 
@@ -33,13 +33,22 @@ export default function UseAxiosInterceptor() {
             async error => {
                 const prevRequest = error.config;
 
-                if (!isAuthEndpoint(prevRequest.url) && error.response?.status === 403 && !prevRequest._retry) {
-                    prevRequest._retry = true;
-                    const newToken = await refresh();
+                if (error.response?.status === 401 && !prevRequest?._retry) {
 
-                    prevRequest.headers['Authorization'] = `Bearer ${newToken}`;
-                    return axios(prevRequest);
-                };
+                    if (isAuthEndpoint(prevRequest.url)) {
+                        return Promise.reject(error);
+                    }
+
+                    prevRequest._retry = true;
+
+                    try {
+                        const newToken = await refresh();
+                        prevRequest.headers['Authorization'] = `Bearer ${newToken}`;
+                        return axios(prevRequest);
+                    } catch (refreshError) {
+                        return Promise.reject(refreshError);
+                    }
+                }
 
                 return Promise.reject(error);
             }
