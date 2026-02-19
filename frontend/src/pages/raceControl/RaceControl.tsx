@@ -39,7 +39,7 @@ export default function RaceControl() {
     useEffect(() => {
         getEvents(true)
             .then(data => setEvents(data))
-            .catch(() => showNotification(t("race_control.msgs.sys_fail"), "error"))
+            .catch(() => showNotification(t("shared_msgs.sys_fail"), "error"))
             .finally(() => setLoading(false));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -80,19 +80,19 @@ export default function RaceControl() {
             await markAttendance(selectedEvent.id, rawValue, selectedEvent.points);
 
             logScan(newLogId, rawValue, "USER_REGISTERED_SUCCESSFULLY");
-            showNotification(t("race_control.msgs.checked_in", { name: rawValue }), "success");
+            showNotification(t("shared_msgs.success", { name: rawValue }), "success");
 
         } catch (error: any) {
             const status = error?.response?.status;
 
             if (status === 409) {
                 logScan(newLogId, rawValue, "USER_ALREADY_REGISTERED");
-                showNotification(t("race_control.msgs.duplicate", { name: rawValue }), "error");
+                showNotification(t("shared_msgs.duplicate", { name: rawValue }), "warning");
             } else if (status === 400) {
                 logScan(newLogId, rawValue, "USER_NOT_FOUND");
-                showNotification(t("race_control.msgs.not_found", { name: rawValue }), "warning");
+                showNotification(t("shared_msgs.not_found", { name: rawValue }), "error");
             } else {
-                showNotification(t("race_control.msgs.sys_fail"), "error");
+                showNotification(t("shared_msgs.sys_fail"), "error");
             }
         } finally {
             setTimeout(() => { setIsPaused(false); }, 2000);

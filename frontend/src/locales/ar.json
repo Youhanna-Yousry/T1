@@ -58,6 +58,13 @@
     "error_auth": "فشل المصادقة: بيانات غير صحيحة.",
     "error_sys": "خطأ في النظام: فقد الاتصال."
   },
+  "shared_msgs": {
+    "success": "تم تسجيل الدخول: {{name}}",
+    "duplicate": "تكرار: {{name}}",
+    "not_found": "غير موجود: {{name}}",
+    "sys_fail": "فشل النظام: خطأ في الشبكة",
+    "error_loading": "فشل في تحميل الأحداث."
+  },
   "race_control": {
     "title": "تحكم السباق",
     "session_active": "الجلسة نشطة",
@@ -73,11 +80,7 @@
     "scanner_warning": "اختر الحدث لتفعيل الماسح",
     "msgs": {
       "safety_car": "سيارة الأمان: برجاء اختيار حدث أولاً!",
-      "already_scanned": "تم مسح هذا السائق مسبقاً: {{name}}",
-      "checked_in": "تم تسجيل الدخول: {{name}}",
-      "duplicate": "تكرار: {{name}}",
-      "not_found": "غير موجود: {{name}}",
-      "sys_fail": "فشل النظام: خطأ في الشبكة"
+      "already_scanned": "تم مسح هذا السائق مسبقاً: {{name}}"
     },
     "log_status": {
       "USER_REGISTERED_SUCCESSFULLY": "تم التسجيل بنجاح",
@@ -92,13 +95,6 @@
     "select_event": "اختر الحدث",
     "points": "النقاط",
     "submit_points": "تسجيل النقاط",
-    "none": "لا يوجد",
-    "msgs": {
-      "error_loading": "فشل في تحميل الأحداث.",
-      "success_added": "تم تسجيل النقاط بنجاح!",
-      "error_conflict": "تعارض: تم تسجيل المستخدم مسبقاً في هذا الحدث.",
-      "error_user_not_found": "خطأ: المستخدم غير موجود.",
-      "error_generic": "حدث خطأ أثناء التسجيل."
-    }
+    "none": "لا يوجد"
   }
 }

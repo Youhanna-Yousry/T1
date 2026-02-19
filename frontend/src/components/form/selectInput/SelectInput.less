@@ -27,6 +27,32 @@
     }
 }
 
+[dir="rtl"] .f1-select-container {
+    .MuiInputLabel-root {
+        left: unset;
+        right: 12px;
+        transform-origin: top right;
+        
+        &.MuiInputLabel-shrink {
+            transform: translate(0, -1.5px) scale(0.75);
+        }
+        &:not(.MuiInputLabel-shrink) {
+            transform: translate(0, 16px) scale(1);
+        }
+    }
+    
+    .MuiSelect-select {
+        text-align: right;
+        padding-right: 12px !important;
+        padding-left: 32px !important;
+    }
+    
+    .MuiSelect-icon {
+        right: unset !important;
+        left: 7px !important;
+    }
+}
+
 .f1-menu-popover.MuiPaper-root {
     background-color: @bg-panel !important;
     color: @color-white !important;

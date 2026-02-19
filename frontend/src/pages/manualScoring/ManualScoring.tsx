@@ -37,7 +37,7 @@ export default function ManualScoring() {
                 const data = await getEvents(false);
                 setEvents(data);
             } catch (error) {
-                setFeedback({ type: 'error', msg: t("manual_scoring.msgs.error_loading") });
+                setFeedback({ type: 'error', msg: t("shared_msgs.error_loading") });
             } finally {
                 setLoading(false);
             }
@@ -81,26 +81,27 @@ export default function ManualScoring() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!selectedEventId || !inputValue.trim() || isPointsInvalid) return;
+        const submittedName = inputValue.trim();
+        if (!selectedEventId || !submittedName || isPointsInvalid) return;
 
         setSubmitting(true);
         setFeedback(null);
 
         try {
-            await markAttendance(Number(selectedEventId), inputValue.trim(), Number(customPoints));
+            await markAttendance(Number(selectedEventId), submittedName, Number(customPoints));
 
-            setFeedback({ type: 'success', msg: t("manual_scoring.msgs.success_added") });
+            setFeedback({ type: 'success', msg: t("shared_msgs.success", { name: submittedName }) });
             setUsername(null);
             setInputValue("");
         } catch (error: any) {
             const status = error?.response?.status;
 
             if (status === 409) {
-                setFeedback({ type: 'warning', msg: t("manual_scoring.msgs.error_conflict") });
+                setFeedback({ type: 'warning', msg: t("shared_msgs.duplicate", { name: submittedName }) });
             } else if (status === 400) {
-                setFeedback({ type: 'error', msg: t("manual_scoring.msgs.error_user_not_found") });
+                setFeedback({ type: 'error', msg: t("shared_msgs.not_found", { name: submittedName }) });
             } else {
-                setFeedback({ type: 'error', msg: t("manual_scoring.msgs.error_generic") });
+                setFeedback({ type: 'error', msg: t("shared_msgs.sys_fail") });
             }
         } finally {
             setSubmitting(false);

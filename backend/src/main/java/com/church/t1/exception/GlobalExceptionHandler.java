@@ -64,7 +64,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 ex.getMessage()
         );
 
-        problemDetail.setTitle("User Not Found");
+        problemDetail.setTitle("Student Not Found");
         problemDetail.setProperty(TIMESTAMP, Instant.now());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
