@@ -1,0 +1,267 @@
+@import 'styles/colors.less';
+@import 'styles/fonts.less';
+
+.championship-page {
+    padding-bottom: 40px;
+}
+
+.championship-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 24px;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 4px solid @f1-red;
+
+    .champ-title-block {
+        .champ-season-label {
+            font-family: @font-tech;
+            color: @color-text-tertiary;
+            letter-spacing: 2px;
+            font-weight: @weight-bold;
+            line-height: 1;
+            font-size: 0.75rem;
+        }
+
+        .champ-title {
+            font-family: @font-display;
+            font-weight: @weight-black;
+            font-style: italic;
+            margin-top: 4px;
+            line-height: 1;
+            color: @f1-black;
+            text-transform: uppercase;
+        }
+    }
+
+    .status-chip {
+        font-family: @font-tech;
+        font-weight: @weight-bold;
+        border-radius: 4px;
+        height: 24px;
+
+        .MuiChip-icon {
+            margin-left: 5px;
+            margin-right: -6px;
+
+            [dir="rtl"] & {
+                margin-left: -6px;
+                margin-right: 5px;
+            }
+        }
+
+        &.active {
+            background-color: fade(@color-success, 10%);
+            color: @color-success-dark;
+            border: 1px solid fade(@color-success, 20%);
+        }
+    }
+}
+
+.standings-table-container {
+    border-radius: 8px !important;
+    overflow: hidden;
+    background-color: @bg-panel !important;
+    border: 1px solid @glass-med;
+}
+
+.standings-table {
+    table-layout: fixed;
+    width: 100%;
+
+    .MuiTableCell-root {
+        text-align: start !important;
+    }
+    
+    .col-pts {
+        text-align: end !important;
+    }
+
+    .standings-head-row {
+        background-color: @bg-dark-blue;
+
+        .MuiTableCell-root {
+            font-family: @font-tech !important;
+            font-weight: @weight-bold;
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+            color: @color-text-muted;
+            text-transform: uppercase;
+            border-bottom: 1px solid @glass-med;
+            padding: 14px 16px;
+        }
+    }
+
+    .standing-row {
+        transition: background-color 0.15s ease;
+        border-bottom: 1px solid @glass-low;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &:hover {
+            background-color: @glass-low;
+        }
+
+        &.leader {
+            background-color: fade(@f1-red, 4%);
+
+            &:hover {
+                background-color: fade(@f1-red, 8%);
+            }
+
+            .rank-number {
+                color: @f1-red;
+            }
+        }
+
+        .MuiTableCell-root {
+            border-bottom: 1px solid @glass-low;
+            padding: 14px 16px;
+        }
+
+        &:last-child .MuiTableCell-root {
+            border-bottom: none;
+        }
+    }
+}
+
+.col-pos { width: 50px; }
+.col-driver { width: 55%; }
+.col-team { width: 45%; }
+.col-pts { width: 60px; }
+
+.col-pos {
+    .rank-number {
+        font-family: @font-display !important;
+        font-weight: @weight-black;
+        font-size: 1.1rem;
+        color: @color-white;
+        line-height: 1;
+    }
+}
+
+.col-driver {
+    .driver-cell {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .driver-color-bar {
+        width: 4px;
+        height: 36px;
+        border-radius: 2px;
+        flex-shrink: 0;
+    }
+
+    .driver-full-name {
+        font-family: @font-display !important;
+        font-weight: @weight-semi;
+        font-size: 0.95rem;
+        color: @color-white;
+        line-height: 1.2;
+    }
+
+    .gap-label {
+        font-family: @font-tech !important;
+        font-size: 0.7rem;
+        color: @color-text-muted;
+        letter-spacing: 0.5px;
+        margin-top: 2px;
+    }
+}
+
+.col-team {
+    
+    .team-cell {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .team-logo-wrapper {
+        width: 50px; 
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .team-logo-small {
+        max-height: 28px;
+        max-width: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 0 4px @glass-med);
+    }
+
+    .team-color-dot {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .team-code-text {
+        font-family: @font-display !important;
+        font-weight: @weight-bold;
+        font-size: 0.9rem;
+    }
+}
+
+.col-pts {
+    .pts-value {
+        font-family: @font-display !important;
+        font-weight: @weight-black;
+        font-size: 1.05rem;
+        color: @color-white;
+        letter-spacing: 0.5px;
+    }
+}
+
+.empty-state {
+    padding: 48px 16px !important;
+    color: @color-text-muted;
+
+    .MuiTypography-root {
+        font-family: @font-tech !important;
+        letter-spacing: 1px;
+    }
+}
+
+@media (max-width: 768px) {
+    .championship-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+
+        .champ-title {
+            font-size: 1.6rem;
+        }
+    }
+
+    .standings-table .MuiTableCell-root {
+        padding: 12px 6px !important;
+    }
+
+    .col-pos { width: 36px; }
+    .col-pts { width: 46px; }
+    
+    .col-team { 
+        width: 50px; 
+        
+        .team-code-text { display: none; }
+        
+        .team-logo-wrapper {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    .col-driver {
+        .driver-cell { gap: 8px; }
+        .driver-full-name { font-size: 0.85rem; }
+    }
+}
