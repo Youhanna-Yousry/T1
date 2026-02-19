@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import {
-    Box, Container, Grid, Typography, Stack, MenuItem, Paper,
-    Select, FormControl, InputLabel, Alert, Autocomplete, TextField, CircularProgress
+    Box, Container, Grid, Typography, Stack, Paper, Alert
 } from "@mui/material";
+import { SelectInput } from "components/form/selectInput/SelectInput";
+import { AutocompleteInput } from "components/form/autocompleteInput/AutocompleteInput";
 import { useTranslation } from "react-i18next";
 import { getTranslatedEventName } from "utils/translationUtils";
 import { SubmitButton } from "components/form/submitButton/SubmitButton";
 import { TextInput } from "components/form/textInput/TextInput";
 import { getEvents, markAttendance, searchStudents, EventSummary } from "services/servantService";
 import UseAxiosInterceptor from "hooks/useAxiosInterceptor";
+import Loading from "components/Loading/Loading"; // <-- Imported Loading component
 
 import "./ManualScoring.less";
 
@@ -25,13 +27,12 @@ export default function ManualScoring() {
     const [isSearching, setIsSearching] = useState(false);
 
     const [events, setEvents] = useState<EventSummary[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [feedback, setFeedback] = useState<{ type: 'success' | 'error' | 'warning', msg: string } | null>(null);
 
     useEffect(() => {
         const loadEvents = async () => {
-            setLoading(true);
             try {
                 const data = await getEvents(false);
                 setEvents(data);
@@ -104,6 +105,8 @@ export default function ManualScoring() {
         }
     };
 
+    if (loading) return <Loading />;
+
     return (
         <Box className="manual-scoring-page">
             <Container maxWidth="xl" className="scoring-container">
@@ -133,57 +136,27 @@ export default function ManualScoring() {
                             )}
 
                             <Stack spacing={3}>
-                                <FormControl fullWidth variant="filled" className="f1-input">
-                                    <InputLabel>📋 {t("manual_scoring.select_event")}</InputLabel>
-                                    <Select
-                                        value={selectedEventId}
-                                        onChange={(e) => handleEventChange(Number(e.target.value))}
-                                        disabled={loading}
-                                        MenuProps={{ PaperProps: { className: 'f1-menu-popover' } }}
-                                    >
-                                        <MenuItem value=""><em>{t("manual_scoring.none")}</em></MenuItem>
-                                        {events.map((event) => (
-                                            <MenuItem key={event.id} value={event.id}>
-                                                {getTranslatedEventName(event.name, t)} ({event.points} pts)
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                <SelectInput
+                                    id="event-select"
+                                    label={`📋 ${t("manual_scoring.select_event")}`}
+                                    value={selectedEventId}
+                                    emptyLabel={t("manual_scoring.none")}
+                                    onChange={(val) => handleEventChange(Number(val))}
+                                    options={events.map(event => ({
+                                        value: event.id,
+                                        label: `${getTranslatedEventName(event.name, t)} (${event.points} pts)`
+                                    }))}
+                                />
 
-                                <Autocomplete
-                                    freeSolo
-                                    options={userOptions}
+                                <AutocompleteInput
+                                    id="user-search"
+                                    label={`👤 ${t("login.username")}`}
                                     value={username}
-                                    onChange={(event, newValue) => setUsername(newValue)}
                                     inputValue={inputValue}
-                                    onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+                                    options={userOptions}
                                     loading={isSearching}
-                                    slotProps={{
-                                        paper: { className: 'f1-menu-popover' },
-                                        listbox: { className: 'f1-autocomplete-listbox' }
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label={`👤 ${t("login.username")}`}
-                                            variant="filled"
-                                            className="f1-input"
-                                            slotProps={{
-                                                input: {
-                                                    ...params.InputProps,
-                                                    endAdornment: (
-                                                        <React.Fragment>
-                                                            {isSearching ? <CircularProgress color="inherit" size={20} /> : null}
-                                                            {params.InputProps.endAdornment}
-                                                        </React.Fragment>
-                                                    ),
-                                                },
-                                                htmlInput: {
-                                                    ...params.inputProps,
-                                                }
-                                            }}
-                                        />
-                                    )}
+                                    onChange={(val) => setUsername(val)}
+                                    onInputChange={(val) => setInputValue(val)}
                                 />
 
                                 <TextInput

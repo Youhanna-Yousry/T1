@@ -1,0 +1,59 @@
+@import 'styles/colors.less';
+@import 'styles/fonts.less';
+
+.f1-select-container {
+    .MuiFilledInput-root {
+        background-color: fade(#000, 40%) !important;
+        color: @color-white !important;
+        border-radius: 4px;
+        font-family: @font-display !important;
+        font-weight: @weight-semi;
+        
+        &:hover:not(.Mui-disabled) {
+            background-color: fade(#000, 60%) !important;
+        }
+
+        &:before { border-bottom-color: fade(@color-white, 20%) !important; }
+        &:after { border-bottom-color: @f1-red !important; }
+
+        .MuiSelect-icon { color: @color-white !important; }
+    }
+    
+    .MuiInputLabel-root {
+        color: fade(@color-white, 70%) !important;
+        font-family: @font-display !important;
+        font-weight: 700;
+        &.Mui-focused { color: @f1-red !important; }
+    }
+}
+
+.f1-menu-popover.MuiPaper-root {
+    background-color: @bg-panel !important;
+    color: @color-white !important;
+    border: 1px solid @color-border-light !important;
+    box-shadow: 0 10px 30px fade(#000, 50%) !important;
+
+    .MuiMenuItem-root {
+        font-family: @font-display !important;
+        font-weight: 600;
+        border-left: 3px solid transparent;
+        padding: 12px 16px;
+        color: fade(@color-white, 80%);
+
+        &:hover, &.Mui-selected, &.Mui-selected:hover {
+            background-color: fade(@f1-red, 15%) !important;
+            border-left-color: @f1-red;
+            color: @color-white;
+        }
+        
+        [dir="rtl"] & {
+            border-left: none;
+            border-right: 3px solid transparent;
+            text-align: right;
+            
+            &:hover, &.Mui-selected {
+                 border-right-color: @f1-red;
+            }
+        }
+    }
+}

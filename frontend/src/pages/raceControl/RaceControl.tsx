@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import {
-    Box, Container, Grid, Typography, Select, MenuItem,
-    FormControl, InputLabel, Paper, Stack, Snackbar, Alert, Chip, SelectChangeEvent
+    Box, Container, Grid, Typography, Paper, Stack, Snackbar, Alert, Chip
 } from "@mui/material";
 import { History as HistoryIcon, Flag as FlagIcon } from "@mui/icons-material";
 import useAxiosInterceptor from "hooks/useAxiosInterceptor";
@@ -10,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { getTranslatedEventName } from "utils/translationUtils";
 import Loading from "components/Loading/Loading";
 
+import { SelectInput } from "components/form/selectInput/SelectInput";
 import { getEvents, EventSummary, markAttendance } from "services/servantService";
 import "./RaceControl.less";
 
@@ -44,8 +44,8 @@ export default function RaceControl() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleEventChange = (e: SelectChangeEvent<string>) => {
-        const eventId = Number(e.target.value);
+    const handleEventChange = (val: string | number) => {
+        const eventId = Number(val);
         const eventObj = events.find(ev => ev.id === eventId) || null;
         setSelectedEvent(eventObj);
         setScanLogs([]);
@@ -144,19 +144,17 @@ export default function RaceControl() {
                         <Stack spacing={3}>
                             <Paper className="control-panel">
                                 <Typography variant="h6" className="panel-title">{t("race_control.session_config")}</Typography>
-                                <FormControl fullWidth variant="filled" className="f1-input">
-                                    <InputLabel>🏁 {t("race_control.select_event_label")}</InputLabel>
-                                    <Select
-                                        value={selectedEvent ? String(selectedEvent.id) : ''}
-                                        onChange={handleEventChange}
-                                        MenuProps={{ className: 'f1-menu-popover' }}
-                                    >
-                                        <MenuItem value=""><em>{t("race_control.select_event_placeholder")}</em></MenuItem>
-                                        {events.map(e => (
-                                            <MenuItem key={e.id} value={String(e.id)}>{getTranslatedEventName(e.name, t)}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                <SelectInput
+                                    id="race-control-event-select"
+                                    label={`🏁 ${t("race_control.select_event_label")}`}
+                                    value={selectedEvent ? selectedEvent.id : ''}
+                                    emptyLabel={t("race_control.select_event_placeholder")}
+                                    onChange={handleEventChange}
+                                    options={events.map(e => ({
+                                        value: e.id,
+                                        label: getTranslatedEventName(e.name, t)
+                                    }))}
+                                />
                             </Paper>
 
                             <Paper className="telemetry-panel">
