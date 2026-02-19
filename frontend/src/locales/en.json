@@ -3,6 +3,7 @@
     "dashboard": "DASHBOARD",
     "racer_code": "RACER CODE",
     "race_control": "RACE CONTROL",
+    "manual_scoring": "MANUAL SCORING",
     "logout": "Logout",
     "language": "Language",
     "switch_lang": "العربية"
@@ -57,6 +58,13 @@
     "error_auth": "AUTHENTICATION FAILED: Invalid Telemetry.",
     "error_sys": "SYSTEM ERROR: Connection Lost."
   },
+  "shared_msgs": {
+    "success": "Checked In: {{name}}",
+    "duplicate": "Duplicate Entry: {{name}}",
+    "not_found": "User Not Found: {{name}}",
+    "sys_fail": "SYSTEM FAILURE: Network Error",
+    "error_loading": "Failed to load events."
+  },
   "race_control": {
     "title": "RACE CONTROL",
     "session_active": "SESSION ACTIVE",
@@ -72,16 +80,21 @@
     "scanner_warning": "SELECT EVENT TO ENABLE SCANNER",
     "msgs": {
       "safety_car": "SAFETY CAR: Please select an event first!",
-      "already_scanned": "ALREADY SCANNED IN SESSION: {{name}}",
-      "checked_in": "Checked In: {{name}}",
-      "duplicate": "Duplicate: {{name}}",
-      "not_found": "User Not Found: {{name}}",
-      "sys_fail": "SYSTEM FAILURE: Network Error"
+      "already_scanned": "ALREADY SCANNED IN SESSION: {{name}}"
     },
     "log_status": {
       "USER_REGISTERED_SUCCESSFULLY": "ENTRY CONFIRMED",
       "USER_ALREADY_REGISTERED": "DUPLICATE ENTRY",
       "USER_NOT_FOUND": "UNKNOWN DRIVER"
     }
+  },
+  "manual_scoring": {
+    "title_first": "MANUAL",
+    "title_second": "SCORING",
+    "subtitle": "MANUAL POINTS LOGGING",
+    "select_event": "Select Event",
+    "points": "Points",
+    "submit_points": "Submit Points",
+    "none": "None"
   }
 }

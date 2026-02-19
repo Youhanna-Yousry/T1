@@ -3,6 +3,7 @@
     "dashboard": "لوحة القيادة",
     "racer_code": "كود المتسابق",
     "race_control": "تحكم السباق",
+    "manual_scoring": "تسجيل يدوي",
     "logout": "تسجيل خروج",
     "language": "اللغة",
     "switch_lang": "English"
@@ -57,6 +58,13 @@
     "error_auth": "فشل المصادقة: بيانات غير صحيحة.",
     "error_sys": "خطأ في النظام: فقد الاتصال."
   },
+  "shared_msgs": {
+    "success": "تم تسجيل الدخول: {{name}}",
+    "duplicate": "تكرار: {{name}}",
+    "not_found": "غير موجود: {{name}}",
+    "sys_fail": "فشل النظام: خطأ في الشبكة",
+    "error_loading": "فشل في تحميل الأحداث."
+  },
   "race_control": {
     "title": "تحكم السباق",
     "session_active": "الجلسة نشطة",
@@ -72,16 +80,21 @@
     "scanner_warning": "اختر الحدث لتفعيل الماسح",
     "msgs": {
       "safety_car": "سيارة الأمان: برجاء اختيار حدث أولاً!",
-      "already_scanned": "تم مسح هذا السائق مسبقاً: {{name}}",
-      "checked_in": "تم تسجيل الدخول: {{name}}",
-      "duplicate": "تكرار: {{name}}",
-      "not_found": "غير موجود: {{name}}",
-      "sys_fail": "فشل النظام: خطأ في الشبكة"
+      "already_scanned": "تم مسح هذا السائق مسبقاً: {{name}}"
     },
     "log_status": {
       "USER_REGISTERED_SUCCESSFULLY": "تم التسجيل بنجاح",
       "USER_ALREADY_REGISTERED": "محاولة مكررة (Duplicate)",
       "USER_NOT_FOUND": "سائق غير معروف"
     }
+  },
+  "manual_scoring": {
+    "title_first": "تسجيل",
+    "title_second": "يدوي",
+    "subtitle": "تسجيل النقاط اليدوي",
+    "select_event": "اختر الحدث",
+    "points": "النقاط",
+    "submit_points": "تسجيل النقاط",
+    "none": "لا يوجد"
   }
 }

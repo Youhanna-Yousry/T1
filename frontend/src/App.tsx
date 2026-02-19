@@ -8,6 +8,7 @@ import RaceControl from 'pages/raceControl/RaceControl';
 import { useAuth } from 'context/authContext';
 import RoleRoute from 'components/RoleRoute';
 import RacerCode from 'pages/racerCode/RacerCode';
+import ManualScoring from 'pages/manualScoring/ManualScoring';
 
 const HomeRedirect = () => {
   const { user } = useAuth();
@@ -31,8 +32,12 @@ function App() {
           <Route path="/racer-code" element={<RacerCode />} />
         </Route>
 
-        <Route element={<RoleRoute allowedRoles={["SERVANT"]} />}>
+        <Route element={<RoleRoute allowedRoles={["SERVANT", "SUPER_SERVANT"]} />}>
           <Route path="/race-control" element={<RaceControl />} />
+        </Route>
+
+        <Route element={<RoleRoute allowedRoles={["SUPER_SERVANT"]} />}>
+          <Route path="/manual-scoring" element={<ManualScoring />} />
         </Route>
       </Route>
 
