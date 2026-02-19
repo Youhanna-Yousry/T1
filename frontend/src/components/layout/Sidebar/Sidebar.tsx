@@ -12,7 +12,8 @@ import {
     Translate as TranslateIcon,
     FlagOutlined,
     PostAdd as PostAddIcon,
-    EmojiEvents as TrophyIcon
+    EmojiEvents as TrophyIcon,
+    CalendarMonth as CalendarMonthIcon
 } from "@mui/icons-material";
 import { useAuth } from "context/authContext";
 import { logout } from "services/authService";
@@ -80,6 +81,12 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             label: t("sidebar.drivers_championship"),
             path: "/drivers-championship",
             icon: <TrophyIcon />,
+            roles: ["STUDENT", "SERVANT", "SUPER_SERVANT"]
+        },
+        {
+            label: t("sidebar.grand_prix_weekly"),
+            path: "/grand-prix-weekly",
+            icon: <CalendarMonthIcon />,
             roles: ["STUDENT", "SERVANT", "SUPER_SERVANT"]
         }
     ], [t]);

@@ -26,3 +26,11 @@ export async function getChampionshipDriversStandings(competitionId?: number): P
     const response = await axios.get<ChampionshipResponse>("/championship/standings/drivers", { params });
     return response.data;
 }
+
+export async function getWeeklyStandings(competitionId?: number, weekId?: number): Promise<ChampionshipResponse> {
+    const params: Record<string, number> = {};
+    if (competitionId) params.competitionId = competitionId;
+    if (weekId) params.weekId = weekId;
+    const response = await axios.get<ChampionshipResponse>("/championship/standings/weekly", { params });
+    return response.data;
+}

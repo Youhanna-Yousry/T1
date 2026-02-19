@@ -1,0 +1,223 @@
+@import 'styles/colors.less';
+@import 'styles/fonts.less';
+
+// Podium colors
+@gold:   #d4af37;
+@silver: #a8a9ad;
+@bronze: #cd7f32;
+
+.weekly-page {
+    padding-bottom: 40px;
+}
+
+// ── Header ──────────────────────────────────────────
+.weekly-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 4px solid @f1-red;
+
+    .weekly-title-block {
+        .weekly-season {
+            display: block;
+            font-family: @font-tech;
+            color: @color-text-muted;
+            letter-spacing: 2px;
+            font-weight: @weight-bold;
+            font-size: 0.75rem;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .weekly-title {
+            font-family: @font-display;
+            font-weight: @weight-black;
+            font-style: italic;
+            color: @f1-black;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+    }
+
+    .weekly-badge {
+        background: @f1-red;
+        padding: 4px 12px;
+        border-radius: 3px;
+
+        .badge-text {
+            font-family: @font-tech;
+            font-weight: @weight-bold;
+            color: @color-white;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+    }
+}
+
+// ── Table ────────────────────────────────────────────
+.standings-table-wrapper {
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px fade(#000, 10%);
+}
+
+.standings-table {
+    background: @color-white;
+    border-collapse: collapse;
+    width: 100%;
+
+    .table-header-row {
+        background: @f1-black;
+
+        .MuiTableCell-root {
+            font-family: @font-tech;
+            font-weight: @weight-bold;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: @color-text-muted;
+            border-bottom: none;
+            padding: 14px 16px;
+            text-transform: uppercase;
+        }
+    }
+
+    // ── Columns ──
+    .col-pos   { width: 64px; }
+    .col-driver { }
+    .col-team  { width: 220px; }
+    .col-pts   { width: 80px; }
+
+    // ── Body rows ──
+    .standing-row {
+        border-left: 4px solid transparent;
+        transition: background 0.15s ease;
+
+        [dir="rtl"] & {
+            border-left: none;
+            border-right: 4px solid transparent;
+        }
+
+        &:hover {
+            background: @f1-light-gray;
+        }
+
+        .MuiTableCell-root {
+            border-bottom: 1px solid fade(@f1-black, 6%);
+            padding: 14px 16px;
+        }
+
+        // Podium accents
+        &.pos-p1 {
+            border-left-color: @gold;
+            [dir="rtl"] & { border-right-color: @gold; }
+            background: fade(@gold, 4%);
+            &:hover { background: fade(@gold, 8%); }
+        }
+        &.pos-p2 {
+            border-left-color: @silver;
+            [dir="rtl"] & { border-right-color: @silver; }
+            background: fade(@silver, 4%);
+            &:hover { background: fade(@silver, 8%); }
+        }
+        &.pos-p3 {
+            border-left-color: @bronze;
+            [dir="rtl"] & { border-right-color: @bronze; }
+            background: fade(@bronze, 4%);
+            &:hover { background: fade(@bronze, 8%); }
+        }
+    }
+
+    // ── Cell contents ──
+    .cell-pos {
+        .pos-number {
+            font-family: @font-display;
+            font-weight: @weight-black;
+            font-style: italic;
+            font-size: 1.25rem;
+            color: @f1-black;
+            line-height: 1;
+        }
+    }
+
+    .cell-driver {
+        .driver-name {
+            font-family: @font-display;
+            font-weight: @weight-bold;
+            font-size: 0.95rem;
+            color: @f1-black;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    }
+
+    .cell-team {
+        .team-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            .team-logo {
+                height: 28px;
+                width: auto;
+                object-fit: contain;
+                opacity: 0.9;
+            }
+
+            .team-name {
+                font-family: @font-tech;
+                font-weight: @weight-bold;
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+            }
+        }
+    }
+
+    .cell-pts {
+        .pts-value {
+            font-family: @font-tech;
+            font-weight: @weight-bold;
+            font-size: 1rem;
+            color: @f1-black;
+        }
+    }
+}
+
+// ── Empty state ──────────────────────────────────────
+.no-data {
+    text-align: center;
+    padding: 80px 0;
+
+    .no-data-text {
+        font-family: @font-tech;
+        font-weight: @weight-bold;
+        letter-spacing: 2px;
+        color: @color-text-muted;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+    }
+}
+
+// ── Mobile ───────────────────────────────────────────
+@media (max-width: 600px) {
+    .weekly-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+
+        .weekly-title {
+            font-size: 1.6rem;
+        }
+    }
+
+    .standings-table {
+        .col-team  { display: none; }
+
+        .cell-pos .pos-number { font-size: 1rem; }
+        .cell-driver .driver-name { font-size: 0.85rem; }
+        .cell-pts .pts-value { font-size: 0.9rem; }
+    }
+}

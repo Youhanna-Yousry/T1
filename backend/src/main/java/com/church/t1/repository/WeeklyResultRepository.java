@@ -39,4 +39,21 @@ public interface WeeklyResultRepository extends JpaRepository<WeeklyResult, Long
             ORDER BY totalPoints DESC
             """, nativeQuery = true)
     List<StudentProfile> findChampionshipDriversStandings(@Param("competitionId") Long competitionId);
+
+    @Query(value = """
+            SELECT
+                u.first_name AS firstName,
+                u.last_name AS lastName,
+                tp.team_name AS teamName,
+                tp.team_code AS teamCode,
+                tp.team_color AS teamColor,
+                CAST(0 AS integer) AS totalPoints,
+                CAST(RANK() OVER (ORDER BY wr.raw_attendance_score DESC) AS integer) AS rank
+            FROM users u
+            JOIN weekly_result wr ON u.id = wr.user_id
+            JOIN team_profile tp ON tp.family_id = u.family_id AND tp.competition_id = :competitionId
+            WHERE wr.week_id = :weekId AND u.role = 'STUDENT'
+            ORDER BY wr.raw_attendance_score DESC
+            """, nativeQuery = true)
+    List<StudentProfile> findWeeklyStandings(@Param("competitionId") Long competitionId, @Param("weekId") Long weekId);
 }

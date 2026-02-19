@@ -22,4 +22,12 @@ public class ChampionshipController {
     ) {
         return ResponseEntity.ok(championshipService.getStudentsStandings(competitionId));
     }
+
+    @GetMapping("/standings/weekly")
+    public ResponseEntity<StudentsLeaderboard> getWeeklyStandings(
+            @RequestParam(required = false) Long competitionId,
+            @RequestParam(required = false) Long weekId
+    ) {
+        return ResponseEntity.ok(championshipService.getWeeklyStandings(competitionId, weekId));
+    }
 }
