@@ -1,0 +1,85 @@
+@import 'styles/colors.less';
+@import 'styles/fonts.less';
+
+.f1-select-container {
+    .MuiFilledInput-root {
+        background-color: fade(#000, 40%) !important;
+        color: @color-white !important;
+        border-radius: 4px;
+        font-family: @font-display !important;
+        font-weight: @weight-semi;
+        
+        &:hover:not(.Mui-disabled) {
+            background-color: fade(#000, 60%) !important;
+        }
+
+        &:before { border-bottom-color: fade(@color-white, 20%) !important; }
+        &:after { border-bottom-color: @f1-red !important; }
+
+        .MuiSelect-icon { color: @color-white !important; }
+    }
+    
+    .MuiInputLabel-root {
+        color: fade(@color-white, 70%) !important;
+        font-family: @font-display !important;
+        font-weight: 700;
+        &.Mui-focused { color: @f1-red !important; }
+    }
+}
+
+[dir="rtl"] .f1-select-container {
+    .MuiInputLabel-root {
+        left: unset;
+        right: 12px;
+        transform-origin: top right;
+        
+        &.MuiInputLabel-shrink {
+            transform: translate(0, -1.5px) scale(0.75);
+        }
+        &:not(.MuiInputLabel-shrink) {
+            transform: translate(0, 16px) scale(1);
+        }
+    }
+    
+    .MuiSelect-select {
+        text-align: right;
+        padding-right: 12px !important;
+        padding-left: 32px !important;
+    }
+    
+    .MuiSelect-icon {
+        right: unset !important;
+        left: 7px !important;
+    }
+}
+
+.f1-menu-popover.MuiPaper-root {
+    background-color: @bg-panel !important;
+    color: @color-white !important;
+    border: 1px solid @color-border-light !important;
+    box-shadow: 0 10px 30px fade(#000, 50%) !important;
+
+    .MuiMenuItem-root {
+        font-family: @font-display !important;
+        font-weight: 600;
+        border-left: 3px solid transparent;
+        padding: 12px 16px;
+        color: fade(@color-white, 80%);
+
+        &:hover, &.Mui-selected, &.Mui-selected:hover {
+            background-color: fade(@f1-red, 15%) !important;
+            border-left-color: @f1-red;
+            color: @color-white;
+        }
+        
+        [dir="rtl"] & {
+            border-left: none;
+            border-right: 3px solid transparent;
+            text-align: right;
+            
+            &:hover, &.Mui-selected {
+                 border-right-color: @f1-red;
+            }
+        }
+    }
+}

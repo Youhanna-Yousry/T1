@@ -7,7 +7,7 @@ declare global {
     interface AuthUser {
         username: string;
         token: string;
-        role: "SERVANT" | "STUDENT";
+        role: "SERVANT" | "STUDENT" | "SUPER_SERVANT";
     }
 
 }

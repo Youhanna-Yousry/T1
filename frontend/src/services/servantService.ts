@@ -11,7 +11,13 @@ export async function getEvents(scannable: boolean): Promise<EventSummary[]> {
     return response.data;
 }
 
-export async function markAttendance(eventId: number, username: string, points: number): Promise<string> {
-    const response = await axios.post("/servant/attendance", { eventId, username, points })
+export async function markAttendance(eventId: number, username: string, points: number): Promise<void> {
+    await axios.post("/servant/attendance", { eventId, username, points });
+}
+
+export async function searchStudents(query: string): Promise<string[]> {
+    if (!query) return [];
+
+    const response = await axios.get<string[]>(`/servant/students/search?query=${encodeURIComponent(query)}`);
     return response.data;
 }

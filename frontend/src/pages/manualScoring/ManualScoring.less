@@ -1,0 +1,102 @@
+@import 'styles/colors.less';
+@import 'styles/fonts.less';
+
+.manual-scoring-page {
+    padding-top: 24px;
+    padding-bottom: 40px;
+    background-color: @bg-page-light;
+}
+
+.scoring-container {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    min-height: 80vh;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.control-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid fade(#000, 10%);
+
+    .page-title {
+        font-family: @font-display;
+        font-weight: @weight-black;
+        font-style: italic;
+        letter-spacing: -1px;
+        color: @f1-black;
+        line-height: 1;
+        font-size: 2rem;
+    }
+    
+    .red-text { color: @f1-red; }
+}
+
+.control-panel {
+    background-color: @bg-panel !important;
+    color: @color-white !important;
+    padding: 32px;
+    border-radius: 8px;
+    border-left: 6px solid @f1-red;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px fade(#000, 30%);
+
+    [dir="rtl"] & {
+        border-left: none;
+        border-right: 6px solid @f1-red;
+    }
+
+    .panel-title {
+        font-family: @font-display !important;
+        font-weight: 800;
+        font-size: 0.9rem;
+        letter-spacing: 1.5px;
+        color: @color-text-muted;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+        border-bottom: 1px solid @color-border-light;
+        padding-bottom: 12px;
+    }
+}
+
+.scoring-alert {
+    border-radius: 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-family: @font-tech !important;
+
+    &.alert-error {
+        background-color: @effect-red-bg-light !important;
+        color: @color-error-light !important;
+        border: 1px solid @f1-red;
+        .MuiAlert-icon { color: @f1-red !important; }
+    }
+
+    &.alert-success {
+        background-color: fade(@color-success, 10%) !important;
+        color: @color-success !important;
+        border: 1px solid @color-success;
+        .MuiAlert-icon { color: @color-success !important; }
+    }
+
+    &.alert-warning {
+        background-color: fade(@color-warning, 10%) !important;
+        color: @color-warning !important;
+        border: 1px solid @color-warning;
+        .MuiAlert-icon { color: @color-warning !important; }
+    }
+}

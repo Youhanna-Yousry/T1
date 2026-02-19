@@ -10,7 +10,9 @@ import {
     Logout as LogoutIcon,
     QrCode2Outlined,
     Translate as TranslateIcon,
-    EmojiEvents as TrophyIcon,
+    FlagOutlined,
+    PostAdd as PostAddIcon,
+    EmojiEvents as TrophyIcon
 } from "@mui/icons-material";
 import { useAuth } from "context/authContext";
 import { logout } from "services/authService";
@@ -21,7 +23,7 @@ interface NavItem {
     label: string;
     path: string;
     icon: React.ReactNode;
-    roles: ("SERVANT" | "STUDENT")[];
+    roles: ("SERVANT" | "STUDENT" | "SUPER_SERVANT")[];
 }
 
 interface SidebarProps {
@@ -50,10 +52,36 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
     };
 
     const navItems = useMemo<NavItem[]>(() => [
-        { label: t("sidebar.dashboard"), path: "/dashboard", icon: <DashboardIcon />, roles: ["STUDENT"] },
-        { label: t("sidebar.racer_code"), path: "/racer-code", icon: <QrCode2Outlined />, roles: ["STUDENT"] },
-        { label: t("sidebar.race_control"), path: "/race-control", icon: <QrCode2Outlined />, roles: ["SERVANT"] },
-        { label: t("sidebar.driver_championship"), path: "/driver-championship", icon: <TrophyIcon />, roles: ["STUDENT", "SERVANT"] },
+        {
+            label: t("sidebar.dashboard"),
+            path: "/dashboard",
+            icon: <DashboardIcon />,
+            roles: ["STUDENT"]
+        },
+        {
+            label: t("sidebar.racer_code"),
+            path: "/racer-code",
+            icon: <QrCode2Outlined />,
+            roles: ["STUDENT"]
+        },
+        {
+            label: t("sidebar.manual_scoring"),
+            path: "/manual-scoring",
+            icon: <PostAddIcon />,
+            roles: ["SUPER_SERVANT"]
+        },
+        {
+            label: t("sidebar.race_control"),
+            path: "/race-control",
+            icon: <FlagOutlined />,
+            roles: ["SERVANT", "SUPER_SERVANT"]
+        },
+        {
+            label: t("sidebar.driver_championship"),
+            path: "/driver-championship",
+            icon: <TrophyIcon />,
+            roles: ["STUDENT", "SERVANT", "SUPER_SERVANT"]
+         }
     ], [t]);
 
     if (!user) return null;
