@@ -4,11 +4,14 @@ import com.church.t1.dto.request.AttendanceRequest;
 import com.church.t1.dto.response.EventSummary;
 import com.church.t1.mapper.AppMapper;
 import com.church.t1.model.enums.AttendanceStatus;
+import com.church.t1.model.enums.Role;
 import com.church.t1.repository.EventRepository;
 import com.church.t1.repository.StudentLogRepository;
+import com.church.t1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,7 @@ public class AttendanceService {
     private final EventRepository eventRepository;
     private final StudentLogRepository studentLogRepository;
     private final AppMapper appMapper;
+    private final UserRepository userRepository;
 
     public List<EventSummary> getEvents(boolean scannable) {
         return eventRepository.findByIsScannable(scannable)
@@ -50,5 +54,9 @@ public class AttendanceService {
                     attendanceRequest.eventId());
            return AttendanceStatus.USER_ALREADY_REGISTERED;
         }
+    }
+
+    public List<String> findStudents(String query) {
+        return userRepository.searchUsernamesByRole(query, Role.STUDENT, Pageable.ofSize(10));
     }
 }

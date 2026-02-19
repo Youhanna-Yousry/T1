@@ -39,7 +39,10 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/student/**").hasRole(Role.STUDENT.name())
-                                .requestMatchers("/api/servant/**").hasRole(Role.SERVANT.name())
+                                .requestMatchers("/api/servant/**").hasAnyRole(
+                                        Role.SERVANT.name(),
+                                        Role.SUPER_SERVANT.name()
+                                )
                                 .anyRequest().authenticated()
                 );
 

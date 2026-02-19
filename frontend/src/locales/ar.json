@@ -3,6 +3,7 @@
     "dashboard": "لوحة القيادة",
     "racer_code": "كود المتسابق",
     "race_control": "تحكم السباق",
+    "manual_scoring": "تسجيل يدوي",
     "logout": "تسجيل خروج",
     "language": "اللغة",
     "switch_lang": "English"
@@ -82,6 +83,22 @@
       "USER_REGISTERED_SUCCESSFULLY": "تم التسجيل بنجاح",
       "USER_ALREADY_REGISTERED": "محاولة مكررة (Duplicate)",
       "USER_NOT_FOUND": "سائق غير معروف"
+    }
+  },
+  "manual_scoring": {
+    "title_first": "تسجيل",
+    "title_second": "يدوي",
+    "subtitle": "تسجيل النقاط اليدوي",
+    "select_event": "اختر الحدث",
+    "points": "النقاط",
+    "submit_points": "تسجيل النقاط",
+    "none": "لا يوجد",
+    "msgs": {
+      "error_loading": "فشل في تحميل الأحداث.",
+      "success_added": "تم تسجيل النقاط بنجاح!",
+      "error_conflict": "تعارض: تم تسجيل المستخدم مسبقاً في هذا الحدث.",
+      "error_user_not_found": "خطأ: المستخدم غير موجود.",
+      "error_generic": "حدث خطأ أثناء التسجيل."
     }
   }
 }

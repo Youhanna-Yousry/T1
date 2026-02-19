@@ -3,6 +3,7 @@
     "dashboard": "DASHBOARD",
     "racer_code": "RACER CODE",
     "race_control": "RACE CONTROL",
+    "manual_scoring": "MANUAL SCORING",
     "logout": "Logout",
     "language": "Language",
     "switch_lang": "العربية"
@@ -82,6 +83,22 @@
       "USER_REGISTERED_SUCCESSFULLY": "ENTRY CONFIRMED",
       "USER_ALREADY_REGISTERED": "DUPLICATE ENTRY",
       "USER_NOT_FOUND": "UNKNOWN DRIVER"
+    }
+  },
+  "manual_scoring": {
+    "title_first": "MANUAL",
+    "title_second": "SCORING",
+    "subtitle": "MANUAL POINTS LOGGING",
+    "select_event": "Select Event",
+    "points": "Points",
+    "submit_points": "Submit Points",
+    "none": "None",
+    "msgs": {
+      "error_loading": "Failed to load events.",
+      "success_added": "Points added successfully!",
+      "error_conflict": "Conflict: User already registered for this event.",
+      "error_user_not_found": "Error: User not found.",
+      "error_generic": "An error occurred while submitting."
     }
   }
 }

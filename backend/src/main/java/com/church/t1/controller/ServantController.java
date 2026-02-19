@@ -26,4 +26,9 @@ public class ServantController {
     public ResponseEntity<AttendanceStatus> registerAttendance(@RequestBody AttendanceRequest attendanceRequest) {
         return ResponseEntity.ok(attendanceService.registerAttendance(attendanceRequest));
     }
+
+    @GetMapping("/students/search")
+    public ResponseEntity<List<String>> searchStudents(@RequestParam String query) {
+        return ResponseEntity.ok(attendanceService.findStudents(query));
+    }
 }
