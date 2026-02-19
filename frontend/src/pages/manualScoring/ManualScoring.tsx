@@ -10,7 +10,7 @@ import { SubmitButton } from "components/form/submitButton/SubmitButton";
 import { TextInput } from "components/form/textInput/TextInput";
 import { getEvents, markAttendance, searchStudents, EventSummary } from "services/servantService";
 import UseAxiosInterceptor from "hooks/useAxiosInterceptor";
-import Loading from "components/Loading/Loading"; // <-- Imported Loading component
+import Loading from "components/Loading/Loading";
 
 import "./ManualScoring.less";
 
@@ -67,6 +67,8 @@ export default function ManualScoring() {
 
     const handleEventChange = (eventId: number) => {
         setSelectedEventId(eventId);
+        setFeedback(null);
+
         const event = events.find(e => e.id === eventId);
         if (event) {
             setCustomPoints(event.points);
@@ -79,27 +81,27 @@ export default function ManualScoring() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!selectedEventId || !username || isPointsInvalid) return;
+        if (!selectedEventId || !inputValue.trim() || isPointsInvalid) return;
 
         setSubmitting(true);
         setFeedback(null);
 
         try {
-            const statusString = await markAttendance(Number(selectedEventId), username, Number(customPoints));
+            await markAttendance(Number(selectedEventId), inputValue.trim(), Number(customPoints));
 
-            if (statusString === "USER_REGISTERED_SUCCESSFULLY") {
-                setFeedback({ type: 'success', msg: t("manual_scoring.msgs.success_added") });
-                setUsername(null);
-                setInputValue("");
-            } else if (statusString === "USER_ALREADY_REGISTERED") {
+            setFeedback({ type: 'success', msg: t("manual_scoring.msgs.success_added") });
+            setUsername(null);
+            setInputValue("");
+        } catch (error: any) {
+            const status = error?.response?.status;
+
+            if (status === 409) {
                 setFeedback({ type: 'warning', msg: t("manual_scoring.msgs.error_conflict") });
-            } else if (statusString === "USER_NOT_FOUND") {
+            } else if (status === 400) {
                 setFeedback({ type: 'error', msg: t("manual_scoring.msgs.error_user_not_found") });
             } else {
                 setFeedback({ type: 'error', msg: t("manual_scoring.msgs.error_generic") });
             }
-        } catch (err) {
-            setFeedback({ type: 'error', msg: t("manual_scoring.msgs.error_generic") });
         } finally {
             setSubmitting(false);
         }
@@ -141,6 +143,7 @@ export default function ManualScoring() {
                                     label={`📋 ${t("manual_scoring.select_event")}`}
                                     value={selectedEventId}
                                     emptyLabel={t("manual_scoring.none")}
+                                    disabled={loading}
                                     onChange={(val) => handleEventChange(Number(val))}
                                     options={events.map(event => ({
                                         value: event.id,
@@ -155,22 +158,31 @@ export default function ManualScoring() {
                                     inputValue={inputValue}
                                     options={userOptions}
                                     loading={isSearching}
-                                    onChange={(val) => setUsername(val)}
-                                    onInputChange={(val) => setInputValue(val)}
+                                    onChange={(val) => {
+                                        setUsername(val);
+                                        setFeedback(null);
+                                    }}
+                                    onInputChange={(val) => {
+                                        setInputValue(val);
+                                        setFeedback(null);
+                                    }}
                                 />
 
                                 <TextInput
                                     id="points"
                                     label={selectedEventId ? `${t("manual_scoring.points")} (Max: ${maxPoints})` : t("manual_scoring.points")}
                                     value={String(customPoints)}
-                                    onChange={(val) => setCustomPoints(Number(val))}
+                                    onChange={(val) => {
+                                        setCustomPoints(Number(val));
+                                        setFeedback(null);
+                                    }}
                                     error={isPointsInvalid}
                                 />
 
                                 <Box mt={1}>
                                     <SubmitButton
                                         loading={submitting}
-                                        disabled={!selectedEventId || !username || submitting || isPointsInvalid}
+                                        disabled={!selectedEventId || !inputValue.trim() || submitting || isPointsInvalid}
                                         text={submitting ? t("login.loading") : t("manual_scoring.submit_points")}
                                     />
                                 </Box>

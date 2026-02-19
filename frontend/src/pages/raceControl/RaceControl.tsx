@@ -77,26 +77,23 @@ export default function RaceControl() {
         const newLogId = Date.now();
 
         try {
-            const statusString = await markAttendance(selectedEvent.id, rawValue, selectedEvent.points) as ScanStatus;
+            await markAttendance(selectedEvent.id, rawValue, selectedEvent.points);
 
-            if (statusString === "USER_REGISTERED_SUCCESSFULLY") {
-                logScan(newLogId, rawValue, statusString);
-                showNotification(t("race_control.msgs.checked_in", { name: rawValue }), "success");
-            }
-            else if (statusString === "USER_ALREADY_REGISTERED") {
-                logScan(newLogId, rawValue, statusString);
+            logScan(newLogId, rawValue, "USER_REGISTERED_SUCCESSFULLY");
+            showNotification(t("race_control.msgs.checked_in", { name: rawValue }), "success");
+
+        } catch (error: any) {
+            const status = error?.response?.status;
+
+            if (status === 409) {
+                logScan(newLogId, rawValue, "USER_ALREADY_REGISTERED");
                 showNotification(t("race_control.msgs.duplicate", { name: rawValue }), "error");
-            }
-            else if (statusString === "USER_NOT_FOUND") {
-                logScan(newLogId, rawValue, statusString);
+            } else if (status === 400) {
+                logScan(newLogId, rawValue, "USER_NOT_FOUND");
                 showNotification(t("race_control.msgs.not_found", { name: rawValue }), "warning");
+            } else {
+                showNotification(t("race_control.msgs.sys_fail"), "error");
             }
-            else {
-                showNotification(`Unknown Response`, "error");
-            }
-
-        } catch (error) {
-            showNotification(t("race_control.msgs.sys_fail"), "error");
         } finally {
             setTimeout(() => { setIsPaused(false); }, 2000);
         }
@@ -134,12 +131,7 @@ export default function RaceControl() {
                     />
                 </Box>
 
-                <Grid
-                    container
-                    spacing={3}
-                    className="content-wrapper"
-                    justifyContent="center"
-                >
+                <Grid container spacing={3} className="content-wrapper" justifyContent="center">
                     <Grid size={{ xs: 12, md: 4, lg: 3 }}>
                         <Stack spacing={3}>
                             <Paper className="control-panel">

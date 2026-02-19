@@ -2,8 +2,9 @@ package com.church.t1.service;
 
 import com.church.t1.dto.request.AttendanceRequest;
 import com.church.t1.dto.response.EventSummary;
+import com.church.t1.exception.StudentAlreadyRegisteredException;
+import com.church.t1.exception.StudentNotFoundException;
 import com.church.t1.mapper.AppMapper;
-import com.church.t1.model.enums.AttendanceStatus;
 import com.church.t1.model.enums.Role;
 import com.church.t1.repository.EventRepository;
 import com.church.t1.repository.StudentLogRepository;
@@ -35,7 +36,7 @@ public class AttendanceService {
     }
 
     @Transactional
-    public AttendanceStatus registerAttendance(AttendanceRequest attendanceRequest) {
+    public void registerAttendance(AttendanceRequest attendanceRequest) {
         try {
             int rowsAffected = studentLogRepository.logStudentAttendance(
                     attendanceRequest.username(),
@@ -44,15 +45,14 @@ public class AttendanceService {
             );
 
             if (rowsAffected == 0) {
-                return AttendanceStatus.USER_NOT_FOUND;
+                log.warn("Failed attendance attempt: User not found: {}", attendanceRequest.username());
+                throw new StudentNotFoundException("No student found with username: " + attendanceRequest.username());
             }
 
-            return AttendanceStatus.USER_REGISTERED_SUCCESSFULLY;
-
         } catch (DataIntegrityViolationException _) {
-            log.error("Trying to re-register attendance for user: {} for eventId: {}", attendanceRequest.username(),
-                    attendanceRequest.eventId());
-           return AttendanceStatus.USER_ALREADY_REGISTERED;
+            log.warn("Duplicate attendance attempt for user: {} on eventId: {}",
+                    attendanceRequest.username(), attendanceRequest.eventId());
+            throw new StudentAlreadyRegisteredException("User is already registered for this event.");
         }
     }
 

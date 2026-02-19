@@ -2,7 +2,6 @@ package com.church.t1.controller;
 
 import com.church.t1.dto.request.AttendanceRequest;
 import com.church.t1.dto.response.EventSummary;
-import com.church.t1.model.enums.AttendanceStatus;
 import com.church.t1.service.AttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +22,9 @@ public class ServantController {
     }
 
     @PostMapping("/attendance")
-    public ResponseEntity<AttendanceStatus> registerAttendance(@RequestBody AttendanceRequest attendanceRequest) {
-        return ResponseEntity.ok(attendanceService.registerAttendance(attendanceRequest));
+    public ResponseEntity<Void> registerAttendance(@RequestBody AttendanceRequest attendanceRequest) {
+        attendanceService.registerAttendance(attendanceRequest);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/students/search")
