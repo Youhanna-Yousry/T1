@@ -4,7 +4,7 @@
     "racer_code": "RACER CODE",
     "race_control": "RACE CONTROL",
     "manual_scoring": "MANUAL SCORING",
-    "driver_championship": "CHAMPIONSHIP",
+    "drivers_championship": "DRIVERS' CHAMPIONSHIP",
     "logout": "Logout",
     "language": "Language",
     "switch_lang": "العربية"
@@ -66,12 +66,11 @@
     "sys_fail": "SYSTEM FAILURE: Network Error",
     "error_loading": "Failed to load events."
   },
-  "championship": {
+  "drivers_championship": {
     "title": "DRIVERS' STANDINGS",
-    "season_standings": "2025 DRIVERS' STANDINGS",
+    "season_standings": "{{year}} DRIVERS' STANDINGS",
     "col_pos": "POS.",
     "col_driver": "DRIVER",
-    "col_team_name": "NATIONALITY",
     "col_team": "TEAM",
     "col_pts": "PTS.",
     "no_data": "NO STANDINGS DATA AVAILABLE"

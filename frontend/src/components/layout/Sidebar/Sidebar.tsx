@@ -77,11 +77,11 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             roles: ["SERVANT", "SUPER_SERVANT"]
         },
         {
-            label: t("sidebar.driver_championship"),
-            path: "/driver-championship",
+            label: t("sidebar.drivers_championship"),
+            path: "/drivers-championship",
             icon: <TrophyIcon />,
             roles: ["STUDENT", "SERVANT", "SUPER_SERVANT"]
-         }
+        }
     ], [t]);
 
     if (!user) return null;

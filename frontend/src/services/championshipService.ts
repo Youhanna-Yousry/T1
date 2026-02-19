@@ -10,8 +10,19 @@ export interface ChampionshipStanding {
     totalPoints: number;
 }
 
-export async function getChampionshipStandings(competitionId?: number): Promise<ChampionshipStanding[]> {
+export interface CompetitionSummary {
+    name: string;
+    year: number;
+    status: string;
+}
+
+export interface ChampionshipResponse {
+    competitionSummary: CompetitionSummary;
+    standings: ChampionshipStanding[];
+}
+
+export async function getChampionshipDriversStandings(competitionId?: number): Promise<ChampionshipResponse> {
     const params = competitionId ? { competitionId } : {};
-    const response = await axios.get<ChampionshipStanding[]>("/championship/standings", { params });
+    const response = await axios.get<ChampionshipResponse>("/championship/standings/drivers", { params });
     return response.data;
 }

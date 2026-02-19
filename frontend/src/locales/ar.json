@@ -4,7 +4,7 @@
     "racer_code": "كود المتسابق",
     "race_control": "تحكم السباق",
     "manual_scoring": "تسجيل يدوي",
-    "driver_championship": "البطولة",
+    "drivers_championship": "بطولة السائقين",
     "logout": "تسجيل خروج",
     "language": "اللغة",
     "switch_lang": "English"
@@ -66,12 +66,11 @@
     "sys_fail": "فشل النظام: خطأ في الشبكة",
     "error_loading": "فشل في تحميل الأحداث."
   },
-  "championship": {
+  "drivers_championship": {
     "title": "ترتيب السائقين",
-    "season_standings": "ترتيب سائقي 2025",
+    "season_standings": "ترتيب سائقي {{year}}",
     "col_pos": "المركز",
     "col_driver": "السائق",
-    "col_team_name": "الجنسية",
     "col_team": "الفريق",
     "col_pts": "النقاط",
     "no_data": "لا توجد بيانات بطولة"
