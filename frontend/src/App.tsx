@@ -9,6 +9,7 @@ import { useAuth } from 'context/authContext';
 import RoleRoute from 'components/RoleRoute';
 import RacerCode from 'pages/racerCode/RacerCode';
 import ManualScoring from 'pages/manualScoring/ManualScoring';
+import DriverChampionship from 'pages/driversChampionship/DriversChampionship';
 
 const HomeRedirect = () => {
   const { user } = useAuth();
@@ -38,6 +39,10 @@ function App() {
 
         <Route element={<RoleRoute allowedRoles={["SUPER_SERVANT"]} />}>
           <Route path="/manual-scoring" element={<ManualScoring />} />
+        </Route>
+
+        <Route element={<RoleRoute allowedRoles={["STUDENT", "SERVANT", "SUPER_SERVANT"]} />}>
+          <Route path="/drivers-championship" element={<DriverChampionship />} />
         </Route>
       </Route>
 

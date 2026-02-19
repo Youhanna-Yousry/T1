@@ -23,7 +23,7 @@ public class CompetitionContextService {
         return new Context(competition, week);
     }
 
-    private Competition resolveCompetition(Long id) {
+    public Competition resolveCompetition(Long id) {
         if (id != null) {
             return competitionRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Competition not found: " + id));

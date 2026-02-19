@@ -4,6 +4,7 @@
     "racer_code": "RACER CODE",
     "race_control": "RACE CONTROL",
     "manual_scoring": "MANUAL SCORING",
+    "drivers_championship": "DRIVERS' CHAMPIONSHIP",
     "logout": "Logout",
     "language": "Language",
     "switch_lang": "العربية"
@@ -64,6 +65,15 @@
     "not_found": "User Not Found: {{name}}",
     "sys_fail": "SYSTEM FAILURE: Network Error",
     "error_loading": "Failed to load events."
+  },
+  "drivers_championship": {
+    "title": "DRIVERS' STANDINGS",
+    "season_standings": "{{year}} DRIVERS' STANDINGS",
+    "col_pos": "POS.",
+    "col_driver": "DRIVER",
+    "col_team": "TEAM",
+    "col_pts": "PTS.",
+    "no_data": "NO STANDINGS DATA AVAILABLE"
   },
   "race_control": {
     "title": "RACE CONTROL",

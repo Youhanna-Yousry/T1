@@ -11,7 +11,8 @@ import {
     QrCode2Outlined,
     Translate as TranslateIcon,
     FlagOutlined,
-    PostAdd as PostAddIcon
+    PostAdd as PostAddIcon,
+    EmojiEvents as TrophyIcon
 } from "@mui/icons-material";
 import { useAuth } from "context/authContext";
 import { logout } from "services/authService";
@@ -74,6 +75,12 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             path: "/race-control",
             icon: <FlagOutlined />,
             roles: ["SERVANT", "SUPER_SERVANT"]
+        },
+        {
+            label: t("sidebar.drivers_championship"),
+            path: "/drivers-championship",
+            icon: <TrophyIcon />,
+            roles: ["STUDENT", "SERVANT", "SUPER_SERVANT"]
         }
     ], [t]);
 
