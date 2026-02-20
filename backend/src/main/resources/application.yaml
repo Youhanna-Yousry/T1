@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: t1
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   datasource:
     url: jdbc:postgresql://localhost:5432/t1
     username: ${DB_USERNAME:postgres}
