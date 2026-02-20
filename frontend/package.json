@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "ajv": "^8.18.0",
     "less": "^4.5.1",
     "react-scripts-less": "^5.0.4"
   }
