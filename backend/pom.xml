@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.church</groupId>
     <artifactId>t1</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>t1</name>
     <description>Demo project for Spring Boot</description>
     <url/>
@@ -106,6 +106,7 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>t1</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -115,6 +116,11 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
                         </path>
                         <path>
                             <groupId>org.mapstruct</groupId>

@@ -6,8 +6,8 @@ spring:
     name: t1
   datasource:
     url: jdbc:postgresql://localhost:5432/t1
-    username: postgres
-    password: P@ssw0rd
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:P@ssw0rd}
   jpa:
     hibernate:
       ddl-auto: validate
@@ -17,8 +17,8 @@ spring:
     show-sql: false
   flyway:
     url: jdbc:postgresql://localhost:5432/t1
-    user: postgres
-    password: P@ssw0rd
+    user: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:P@ssw0rd}
   threads:
     virtual:
       enabled: true
@@ -26,14 +26,14 @@ spring:
 app:
   auth:
     jwt:
-      secret: 18b40f2d002fac200027ce885a23a5cbdd8b27ae2c890f44bf423340c44bb9ae
+      secret: ${JWT_SECRET:18b40f2d002fac200027ce885a23a5cbdd8b27ae2c890f44bf423340c44bb9ae}
       expirationMs: 3600000
     refreshToken:
       expirationMs: 604800000
       cleanupCron: 0 0 4 * * *
       cleanupDays: 30
   ranking:
-      cron: 0 0 3 * * FRI
+      cron: 0 0 3 * * SAT
       basePoints: 40
       stepPoints: 2
 
