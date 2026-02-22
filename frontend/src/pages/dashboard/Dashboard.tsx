@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { getTranslatedEventName, getTranslatedCompetitionName } from "utils/translationUtils";
 import { Container, Grid, Typography, Box, Card, Stack, Divider, Chip } from "@mui/material";
 import { getStudentDashboard, StudentDashboard } from "services/studentService";
-import Loading from "components/Loading/Loading";
+import Loading from "components/loading/Loading";
 import CircleIcon from '@mui/icons-material/Circle';
 
 import "./Dashboard.less";

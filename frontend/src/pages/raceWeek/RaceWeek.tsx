@@ -3,9 +3,9 @@ import useAxiosInterceptor from "hooks/useAxiosInterceptor";
 import { useTranslation } from "react-i18next";
 import { Container, Box, Typography, Chip } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
-import { getWeeklyStandings, ChampionshipStanding, ChampionshipResponse } from "services/championshipService";
+import { getWeeklyLeaderboard, ChampionshipStanding, ChampionshipResponse } from "services/championshipService";
 import { getTranslatedCompetitionName } from "utils/translationUtils";
-import Loading from "components/Loading/Loading";
+import Loading from "components/loading/Loading";
 import StandingsTable from "components/standingsTable/StandingsTable";
 
 import "./RaceWeek.less";
@@ -17,7 +17,7 @@ export default function RaceWeek() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getWeeklyStandings()
+        getWeeklyLeaderboard()
             .then(setData)
             .finally(() => setLoading(false));
     }, []);
