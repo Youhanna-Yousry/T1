@@ -4,7 +4,7 @@ import useAxiosInterceptor from "hooks/useAxiosInterceptor";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "context/authContext";
 import { Box, Typography, Card } from "@mui/material";
-import Loading from "components/Loading/Loading";
+import Loading from "components/loading/Loading";
 import "./RacerCode.less";
 
 export default function RacerCode() {

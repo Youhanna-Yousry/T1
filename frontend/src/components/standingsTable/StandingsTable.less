@@ -1,0 +1,207 @@
+@import 'styles/colors.less';
+@import 'styles/fonts.less';
+
+.shared-standings-container {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    background-color: #1a1a24 !important; 
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.shared-standings-table {
+    table-layout: fixed;
+    width: 100%;
+    background-color: #1a1a24 !important; 
+
+    .MuiTableBody-root {
+        background-color: #1a1a24 !important; 
+    }
+
+    .MuiTableCell-root {
+        text-align: start !important;
+    }
+    
+    .col-pts {
+        text-align: end !important;
+    }
+
+    .standings-head-row {
+        background-color: #111118 !important;
+
+        .MuiTableCell-root {
+            font-family: @font-tech !important;
+            font-weight: @weight-bold;
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+            color: @color-text-muted;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px 16px;
+        }
+    }
+
+    .standing-row {
+        transition: background-color 0.15s ease;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        background-color: #1a1a24;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.05) !important; 
+        }
+
+        &.leader {
+            background-color: fade(@f1-red, 15%) !important; 
+
+            &:hover {
+                background-color: fade(@f1-red, 20%) !important;
+            }
+
+            .rank-number,
+            .pts-value {
+                color: @f1-red !important; 
+            }
+        }
+
+        .MuiTableCell-root {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px 16px;
+        }
+
+        &:last-child .MuiTableCell-root {
+            border-bottom: none;
+        }
+    }
+}
+
+.col-pos { width: 50px; }
+.col-driver { width: 55%; }
+.col-team { width: 45%; }
+.col-pts { width: 60px; }
+
+.col-pos {
+    .rank-number {
+        font-family: @font-display !important;
+        font-weight: @weight-black;
+        font-size: 1.1rem;
+        color: @color-white; 
+        line-height: 1;
+    }
+}
+
+.col-driver {
+    .driver-cell {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .driver-color-bar {
+        width: 4px;
+        height: 36px;
+        border-radius: 2px;
+        flex-shrink: 0;
+    }
+
+    .driver-full-name {
+        font-family: @font-display !important;
+        font-weight: @weight-semi;
+        font-size: 0.95rem;
+        color: @color-white; 
+        line-height: 1.2;
+    }
+
+    .gap-label {
+        font-family: @font-tech !important;
+        font-size: 0.7rem;
+        color: @color-text-muted;
+        letter-spacing: 0.5px;
+        margin-top: 2px;
+    }
+}
+
+.col-team {
+    .team-cell {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .team-logo-wrapper {
+        width: 50px; 
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .team-logo-small {
+        max-height: 28px;
+        max-width: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 0 4px rgba(255,255,255,0.1)); 
+    }
+
+    .team-color-dot {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .team-code-text {
+        font-family: @font-display !important;
+        font-weight: @weight-bold;
+        font-size: 0.9rem;
+    }
+}
+
+.col-pts {
+    .pts-value {
+        font-family: @font-display !important;
+        font-weight: @weight-black;
+        font-size: 1.05rem;
+        color: @color-white; 
+        letter-spacing: 0.5px;
+    }
+}
+
+.empty-state {
+    padding: 64px 16px !important;
+    
+    .MuiTypography-root {
+        font-family: @font-tech !important;
+        letter-spacing: 2px;
+        color: rgba(255, 255, 255, 0.5) !important;
+        font-weight: @weight-bold;
+        text-transform: uppercase;
+    }
+}
+
+@media (max-width: 768px) {
+    .shared-standings-table .MuiTableCell-root {
+        padding: 12px 6px !important;
+    }
+
+    .col-pos { width: 36px; }
+    .col-pts { width: 46px; }
+    
+    .col-team { 
+        width: 50px; 
+        
+        .team-code-text { display: none; }
+        
+        .team-logo-wrapper {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    .col-driver {
+        .driver-cell { gap: 8px; }
+        .driver-full-name { font-size: 0.85rem; }
+    }
+}

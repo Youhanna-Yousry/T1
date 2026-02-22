@@ -5,6 +5,7 @@
     "race_control": "RACE CONTROL",
     "manual_scoring": "MANUAL SCORING",
     "drivers_championship": "DRIVERS' CHAMPIONSHIP",
+    "race_week": "RACE WEEK",
     "logout": "Logout",
     "language": "Language",
     "switch_lang": "العربية"
@@ -74,6 +75,14 @@
     "col_team": "TEAM",
     "col_pts": "PTS.",
     "no_data": "NO STANDINGS DATA AVAILABLE"
+  },
+  "race_week": {
+    "title": "RACE WEEK",
+    "col_pos": "POS.",
+    "col_driver": "DRIVER",
+    "col_team": "TEAM",
+    "col_pts": "PTS.",
+    "no_data": "NO DATA FOR THIS WEEK"
   },
   "race_control": {
     "title": "RACE CONTROL",

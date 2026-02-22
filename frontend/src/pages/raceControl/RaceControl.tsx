@@ -7,7 +7,7 @@ import { History as HistoryIcon, Flag as FlagIcon } from "@mui/icons-material";
 import useAxiosInterceptor from "hooks/useAxiosInterceptor";
 import { useTranslation } from "react-i18next";
 import { getTranslatedEventName } from "utils/translationUtils";
-import Loading from "components/Loading/Loading";
+import Loading from "components/loading/Loading";
 
 import { SelectInput } from "components/form/selectInput/SelectInput";
 import { getEvents, EventSummary, markAttendance } from "services/servantService";

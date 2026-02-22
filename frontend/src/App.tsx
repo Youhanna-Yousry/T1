@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from 'components/ProtectedRoute';
-import MainLayout from 'components/layout/MainLayout/MainLayout';
+import MainLayout from 'components/layout/mainLayout/MainLayout';
 
 import Dashboard from 'pages/dashboard/Dashboard';
 import Login from 'pages/login/Login';
@@ -10,6 +10,7 @@ import RoleRoute from 'components/RoleRoute';
 import RacerCode from 'pages/racerCode/RacerCode';
 import ManualScoring from 'pages/manualScoring/ManualScoring';
 import DriverChampionship from 'pages/driversChampionship/DriversChampionship';
+import RaceWeek from 'pages/raceWeek/RaceWeek';
 
 const HomeRedirect = () => {
   const { user } = useAuth();
@@ -43,6 +44,10 @@ function App() {
 
         <Route element={<RoleRoute allowedRoles={["STUDENT", "SERVANT", "SUPER_SERVANT"]} />}>
           <Route path="/drivers-championship" element={<DriverChampionship />} />
+        </Route>
+
+        <Route element={<RoleRoute allowedRoles={["STUDENT", "SERVANT", "SUPER_SERVANT"]} />}>
+          <Route path="/race-week" element={<RaceWeek />} />
         </Route>
       </Route>
 

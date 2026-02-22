@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Box, useMediaQuery, useTheme, AppBar, Toolbar, IconButton, Typography } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
-import Sidebar from "../Sidebar/Sidebar";
+import Sidebar from "../sidebar/Sidebar";
 import "./MainLayout.less";
 
 export default function MainLayout() {

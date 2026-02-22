@@ -1,5 +1,6 @@
 package com.church.t1.repository;
 
+import com.church.t1.dto.response.StudentProfile;
 import com.church.t1.model.entity.StudentLog;
 import com.church.t1.repository.projection.WeeklyRawScore;
 import jakarta.transaction.Transactional;
@@ -33,4 +34,22 @@ public interface StudentLogRepository extends JpaRepository<StudentLog, Long> {
             "GROUP BY sl.user " +
             "ORDER BY totalScore DESC")
     List<WeeklyRawScore> findWeeklyRawScores(Long weekId);
+
+    @Query(value = """
+            SELECT
+                u.first_name AS firstName,
+                u.last_name AS lastName,
+                tp.team_name AS teamName,
+                tp.team_code AS teamCode,
+                tp.team_color AS teamColor,
+                0 AS totalPoints,
+                CAST(RANK() OVER (ORDER BY SUM(sl.points_earned) DESC) AS integer) AS rank
+            FROM users u
+            JOIN student_log sl ON u.id = sl.user_id
+            JOIN team_profile tp ON tp.family_id = u.family_id AND tp.competition_id = :competitionId
+            WHERE sl.week_id = :weekId AND u.role = 'STUDENT'
+            GROUP BY u.id, tp.id
+            ORDER BY totalPoints DESC
+            """, nativeQuery = true)
+    List<StudentProfile> findWeeklyLeaderboard(Long competitionId, Long weekId);
 }

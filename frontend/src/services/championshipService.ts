@@ -21,8 +21,16 @@ export interface ChampionshipResponse {
     standings: ChampionshipStanding[];
 }
 
-export async function getChampionshipDriversStandings(competitionId?: number): Promise<ChampionshipResponse> {
+export async function getChampionshipLeaderboard(competitionId?: number): Promise<ChampionshipResponse> {
     const params = competitionId ? { competitionId } : {};
-    const response = await axios.get<ChampionshipResponse>("/championship/standings/drivers", { params });
+    const response = await axios.get<ChampionshipResponse>("/championship/leaderboard/overall", { params });
+    return response.data;
+}
+
+export async function getWeeklyLeaderboard(competitionId?: number, weekId?: number): Promise<ChampionshipResponse> {
+    const params: Record<string, number> = {};
+    if (competitionId) params.competitionId = competitionId;
+    if (weekId) params.weekId = weekId;
+    const response = await axios.get<ChampionshipResponse>("/championship/leaderboard/weekly", { params });
     return response.data;
 }
