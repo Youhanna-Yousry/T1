@@ -23,7 +23,7 @@ export interface ChampionshipResponse {
 
 export async function getChampionshipDriversStandings(competitionId?: number): Promise<ChampionshipResponse> {
     const params = competitionId ? { competitionId } : {};
-    const response = await axios.get<ChampionshipResponse>("/championship/standings/drivers", { params });
+    const response = await axios.get<ChampionshipResponse>("/championship/leaderboard/overall", { params });
     return response.data;
 }
 
@@ -31,6 +31,6 @@ export async function getWeeklyStandings(competitionId?: number, weekId?: number
     const params: Record<string, number> = {};
     if (competitionId) params.competitionId = competitionId;
     if (weekId) params.weekId = weekId;
-    const response = await axios.get<ChampionshipResponse>("/championship/standings/weekly", { params });
+    const response = await axios.get<ChampionshipResponse>("/championship/leaderboard/weekly", { params });
     return response.data;
 }

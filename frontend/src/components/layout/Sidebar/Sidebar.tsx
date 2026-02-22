@@ -78,15 +78,15 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             roles: ["SERVANT", "SUPER_SERVANT"]
         },
         {
-            label: t("sidebar.drivers_championship"),
-            path: "/drivers-championship",
-            icon: <TrophyIcon />,
+            label: t("sidebar.race_week"),
+            path: "/race-week",
+            icon: <CalendarMonthIcon />,
             roles: ["STUDENT", "SERVANT", "SUPER_SERVANT"]
         },
         {
-            label: t("sidebar.grand_prix_weekly"),
-            path: "/grand-prix-weekly",
-            icon: <CalendarMonthIcon />,
+            label: t("sidebar.drivers_championship"),
+            path: "/drivers-championship",
+            icon: <TrophyIcon />,
             roles: ["STUDENT", "SERVANT", "SUPER_SERVANT"]
         }
     ], [t]);

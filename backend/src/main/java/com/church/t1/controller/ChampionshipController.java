@@ -16,18 +16,18 @@ public class ChampionshipController {
 
     private final ChampionshipService championshipService;
 
-    @GetMapping("/standings/drivers")
-    public ResponseEntity<StudentsLeaderboard> getStandings(
+    @GetMapping("/leaderboard/overall")
+    public ResponseEntity<StudentsLeaderboard> getChampionshipLeaderboard(
             @RequestParam(required = false) Long competitionId
     ) {
-        return ResponseEntity.ok(championshipService.getStudentsStandings(competitionId));
+        return ResponseEntity.ok(championshipService.getChampionshipLeaderboard(competitionId));
     }
 
-    @GetMapping("/standings/weekly")
-    public ResponseEntity<StudentsLeaderboard> getWeeklyStandings(
+    @GetMapping("/leaderboard/weekly")
+    public ResponseEntity<StudentsLeaderboard> getWeeklyLeaderboard(
             @RequestParam(required = false) Long competitionId,
             @RequestParam(required = false) Long weekId
     ) {
-        return ResponseEntity.ok(championshipService.getWeeklyStandings(competitionId, weekId));
+        return ResponseEntity.ok(championshipService.getWeeklyLeaderboard(competitionId, weekId));
     }
 }

@@ -4,7 +4,6 @@ import com.church.t1.dto.response.StudentProfile;
 import com.church.t1.model.entity.WeeklyResult;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -35,25 +34,8 @@ public interface WeeklyResultRepository extends JpaRepository<WeeklyResult, Long
             JOIN weekly_result wr ON u.id = wr.user_id
             JOIN team_profile tp ON tp.family_id = u.family_id AND tp.competition_id = :competitionId
             WHERE wr.competition_id = :competitionId AND u.role = 'STUDENT'
-            GROUP BY u.id, u.first_name, u.last_name, tp.team_name, tp.team_code, tp.team_color
+            GROUP BY u.id, tp.id
             ORDER BY totalPoints DESC
             """, nativeQuery = true)
-    List<StudentProfile> findChampionshipDriversStandings(@Param("competitionId") Long competitionId);
-
-    @Query(value = """
-            SELECT
-                u.first_name AS firstName,
-                u.last_name AS lastName,
-                tp.team_name AS teamName,
-                tp.team_code AS teamCode,
-                tp.team_color AS teamColor,
-                CAST(0 AS integer) AS totalPoints,
-                CAST(RANK() OVER (ORDER BY wr.raw_attendance_score DESC) AS integer) AS rank
-            FROM users u
-            JOIN weekly_result wr ON u.id = wr.user_id
-            JOIN team_profile tp ON tp.family_id = u.family_id AND tp.competition_id = :competitionId
-            WHERE wr.week_id = :weekId AND u.role = 'STUDENT'
-            ORDER BY wr.raw_attendance_score DESC
-            """, nativeQuery = true)
-    List<StudentProfile> findWeeklyStandings(@Param("competitionId") Long competitionId, @Param("weekId") Long weekId);
+    List<StudentProfile> findChampionshipLeaderboard(Long competitionId);
 }

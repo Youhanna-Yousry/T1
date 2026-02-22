@@ -10,7 +10,7 @@ import RoleRoute from 'components/RoleRoute';
 import RacerCode from 'pages/racerCode/RacerCode';
 import ManualScoring from 'pages/manualScoring/ManualScoring';
 import DriverChampionship from 'pages/driversChampionship/DriversChampionship';
-import GrandPrixWeekly from 'pages/grandPrixWeekly/GrandPrixWeekly';
+import RaceWeek from 'pages/raceWeek/RaceWeek';
 
 const HomeRedirect = () => {
   const { user } = useAuth();
@@ -47,7 +47,7 @@ function App() {
         </Route>
 
         <Route element={<RoleRoute allowedRoles={["STUDENT", "SERVANT", "SUPER_SERVANT"]} />}>
-          <Route path="/grand-prix-weekly" element={<GrandPrixWeekly />} />
+          <Route path="/race-week" element={<RaceWeek />} />
         </Route>
       </Route>
 
