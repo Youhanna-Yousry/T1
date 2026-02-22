@@ -5,7 +5,7 @@
     "race_control": "RACE CONTROL",
     "manual_scoring": "MANUAL SCORING",
     "drivers_championship": "DRIVERS' CHAMPIONSHIP",
-    "grand_prix_weekly": "GRAND PRIX WEEKLY",
+    "race_week": "RACE WEEK",
     "logout": "Logout",
     "language": "Language",
     "switch_lang": "العربية"
@@ -76,8 +76,8 @@
     "col_pts": "PTS.",
     "no_data": "NO STANDINGS DATA AVAILABLE"
   },
-  "grand_prix_weekly": {
-    "title": "GRAND PRIX WEEKLY",
+  "race_week": {
+    "title": "RACE WEEK",
     "col_pos": "POS.",
     "col_driver": "DRIVER",
     "col_team": "TEAM",

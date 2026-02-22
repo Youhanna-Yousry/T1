@@ -5,7 +5,7 @@
     "race_control": "تحكم السباق",
     "manual_scoring": "تسجيل يدوي",
     "drivers_championship": "بطولة السائقين",
-    "grand_prix_weekly": "الجائزة الكبرى الأسبوعية",
+    "race_week": "أسبوع السباق",
     "logout": "تسجيل خروج",
     "language": "اللغة",
     "switch_lang": "English"
@@ -76,8 +76,8 @@
     "col_pts": "النقاط",
     "no_data": "لا توجد بيانات بطولة"
   },
-  "grand_prix_weekly": {
-    "title": "الجائزة الكبرى الأسبوعية",
+  "race_week": {
+    "title": "أسبوع السباق",
     "col_pos": "المركز",
     "col_driver": "السائق",
     "col_team": "الفريق",
