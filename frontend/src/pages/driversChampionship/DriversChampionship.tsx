@@ -4,9 +4,9 @@ import { Box, Container, Typography, Chip } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import useAxiosInterceptor from "hooks/useAxiosInterceptor";
 import { getTranslatedCompetitionName } from "utils/translationUtils";
-import { getChampionshipDriversStandings, ChampionshipStanding, CompetitionSummary } from "services/championshipService";
-import Loading from "components/Loading/Loading";
-import StandingsTable from "components/standingsTable/StandingsTable"; // UPDATE THIS PATH
+import { getChampionshipLeaderboard, ChampionshipStanding, CompetitionSummary } from "services/championshipService";
+import Loading from "components/loading/Loading";
+import StandingsTable from "components/standingsTable/StandingsTable";
 
 import "./DriversChampionship.less";
 
@@ -19,7 +19,7 @@ export default function DriverChampionship() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getChampionshipDriversStandings()
+        getChampionshipLeaderboard()
             .then((data) => {
                 setStandings(data.standings);
                 setSummary(data.competitionSummary);

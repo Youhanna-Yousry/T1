@@ -10,7 +10,7 @@ import { SubmitButton } from "components/form/submitButton/SubmitButton";
 import { TextInput } from "components/form/textInput/TextInput";
 import { getEvents, markAttendance, searchStudents, EventSummary } from "services/servantService";
 import UseAxiosInterceptor from "hooks/useAxiosInterceptor";
-import Loading from "components/Loading/Loading";
+import Loading from "components/loading/Loading";
 
 import "./ManualScoring.less";
 
