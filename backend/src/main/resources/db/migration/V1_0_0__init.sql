@@ -157,8 +157,8 @@ BEGIN
     (family_9_id, competition_id, 'Mercedes', 'MER', '#27F4D2');
 
     INSERT INTO week (name, competition_id, week_number, start_date, end_date) VALUES
-    ('Preparation Week',    competition_id, 1, '2026-02-14 00:00:00', '2026-02-19 23:59:59'),
-    ('Week of Temptation',  competition_id, 2, '2026-02-20 00:00:00', '2026-02-26 23:59:59'),
+    ('Preparation Week',    competition_id, 1, '2026-02-14 00:00:00', '2026-02-20 23:59:59'),
+    ('Week of Temptation',  competition_id, 2, '2026-02-21 00:00:00', '2026-02-26 23:59:59'),
     ('The Prodigal Son',    competition_id, 3, '2026-02-27 00:00:00', '2026-03-05 23:59:59'),
     ('The Samaritan Woman', competition_id, 4, '2026-03-06 00:00:00', '2026-03-12 23:59:59'),
     ('The Paralytic Man',   competition_id, 5, '2026-03-13 00:00:00', '2026-03-19 23:59:59'),
