@@ -1,5 +1,6 @@
 package com.church.t1.exception;
 
+import com.church.t1.utils.TimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -26,7 +27,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 "An unexpected error occurred. Please contact support."
         );
         problemDetail.setTitle("Internal Server Error");
-        problemDetail.setProperty(TIMESTAMP, Instant.now());
+        problemDetail.setProperty(TIMESTAMP, TimeUtils.currentLocalTimeAsInstant());
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
     }
@@ -39,7 +40,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
 
         problemDetail.setTitle("Authentication Failed");
-        problemDetail.setProperty(TIMESTAMP, Instant.now());
+        problemDetail.setProperty(TIMESTAMP, TimeUtils.currentLocalTimeAsInstant());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
     }
@@ -52,7 +53,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
 
         problemDetail.setTitle("Conflict");
-        problemDetail.setProperty(TIMESTAMP, Instant.now());
+        problemDetail.setProperty(TIMESTAMP, TimeUtils.currentLocalTimeAsInstant());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
     }
@@ -65,7 +66,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
 
         problemDetail.setTitle("Student Not Found");
-        problemDetail.setProperty(TIMESTAMP, Instant.now());
+        problemDetail.setProperty(TIMESTAMP, TimeUtils.currentLocalTimeAsInstant());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
     }
