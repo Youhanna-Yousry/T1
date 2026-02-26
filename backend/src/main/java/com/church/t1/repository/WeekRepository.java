@@ -16,6 +16,4 @@ public interface WeekRepository extends JpaRepository<Week, Long> {
     Optional<Week> findFirstByCompetitionIdOrderByWeekNumberAsc(Long competitionId);
 
     Optional<Week> findFirstByEndDateBeforeOrderByEndDateDesc(Instant now);
-
-    Optional<Week> findFirstByCompetitionIdAndEndDateBeforeOrderByEndDateDesc(Long competitionId, Instant now);
 }
