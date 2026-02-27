@@ -13,10 +13,15 @@ public interface WeeklyResultRepository extends JpaRepository<WeeklyResult, Long
             "WHERE wr.user.username = :username AND wr.competition.id = :competitionId")
     Integer getStudentTotalPoints(String username, Long competitionId);
 
-    @Query("SELECT COUNT(DISTINCT wr.user.id) + 1 FROM WeeklyResult wr " +
-            "WHERE wr.competition.id = :competitionId " +
-            "GROUP BY wr.user.id " +
-            "HAVING SUM(wr.championshipPoints) > :myPoints")
+    @Query(value = """
+            SELECT COUNT(*) + 1 FROM (
+                SELECT wr.user_id
+                FROM weekly_result wr
+                WHERE wr.competition_id = :competitionId
+                GROUP BY wr.user_id
+                HAVING SUM(wr.championship_points) > :myPoints
+            ) AS ranked_users
+            """, nativeQuery = true)
     Integer calculateRank(Long competitionId, Integer myPoints);
 
     List<WeeklyResult> findByWeekId(Long weekId);
