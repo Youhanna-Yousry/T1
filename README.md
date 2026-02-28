@@ -42,11 +42,18 @@ Students participate in church events and receive points for attendance. The pla
 | Page | Available To |
 |---|---|
 | Login | All |
-| Drivers Championship (Compeition Leaderboard) | All |
+| Drivers Championship (Competition Leaderboard) | All |
 | Race Week (Weekly Leaderboard) | All |
 | Dashboard | `STUDENT` |
 | Race Control | `SERVANT`, `SUPER_SERVANT` |
 | Manual Scoring | `SUPER_SERVANT` |
+
+## Supported Languages
+
+| Language | Code |
+|---|---|
+| English | `en` |
+| Arabic | `ar` |
 
 ## Getting Started
 
