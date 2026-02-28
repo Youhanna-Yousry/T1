@@ -6,6 +6,22 @@
 @drawer-closed-width: 70px;
 
 .f1-sidebar {
+    @media (min-width: 900px) {
+        width: @drawer-width;
+        flex-shrink: 0;
+        transition: width @anim-speed cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &.closed {
+        @media (min-width: 900px) {
+            width: @drawer-closed-width;
+        }
+
+        .MuiDrawer-paper {
+            width: @drawer-closed-width;
+        }
+    }
+
     .MuiDrawer-paper {
         background-color: @bg-dark-blue;
         color: @color-white;
@@ -15,10 +31,6 @@
         box-sizing: border-box;
         transition: width @anim-speed cubic-bezier(0.4, 0, 0.2, 1) !important;
         width: @drawer-width;
-    }
-
-    &.closed .MuiDrawer-paper {
-        width: @drawer-closed-width;
     }
 }
 
