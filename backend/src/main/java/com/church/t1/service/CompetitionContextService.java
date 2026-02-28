@@ -4,10 +4,11 @@ import com.church.t1.model.entity.Competition;
 import com.church.t1.model.entity.Week;
 import com.church.t1.repository.CompetitionRepository;
 import com.church.t1.repository.WeekRepository;
-import com.church.t1.utils.TimeUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class CompetitionContextService {
                     .orElseThrow(() -> new EntityNotFoundException("Week not found: " + weekId));
         }
 
-        return weekRepository.findCurrentWeek(competition.getId(), TimeUtils.currentLocalTimeAsInstant())
+        return weekRepository.findCurrentWeek(competition.getId(), Instant.now())
                 .or(() -> weekRepository.findFirstByCompetitionIdOrderByWeekNumberAsc(competition.getId()))
                 .orElseThrow(() -> new RuntimeException("No weeks setup for: " + competition.getName()));
     }
