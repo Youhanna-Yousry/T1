@@ -112,7 +112,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             variant={isMobile ? "temporary" : "permanent"}
             open={isOpen}
             onClose={onClose}
-            anchor={isMobile && i18n.language === 'ar' ? 'right' : 'left'}
+            anchor={i18n.language === 'ar' ? 'right' : 'left'}
             className={`f1-sidebar ${isOpen ? 'open' : 'closed'}`}
             ModalProps={{ keepMounted: true }}
         >
