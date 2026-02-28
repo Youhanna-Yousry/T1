@@ -64,7 +64,7 @@ export default function StandingsTable({ standings, emptyStateText, labels, show
                                                 className="driver-color-bar"
                                                 style={{ backgroundColor: standing.teamColor || "#dc0000" }}
                                             />
-                                            <Box>
+                                            <Box className="driver-details">
                                                 <Typography className="driver-full-name">
                                                     {standing.firstName + " " + standing.lastName}
                                                 </Typography>
