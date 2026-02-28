@@ -3,13 +3,13 @@ package com.church.t1.service;
 import com.church.t1.model.entity.RefreshToken;
 import com.church.t1.model.entity.User;
 import com.church.t1.repository.RefreshTokenRepository;
-import com.church.t1.utils.TimeUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,14 +27,14 @@ public class RefreshTokenService {
         RefreshToken token = RefreshToken.builder()
                 .user(user)
                 .token(UUID.randomUUID().toString())
-                .expiryDate(TimeUtils.currentLocalTimeAsInstant().plusMillis(refreshTokenExpirationMs))
+                .expiryDate(Instant.now().plusMillis(refreshTokenExpirationMs))
                 .build();
 
         return refreshTokenRepository.save(token);
     }
 
     public boolean isTokenExpired(RefreshToken token) {
-        return token.getExpiryDate().isBefore(TimeUtils.currentLocalTimeAsInstant());
+        return token.getExpiryDate().isBefore(Instant.now());
     }
 
     public Optional<RefreshToken> findByToken(String token) {
