@@ -1,6 +1,5 @@
 package com.church.t1.model.entity;
 
-import com.church.t1.utils.TimeUtils;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,13 +26,13 @@ public class BasicEntity {
 
     @PrePersist
     protected void onCreate() {
-        Instant now = TimeUtils.currentLocalTimeAsInstant();
+        Instant now = Instant.now();
         this.createdAt = now;
         this.updatedAt = now;
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = TimeUtils.currentLocalTimeAsInstant();
+        this.updatedAt = Instant.now();
     }
 }
