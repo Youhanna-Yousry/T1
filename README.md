@@ -42,9 +42,10 @@ Students participate in church events and receive points for attendance. The pla
 | Page | Available To |
 |---|---|
 | Login | All |
-| Drivers Championship (Leaderboard) | All |
+| Drivers Championship (Compeition Leaderboard) | All |
+| Race Week (Weekly Leaderboard) | All |
 | Dashboard | `STUDENT` |
-| Race Control | `SERVANT`, `SUPER_SERVANT`, `STUDENT` |
+| Race Control | `SERVANT`, `SUPER_SERVANT` |
 | Manual Scoring | `SUPER_SERVANT` |
 
 ## Getting Started
@@ -87,8 +88,10 @@ The frontend runs on `http://localhost:3000` and proxies API requests to the bac
 ![Login](assets/screenshots/login.png)
 - Dashboard
 ![Dashboard](assets/screenshots/dashboard.png)
-- Drivers Championship leaderboard
-![Drivers Championship leaderboard](assets/screenshots/drivers-championship-leaderboard.png)
+- Drivers Championship (Competition Leaderboard)
+![Drivers Championship leaderboard](assets/screenshots/drivers-championship.png)
+- Race Week (Weekly Leaderboard)
+![Race Week](assets/screenshots/race-week.png)
 - Racer QR Code page
 ![Racer QR Code](assets/screenshots/racer-code.png)
 - Race Control
