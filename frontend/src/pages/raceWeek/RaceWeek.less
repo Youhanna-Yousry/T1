@@ -14,6 +14,11 @@
     padding-bottom: 12px;
     border-bottom: 4px solid @f1-red;
 
+    .header-left {
+        display: flex;
+        flex-direction: column;
+    }
+
     .weekly-title-block {
         .weekly-season {
             font-family: @font-tech;
@@ -23,13 +28,19 @@
             line-height: 1;
             font-size: 0.75rem;
             display: block;
+            margin-bottom: 6px;
+        }
+
+        .title-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
         .weekly-title {
             font-family: @font-display;
             font-weight: @weight-black;
             font-style: italic;
-            margin-top: 4px;
             line-height: 1;
             color: @f1-black;
             text-transform: uppercase;
@@ -58,16 +69,29 @@
             border: 1px solid fade(@color-success, 20%);
         }
     }
+
+    .round-selector {
+        width: 280px;
+    }
 }
 
 @media (max-width: 768px) {
     .weekly-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 12px;
+        gap: 20px;
+
+        .title-row {
+            flex-wrap: wrap;
+            gap: 12px;
+        }
 
         .weekly-title {
             font-size: 1.6rem;
+        }
+
+        .round-selector {
+            width: 100%;
         }
     }
 }
