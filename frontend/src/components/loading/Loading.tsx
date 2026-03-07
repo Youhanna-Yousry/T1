@@ -2,15 +2,19 @@ import { Box, CircularProgress, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import './Loading.less';
 
-export default function Loading() {
+interface LoadingProps {
+    fullScreen?: boolean;
+}
+
+export default function Loading({ fullScreen = true }: LoadingProps) {
     const { t } = useTranslation();
 
     return (
-        <Box className="f1-loading-screen">
+        <Box className={`f1-loading-screen ${fullScreen ? 'layout-full' : 'layout-partial'}`}>
             <Box className="loading-content">
                 <Box className="spinner-wrapper">
                     <CircularProgress
-                        size={60}
+                        size={fullScreen ? 60 : 40}
                         thickness={4}
                         className="f1-spinner"
                     />
@@ -18,16 +22,18 @@ export default function Loading() {
                 </Box>
 
                 <Box className="text-wrapper">
-                    <Typography variant="h6" className="loading-title">
-                        {t('loading.title')}
+                    <Typography variant={fullScreen ? "h6" : "subtitle1"} className="loading-title">
+                        {t('loading.title', 'LOADING')}
                     </Typography>
-                    <Typography variant="caption" className="loading-subtitle">
-                        {t('loading.subtitle')}
-                    </Typography>
+                    {fullScreen && (
+                        <Typography variant="caption" className="loading-subtitle">
+                            {t('loading.subtitle', 'CONNECTING TO TELEMETRY')}
+                        </Typography>
+                    )}
                 </Box>
             </Box>
 
-            <Box className="loading-stripe" />
+            {fullScreen && <Box className="loading-stripe" />}
         </Box>
     );
 }

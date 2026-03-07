@@ -1,11 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useAxiosInterceptor from "hooks/useAxiosInterceptor";
 import { useTranslation } from "react-i18next";
 import { getTranslatedEventName, getTranslatedCompetitionName } from "utils/translationUtils";
 import { Container, Grid, Typography, Box, Card, Stack, Divider, Chip } from "@mui/material";
-import { getStudentDashboard, StudentDashboard } from "services/studentService";
-import Loading from "components/loading/Loading";
 import CircleIcon from '@mui/icons-material/Circle';
+import {
+    getDashboardHeader, DashboardHeader,
+    getWeeklyProgress, WeeklyProgress
+} from "services/studentService";
+import { getFinishedRounds, WeekSummary } from "services/championshipService";
+
+import Loading from "components/loading/Loading";
+import { SelectInput } from "components/form/selectInput/SelectInput";
 
 import "./Dashboard.less";
 
@@ -26,20 +32,73 @@ const getDriverCode = (firstName: string, lastName: string) => {
 export default function Dashboard() {
     useAxiosInterceptor();
     const { t } = useTranslation();
-    const [data, setData] = useState<StudentDashboard | null>(null);
+
+    const [header, setHeader] = useState<DashboardHeader | null>(null);
+    const [progress, setProgress] = useState<WeeklyProgress | null>(null);
+    const [rounds, setRounds] = useState<WeekSummary[]>([]);
+    const [selectedWeekId, setSelectedWeekId] = useState<number | "">("");
+
     const [loading, setLoading] = useState(true);
+    const [loadingProgress, setLoadingProgress] = useState(false);
+
+    const progressCache = useRef(new Map<number, WeeklyProgress>());
 
     useEffect(() => {
-        getStudentDashboard()
-            .then(setData)
-            .finally(() => setLoading(false));
+        const fetchInitialData = async () => {
+            try {
+                const [headerData, progressData, roundsData] = await Promise.all([
+                    getDashboardHeader(),
+                    getWeeklyProgress(),
+                    getFinishedRounds()
+                ]);
+
+                setHeader(headerData);
+                setProgress(progressData);
+                setRounds(roundsData);
+            } catch (error) {
+                console.error("Failed to load dashboard data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchInitialData();
     }, []);
 
-    if (loading || !data) return <Loading />;
+    const handleRoundChange = async (value: string | number) => {
+        const weekIdParam = value !== "" ? (value as number) : undefined;
+        setSelectedWeekId(value as number | "");
 
-    const { competition, studentProfile, weeklyProgress } = data;
+        if (weekIdParam && progressCache.current.has(weekIdParam)) {
+            setProgress(progressCache.current.get(weekIdParam)!);
+            return;
+        }
 
+        setLoadingProgress(true);
+
+        try {
+            const newProgress = await getWeeklyProgress(undefined, weekIdParam);
+            setProgress(newProgress);
+
+            if (weekIdParam) {
+                progressCache.current.set(weekIdParam, newProgress);
+            }
+        } catch (error) {
+            console.error("Failed to fetch historical round progress:", error);
+        } finally {
+            setLoadingProgress(false);
+        }
+    };
+
+    if (loading || !header || !progress) return <Loading />;
+
+    const { competition, studentProfile } = header;
     const formatRound = (num: number) => num.toString().padStart(2, '0');
+
+    const roundOptions = rounds.map(r => ({
+        value: r.weekId,
+        label: `Round ${formatRound(r.weekNumber)} - ${r.weekName}`
+    }));
 
     const CompetitionHeader = () => {
         const displayName = getTranslatedCompetitionName(competition.name, t);
@@ -121,20 +180,38 @@ export default function Dashboard() {
 
                 <Divider className="section-divider" />
 
-                <Box className="week-header">
-                    <Typography variant="overline" className="round-counter">
-                        Round {formatRound(weeklyProgress.weekNumber)}
-                    </Typography>
-                    <Typography variant="h3" className="week-title">
-                        {weeklyProgress.weekName.toUpperCase()}
-                    </Typography>
+                <Box className="week-section-top">
+                    <Box className="week-header">
+                        <Typography variant="overline" className="round-counter">
+                            Round {formatRound(progress.weekNumber)}
+                        </Typography>
+                        <Typography variant="h3" className="week-title">
+                            {progress.weekName.toUpperCase()}
+                        </Typography>
+                    </Box>
+
+                    <Box className="round-selector">
+                        <SelectInput
+                            id="round-history-select"
+                            label={t("dashboard.history", "Round History")}
+                            value={selectedWeekId}
+                            options={roundOptions}
+                            onChange={handleRoundChange}
+                            emptyLabel={t("dashboard.current_round", "Current Round")}
+                            disabled={loadingProgress}
+                        />
+                    </Box>
                 </Box>
 
-                <Grid container spacing={3}>
-                    <CategoryCard title={`🏁 ${t("dashboard.grand_prix")}`} category={weeklyProgress.grandPrix} />
-                    <CategoryCard title={`🏎️ ${t("dashboard.practice")}`} category={weeklyProgress.practice} />
-                    <CategoryCard title={`⚡ ${t("dashboard.sprint")}`} category={weeklyProgress.sprint} />
-                </Grid>
+                {loadingProgress ? (
+                    <Loading fullScreen={false} />
+                ) : (
+                    <Grid container spacing={3}>
+                        <CategoryCard title={`🏁 ${t("dashboard.grand_prix")}`} category={progress.grandPrix} />
+                        <CategoryCard title={`🏎️ ${t("dashboard.practice")}`} category={progress.practice} />
+                        <CategoryCard title={`⚡ ${t("dashboard.sprint")}`} category={progress.sprint} />
+                    </Grid>
+                )}
             </Container>
         </Box>
     );

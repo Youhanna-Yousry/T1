@@ -2,6 +2,7 @@ package com.church.t1.service;
 
 import com.church.t1.dto.response.StudentProfile;
 import com.church.t1.dto.response.StudentsLeaderboard;
+import com.church.t1.dto.response.WeekSummary;
 import com.church.t1.mapper.AppMapper;
 import com.church.t1.model.entity.Competition;
 import com.church.t1.model.entity.Week;
@@ -45,5 +46,11 @@ public class ChampionshipService {
                 .competitionSummary(appMapper.toCompetitionSummary(competition))
                 .standings(standings)
                 .build();
+    }
+
+    public List<WeekSummary> getFinishedRounds(Long competitionId) {
+        return competitionContextService.getFinishedWeeks(competitionId).stream()
+                .map(appMapper::toWeekSummary)
+                .toList();
     }
 }

@@ -3,9 +3,8 @@ package com.church.t1.dto.response;
 import lombok.Builder;
 
 @Builder
-public record StudentDashboard(
+public record DashboardHeader(
         CompetitionSummary competition,
-        StudentProfile studentProfile,
-        WeeklyProgress weeklyProgress
+        StudentProfile studentProfile
 ) {
 }

@@ -1,5 +1,7 @@
 package com.church.t1.controller;
 
+import com.church.t1.dto.response.DashboardHeader;
+import com.church.t1.dto.response.WeeklyProgress;
 import com.church.t1.service.StudentFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,18 +15,28 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/student")
 @RequiredArgsConstructor
-public class StudentDashboard {
+public class StudentController {
 
     private final StudentFacade studentFacade;
 
-    @GetMapping("/dashboard")
-    public ResponseEntity<com.church.t1.dto.response.StudentDashboard> loadDashboard(
+    @GetMapping("/dashboard/header")
+    public ResponseEntity<DashboardHeader> getDashboardHeader(
+            Principal principal,
+            @RequestParam(required = false) Long competitionId
+    ) {
+        return ResponseEntity.ok(
+                studentFacade.getDashboardHeader(principal.getName(), competitionId)
+        );
+    }
+
+    @GetMapping("/progress/weekly")
+    public ResponseEntity<WeeklyProgress> getWeeklyProgress(
             Principal principal,
             @RequestParam(required = false) Long competitionId,
             @RequestParam(required = false) Long weekId
     ) {
         return ResponseEntity.ok(
-                studentFacade.loadDashboard(principal.getName(), competitionId, weekId)
+                studentFacade.getWeeklyProgress(principal.getName(), competitionId, weekId)
         );
     }
 }

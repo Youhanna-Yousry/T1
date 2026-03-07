@@ -32,4 +32,8 @@ public interface AppMapper {
     default CompetitionStatus mapCompetitionStatus(Boolean isActive) {
         return Boolean.TRUE.equals(isActive) ? CompetitionStatus.ACTIVE : CompetitionStatus.ARCHIVED;
     }
+
+    @Mapping(target = "weekId", source = "id")
+    @Mapping(target = "weekName", source = "name")
+    WeekSummary toWeekSummary(Week weeks);
 }
