@@ -9,7 +9,7 @@ import { getWeeklyLeaderboard, ChampionshipStanding, ChampionshipResponse } from
 import { getFinishedRounds, WeekSummary } from "services/championshipService";
 
 import Loading from "components/loading/Loading";
-import { SelectInput } from "components/form/selectInput/SelectInput";
+import { SelectInput } from "components/form/SelectInput";
 import StandingsTable from "components/standingsTable/StandingsTable";
 
 import "./RaceWeek.less";
@@ -118,6 +118,7 @@ export default function RaceWeek() {
                             onChange={handleRoundChange}
                             emptyLabel={t("dashboard.current_round", "Current Round")}
                             disabled={loadingStandings}
+                            lightTheme
                         />
                     </Box>
                 </Box>

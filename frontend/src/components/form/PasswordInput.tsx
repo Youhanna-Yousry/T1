@@ -1,33 +1,40 @@
 import { useState } from "react";
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Box } from "@mui/material";
+import { FormControl, InputLabel, InputAdornment, IconButton, Box, FilledInput } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import "./textInput/TextInput.less";
+import "./SharedFormInputs.less";
 
 interface PasswordInputProps {
+    id?: string;
     label: string;
     value: string;
-    error: boolean;
+    error?: boolean;
     onChange: (value: string) => void;
 }
 
-export function PasswordInput({ label, value, error, onChange }: PasswordInputProps) {
+export function PasswordInput({ id = "password", label, value, error = false, onChange }: PasswordInputProps) {
     const [showPassword, setShowPassword] = useState(false);
 
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
     return (
-        <Box className="input-container">
-            <FormControl variant="outlined" fullWidth>
-                <InputLabel htmlFor="password" error={error}>{label}</InputLabel>
-                <OutlinedInput
-                    id="password"
+        <Box className="f1-form-control">
+            <FormControl variant="filled" fullWidth error={error}>
+                <InputLabel htmlFor={id}>{label}</InputLabel>
+                <FilledInput
+                    id={id}
                     type={showPassword ? "text" : "password"}
                     value={value}
-                    error={error}
-                    label={label}
                     onChange={(e) => onChange(e.target.value)}
                     endAdornment={
                         <InputAdornment position="end">
                             <IconButton
-                                onClick={() => setShowPassword((prev) => !prev)}
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
                                 edge="end"
                             >
                                 {showPassword ? <VisibilityOff /> : <Visibility />}

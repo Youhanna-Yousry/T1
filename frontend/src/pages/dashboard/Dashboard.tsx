@@ -11,7 +11,7 @@ import {
 import { getFinishedRounds, WeekSummary } from "services/championshipService";
 
 import Loading from "components/loading/Loading";
-import { SelectInput } from "components/form/selectInput/SelectInput";
+import { SelectInput } from "components/form/SelectInput";
 
 import "./Dashboard.less";
 
@@ -199,6 +199,7 @@ export default function Dashboard() {
                             onChange={handleRoundChange}
                             emptyLabel={t("dashboard.current_round", "Current Round")}
                             disabled={loadingProgress}
+                            lightTheme
                         />
                     </Box>
                 </Box>

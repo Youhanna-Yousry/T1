@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import {
     Box, Container, Grid, Typography, Stack, Paper, Alert
 } from "@mui/material";
-import { SelectInput } from "components/form/selectInput/SelectInput";
-import { AutocompleteInput } from "components/form/autocompleteInput/AutocompleteInput";
+import { SelectInput } from "components/form/SelectInput";
+import { AutocompleteInput } from "components/form/AutocompleteInput";
 import { useTranslation } from "react-i18next";
 import { getTranslatedEventName } from "utils/translationUtils";
 import { SubmitButton } from "components/form/submitButton/SubmitButton";
-import { TextInput } from "components/form/textInput/TextInput";
+import { TextInput } from "components/form/TextInput";
 import { getEvents, markAttendance, searchStudents, EventSummary } from "services/servantService";
 import UseAxiosInterceptor from "hooks/useAxiosInterceptor";
 import Loading from "components/loading/Loading";
