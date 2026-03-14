@@ -1,6 +1,7 @@
 package com.church.t1.service;
 
-import com.church.t1.dto.response.StudentDashboard;
+import com.church.t1.dto.response.DashboardHeader;
+import com.church.t1.dto.response.WeeklyProgress;
 import com.church.t1.mapper.AppMapper;
 import com.church.t1.model.entity.User;
 import com.church.t1.repository.UserRepository;
@@ -21,16 +22,26 @@ public class StudentFacade {
     private final AppMapper appMapper;
 
     @Transactional(readOnly = true)
-    public StudentDashboard loadDashboard(String username, Long competitionId, Long weekId) {
-        User student = userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("Student user not found: " + username));
+    public DashboardHeader getDashboardHeader(String username, Long competitionId) {
+        User student = getUserOrThrow(username);
+        Context ctx = competitionContextService.resolveContext(competitionId, null);
 
-        Context ctx = competitionContextService.resolveContext(competitionId, weekId);
-
-        return StudentDashboard.builder()
+        return DashboardHeader.builder()
                 .competition(appMapper.toCompetitionSummary(ctx.competition()))
                 .studentProfile(studentStatisticsService.getStudentProfile(student, ctx.competition()))
-                .weeklyProgress(weeklyScheduleService.getWeeklyProgress(student, ctx.week()))
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public WeeklyProgress getWeeklyProgress(String username, Long competitionId, Long weekId) {
+        User student = getUserOrThrow(username);
+        Context ctx = competitionContextService.resolveContext(competitionId, weekId);
+
+        return weeklyScheduleService.getWeeklyProgress(student, ctx.week());
+    }
+
+    private User getUserOrThrow(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Student user not found: " + username));
     }
 }

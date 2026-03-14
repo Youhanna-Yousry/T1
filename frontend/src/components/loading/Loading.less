@@ -3,29 +3,62 @@
 
 .f1-loading-screen {
     width: 100%;
-    min-height: 100vh; 
-    
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: @bg-deep; 
     position: relative;
-    overflow: hidden;
     z-index: 99; 
 
-    &::before {
-        content: '';
-        position: absolute;
-        width: 200%;
-        height: 200%;
-        background-image: 
-            linear-gradient(@color-border-light 1px, transparent 1px),
-            linear-gradient(90deg, @color-border-light 1px, transparent 1px);
-        background-size: 50px 50px;
-        background-position: center;
-        opacity: 0.08;
-        transform: perspective(500px) rotateX(60deg);
-        pointer-events: none;
+    &.layout-full {
+        min-height: 100vh; 
+        background-color: @bg-deep; 
+        overflow: hidden;
+
+        &::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(@color-border-light 1px, transparent 1px),
+                linear-gradient(90deg, @color-border-light 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center;
+            opacity: 0.08;
+            transform: perspective(500px) rotateX(60deg);
+            pointer-events: none;
+        }
+
+        .loading-content {
+            background: radial-gradient(circle, fade(@bg-panel, 80%) 0%, transparent 70%);
+            padding: 40px;
+        }
+    }
+
+    &.layout-partial {
+        min-height: 300px; 
+        background-color: transparent;
+        
+        .loading-content {
+            padding: 20px;
+            background: none !important;
+            
+            .loading-title {
+                color: @f1-black; 
+                text-shadow: none;
+            }
+        }
+
+        .spinner-wrapper {
+            .spinner-dot {
+                background-color: @f1-red; 
+                box-shadow: 0 0 10px fade(@f1-red, 50%);
+            }
+
+            .f1-spinner {
+                filter: drop-shadow(0 0 4px fade(@effect-red-glow, 40%));
+            }
+        }
     }
 }
 

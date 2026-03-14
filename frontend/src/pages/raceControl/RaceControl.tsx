@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { getTranslatedEventName } from "utils/translationUtils";
 import Loading from "components/loading/Loading";
 
-import { SelectInput } from "components/form/selectInput/SelectInput";
+import { SelectInput } from "components/form/SelectInput";
 import { getEvents, EventSummary, markAttendance } from "services/servantService";
 import "./RaceControl.less";
 

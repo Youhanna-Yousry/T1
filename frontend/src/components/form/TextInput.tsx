@@ -1,5 +1,5 @@
-import { Box, FormControl, InputLabel, OutlinedInput } from "@mui/material";
-import "./TextInput.less";
+import { Box, FilledInput, FormControl, InputLabel } from "@mui/material";
+import "./SharedFormInputs.less";
 
 interface TextInputProps {
     id: string;
@@ -11,14 +11,12 @@ interface TextInputProps {
 
 export function TextInput({ id, label, value, error, onChange }: TextInputProps) {
     return (
-        <Box className="input-container">
-            <FormControl variant="outlined" fullWidth>
-                <InputLabel htmlFor={id} error={error}>{label}</InputLabel>
-                <OutlinedInput
+        <Box className="f1-form-control">
+            <FormControl variant="filled" fullWidth error={error}>
+                <InputLabel htmlFor={id}>{label}</InputLabel>
+                <FilledInput
                     id={id}
-                    label={label}
                     value={value}
-                    error={error}
                     onChange={(e) => onChange(e.target.value)}
                 />
             </FormControl>

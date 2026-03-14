@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,11 @@ public class CompetitionContextService {
         }
         return competitionRepository.findFirstByIsActiveTrue()
                 .orElseThrow(() -> new RuntimeException("No active competition found!"));
+    }
+
+    public List<Week> getFinishedWeeks(Long competitionId) {
+        Competition competition = resolveCompetition(competitionId);
+        return weekRepository.findFinishedWeeks(competition.getId(), Instant.now());
     }
 
     private Week resolveWeek(Competition competition, Long weekId) {

@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import "./SelectInput.less";
+import "./SharedFormInputs.less";
 
 export interface SelectOption {
     value: string | number;
@@ -14,15 +14,21 @@ interface SelectInputProps {
     onChange: (value: string | number) => void;
     disabled?: boolean;
     emptyLabel?: string;
+    lightTheme?: boolean;
 }
 
-export function SelectInput({ id, label, value, options, onChange, disabled, emptyLabel }: SelectInputProps) {
+export function SelectInput({
+    id, label, value, options, onChange, disabled, emptyLabel, lightTheme = false
+}: SelectInputProps) {
     const handleChange = (e: SelectChangeEvent<string | number>) => {
         onChange(e.target.value);
     };
 
+    const containerClass = `f1-form-control ${lightTheme ? 'f1-light' : ''}`;
+    const popoverClass = `f1-dropdown-popover MuiPaper-root ${lightTheme ? 'f1-light-popover' : ''}`;
+
     return (
-        <FormControl fullWidth variant="filled" className="f1-select-container">
+        <FormControl fullWidth variant="filled" className={containerClass}>
             <InputLabel id={`${id}-label`}>{label}</InputLabel>
             <Select
                 labelId={`${id}-label`}
@@ -30,7 +36,8 @@ export function SelectInput({ id, label, value, options, onChange, disabled, emp
                 value={value}
                 onChange={handleChange}
                 disabled={disabled}
-                MenuProps={{ PaperProps: { className: 'f1-menu-popover' } }}
+                className="MuiSelect-root"
+                MenuProps={{ PaperProps: { className: popoverClass } }}
             >
                 {emptyLabel && (
                     <MenuItem value=""><em>{emptyLabel}</em></MenuItem>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Autocomplete, TextField, CircularProgress } from "@mui/material";
-import "./AutocompleteInput.less";
+import "./SharedFormInputs.less";
 
 interface AutocompleteInputProps {
     id: string;
@@ -28,10 +28,9 @@ export function AutocompleteInput({
             onInputChange={(event, newInputValue) => onInputChange(newInputValue)}
             loading={loading}
             disabled={disabled}
-            className="f1-autocomplete-container"
+            className="f1-form-control"
             slotProps={{
-                paper: { className: 'f1-autocomplete-popover MuiPaper-root' },
-                listbox: { className: 'f1-autocomplete-listbox' }
+                paper: { className: 'f1-dropdown-popover MuiPaper-root' },
             }}
             renderInput={(params) => (
                 <TextField
@@ -48,9 +47,7 @@ export function AutocompleteInput({
                                 </React.Fragment>
                             ),
                         },
-                        htmlInput: {
-                            ...params.inputProps,
-                        }
+                        htmlInput: { ...params.inputProps }
                     }}
                 />
             )}

@@ -25,7 +25,7 @@ interface EventCategory {
     events: EventProgress[];
 }
 
-interface WeeklyProgress {
+export interface WeeklyProgress {
     weekName: string;
     weekNumber: number;
     grandPrix: EventCategory;
@@ -33,13 +33,23 @@ interface WeeklyProgress {
     practice: EventCategory;
 }
 
-export interface StudentDashboard {
+export interface DashboardHeader {
     competition: CompetitionSummary;
     studentProfile: StudentProfile;
-    weeklyProgress: WeeklyProgress;
 }
 
-export async function getStudentDashboard(): Promise<StudentDashboard> {
-    const response = await axios.get<StudentDashboard>(`/student/dashboard`);
+export async function getDashboardHeader(competitionId?: number): Promise<DashboardHeader> {
+    const params = competitionId ? { competitionId } : {};
+
+    const response = await axios.get<DashboardHeader>(`/student/dashboard/header`, { params });
+    return response.data;
+}
+
+export async function getWeeklyProgress(competitionId?: number, weekId?: number): Promise<WeeklyProgress> {
+    const params: Record<string, number> = {};
+    if (competitionId) params.competitionId = competitionId;
+    if (weekId) params.weekId = weekId;
+
+    const response = await axios.get<WeeklyProgress>(`/student/progress/weekly`, { params });
     return response.data;
 }
