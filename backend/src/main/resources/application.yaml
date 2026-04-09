@@ -35,7 +35,7 @@ app:
       cleanupCron: 0 0 4 * * *
       cleanupDays: 30
   ranking:
-      cron: 0 0 3 * * FRI
+      cron: 0 0 3 * * THU
       basePoints: 40
       stepPoints: 2
 
